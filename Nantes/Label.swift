@@ -108,7 +108,7 @@ public class Label: UILabel {
     /// A list of text checking types that are enabled for the label. The label will automatically highlight elements when `text` or `attributedText` is set if this value is supplied before they're set.
     public var enabledTextCheckingTypes: NSTextCheckingResult.CheckingType = [] {
         didSet {
-            guard enabledTextCheckingTypes.isEmpty == false else {
+            guard !enabledTextCheckingTypes.isEmpty else {
                 return
             }
 
@@ -271,14 +271,7 @@ public class Label: UILabel {
 
     private var renderedAttributedText: NSAttributedString? {
         if _renderedAttributedText == nil, let attributedText = attributedText {
-            let fullString = NSMutableAttributedString(attributedString: attributedText)
-
-            if let attributedTruncationToken = attributedTruncationToken {
-                fullString.append(attributedTruncationToken)
-            }
-
-            let string = NSAttributedString(attributedString: fullString)
-            _renderedAttributedText = NSAttributedString.attributedStringBySettingColor(attributedString: string, color: textColor)
+            _renderedAttributedText = NSAttributedString.attributedStringBySettingColor(attributedString: attributedText, color: textColor)
         }
         return _renderedAttributedText
     }
@@ -316,6 +309,7 @@ public class Label: UILabel {
             }
 
             _attributedText = newValue
+            _renderedAttributedText = nil
             _accessibilityElements = nil
             linkModels = []
 
@@ -391,6 +385,9 @@ public class Label: UILabel {
         if adjustsFontSizeToFitWidth && numberOfLines > 0 {
             // Scale the font down if need be, to fit the width
             if let scaledAttributedText = scaleAttributedTextIfNeeded(attributedText) {
+                _attributedText = scaledAttributedText
+                _renderedAttributedText = nil
+                setNeedsFramesetter()
                 attributedText = scaledAttributedText
             }
         }
@@ -526,7 +523,6 @@ public class Label: UILabel {
         self.activeLink = nil
 
         guard let delegate = delegate else {
-            assertionFailure("Did you mean to setup Label without a delegate to handle taps?")
             return
         }
 
@@ -638,7 +634,9 @@ public class Label: UILabel {
 
         linkModels.append(contentsOf: links)
 
-        self.attributedText = attributedText
+        _attributedText = attributedText
+        _renderedAttributedText = nil
+        setNeedsFramesetter()
         setNeedsDisplay()
     }
 
@@ -1065,7 +1063,8 @@ public class Label: UILabel {
         let tokenRange = (truncationString.string as NSString).range(of: attributedTruncationString.string)
         let tokenLinkRange = NSRange(location: (truncationDrawingContext.lastLineRange.location + truncationDrawingContext.lastLineRange.length) - tokenRange.length, length: tokenRange.length)
 
-        guard let url = attributedTruncationString.attribute(.link, at: 0, effectiveRange: &linkRange) as? URL else {
+        guard let urlString = attributedTruncationString.attribute(.link, at: 0, effectiveRange: &linkRange) as? String,
+            let url = URL(string: urlString) else {
             return
         }
 
@@ -1196,6 +1195,9 @@ public class Label: UILabel {
 
             let length = result.range.location - currentRange.length
             let leadingRange = NSRange(location: currentRange.location, length: length)
+            guard leadingRange.length + leadingRange.location < sourceText.length else {
+                continue
+            }
             let leadingString = sourceText.attributedSubstring(from: leadingRange)
             let linkString = sourceText.attributedSubstring(from: result.range)
 

@@ -19,16 +19,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="VqB-WZ-ecC">
-                                <rect key="frame" x="8" y="32" width="359" height="49"/>
+                                <rect key="frame" x="8" y="32" width="359" height="20.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aGh-S4-y8W" customClass="Label" customModule="Nantes">
                                         <rect key="frame" x="0.0" y="0.0" width="33.5" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="http://www.instacart.com" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fdj-E8-PgQ" customClass="Label" customModule="Nantes">
-                                        <rect key="frame" x="0.0" y="28.5" width="193" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -47,7 +41,6 @@
                     </view>
                     <connections>
                         <outlet property="labelStackView" destination="VqB-WZ-ecC" id="P52-lO-VtW"/>
-                        <outlet property="linkText" destination="fdj-E8-PgQ" id="Qym-UA-v7P"/>
                         <outlet property="titleLabel" destination="aGh-S4-y8W" id="uSS-Ts-WA2"/>
                     </connections>
                 </viewController>

@@ -18,6 +18,8 @@
 		434EA14121E57BE600B98CD7 /* Nantes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 434EA12C21E57BE600B98CD7 /* Nantes.framework */; };
 		434EA14221E57BE600B98CD7 /* Nantes.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 434EA12C21E57BE600B98CD7 /* Nantes.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		434EA14B21E6562C00B98CD7 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434EA14A21E6562C00B98CD7 /* Label.swift */; };
+		434EA17621E6679400B98CD7 /* Nantes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 434EA12C21E57BE600B98CD7 /* Nantes.framework */; };
+		434EA17D21E667A000B98CD7 /* LabelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434EA17C21E6679F00B98CD7 /* LabelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,13 @@
 			remoteInfo = NantesApp;
 		};
 		434EA13F21E57BE600B98CD7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 434EA0EE21E57AA100B98CD7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 434EA12B21E57BE600B98CD7;
+			remoteInfo = Nantes;
+		};
+		434EA17721E6679400B98CD7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 434EA0EE21E57AA100B98CD7 /* Project object */;
 			proxyType = 1;
@@ -75,9 +84,10 @@
 		434EA12C21E57BE600B98CD7 /* Nantes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Nantes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		434EA12E21E57BE600B98CD7 /* Nantes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Nantes.h; sourceTree = "<group>"; };
 		434EA12F21E57BE600B98CD7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		434EA13B21E57BE600B98CD7 /* NantesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NantesTests.swift; sourceTree = "<group>"; };
-		434EA13D21E57BE600B98CD7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		434EA14A21E6562C00B98CD7 /* Label.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
+		434EA17121E6679300B98CD7 /* NantesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NantesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		434EA17521E6679400B98CD7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		434EA17C21E6679F00B98CD7 /* LabelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +120,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		434EA16E21E6679300B98CD7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				434EA17621E6679400B98CD7 /* Nantes.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -117,10 +135,10 @@
 			isa = PBXGroup;
 			children = (
 				434EA12D21E57BE600B98CD7 /* Nantes */,
-				434EA13A21E57BE600B98CD7 /* NantesTests */,
 				434EA0F821E57AA100B98CD7 /* NantesApp */,
 				434EA10D21E57AA200B98CD7 /* NantesAppTests */,
 				434EA11821E57AA200B98CD7 /* NantesAppUITests */,
+				434EA17221E6679400B98CD7 /* NantesTests */,
 				434EA0F721E57AA100B98CD7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -132,6 +150,7 @@
 				434EA10A21E57AA200B98CD7 /* NantesAppTests.xctest */,
 				434EA11521E57AA200B98CD7 /* NantesAppUITests.xctest */,
 				434EA12C21E57BE600B98CD7 /* Nantes.framework */,
+				434EA17121E6679300B98CD7 /* NantesTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -177,11 +196,11 @@
 			path = Nantes;
 			sourceTree = "<group>";
 		};
-		434EA13A21E57BE600B98CD7 /* NantesTests */ = {
+		434EA17221E6679400B98CD7 /* NantesTests */ = {
 			isa = PBXGroup;
 			children = (
-				434EA13B21E57BE600B98CD7 /* NantesTests.swift */,
-				434EA13D21E57BE600B98CD7 /* Info.plist */,
+				434EA17C21E6679F00B98CD7 /* LabelTests.swift */,
+				434EA17521E6679400B98CD7 /* Info.plist */,
 			);
 			path = NantesTests;
 			sourceTree = "<group>";
@@ -273,6 +292,24 @@
 			productReference = 434EA12C21E57BE600B98CD7 /* Nantes.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		434EA17021E6679300B98CD7 /* NantesTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 434EA17921E6679400B98CD7 /* Build configuration list for PBXNativeTarget "NantesTests" */;
+			buildPhases = (
+				434EA16D21E6679300B98CD7 /* Sources */,
+				434EA16E21E6679300B98CD7 /* Frameworks */,
+				434EA16F21E6679300B98CD7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				434EA17821E6679400B98CD7 /* PBXTargetDependency */,
+			);
+			name = NantesTests;
+			productName = NantesTests;
+			productReference = 434EA17121E6679300B98CD7 /* NantesTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -298,6 +335,9 @@
 						CreatedOnToolsVersion = 10.1;
 						LastSwiftMigration = 1010;
 					};
+					434EA17021E6679300B98CD7 = {
+						CreatedOnToolsVersion = 10.1;
+					};
 				};
 			};
 			buildConfigurationList = 434EA0F121E57AA100B98CD7 /* Build configuration list for PBXProject "Nantes" */;
@@ -317,6 +357,7 @@
 				434EA10921E57AA200B98CD7 /* NantesAppTests */,
 				434EA11421E57AA200B98CD7 /* NantesAppUITests */,
 				434EA12B21E57BE600B98CD7 /* Nantes */,
+				434EA17021E6679300B98CD7 /* NantesTests */,
 			);
 		};
 /* End PBXProject section */
@@ -347,6 +388,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		434EA12A21E57BE600B98CD7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		434EA16F21E6679300B98CD7 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -389,6 +437,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		434EA16D21E6679300B98CD7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				434EA17D21E667A000B98CD7 /* LabelTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -406,6 +462,11 @@
 			isa = PBXTargetDependency;
 			target = 434EA12B21E57BE600B98CD7 /* Nantes */;
 			targetProxy = 434EA13F21E57BE600B98CD7 /* PBXContainerItemProxy */;
+		};
+		434EA17821E6679400B98CD7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 434EA12B21E57BE600B98CD7 /* Nantes */;
+			targetProxy = 434EA17721E6679400B98CD7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -724,6 +785,42 @@
 			};
 			name = Release;
 		};
+		434EA17A21E6679400B98CD7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 59VC75K95Z;
+				INFOPLIST_FILE = NantesTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NantesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		434EA17B21E6679400B98CD7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 59VC75K95Z;
+				INFOPLIST_FILE = NantesTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.instacart.NantesTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -768,6 +865,15 @@
 			buildConfigurations = (
 				434EA14421E57BE600B98CD7 /* Debug */,
 				434EA14521E57BE600B98CD7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		434EA17921E6679400B98CD7 /* Build configuration list for PBXNativeTarget "NantesTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				434EA17A21E6679400B98CD7 /* Debug */,
+				434EA17B21E6679400B98CD7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
