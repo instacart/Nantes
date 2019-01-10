@@ -1,36 +1,36 @@
 //
-//  Label.swift
+//  NantesLabel.swift
 //  Carrot
 //
 //  Created by Chris Hansen on 12/10/18.
 //  Copyright © 2018 Instacart. All rights reserved.
 //
 
-public enum LabelVerticalAlignment {
+public enum NantesLabelVerticalAlignment {
     case top
     case center
     case bottom
 }
 
-public protocol LabelDelegate: class {
-    func attributedLabel(_ label: Label, didSelectAddress addressComponents: [NSTextCheckingKey: String])
-    func attributedLabel(_ label: Label, didSelectDate date: Date, timeZone: TimeZone, duration: TimeInterval)
-    func attributedLabel(_ label: Label, didSelectLink link: URL)
-    func attributedLabel(_ label: Label, didSelectPhoneNumber phoneNumber: String)
-    func attributedLabel(_ label: Label, didSelectTextCheckingResult result: NSTextCheckingResult)
-    func attributedLabel(_ label: Label, didSelectTransitInfo transitInfo: [NSTextCheckingKey: String])
+public protocol NantesLabelDelegate: class {
+    func attributedLabel(_ label: NantesLabel, didSelectAddress addressComponents: [NSTextCheckingKey: String])
+    func attributedLabel(_ label: NantesLabel, didSelectDate date: Date, timeZone: TimeZone, duration: TimeInterval)
+    func attributedLabel(_ label: NantesLabel, didSelectLink link: URL)
+    func attributedLabel(_ label: NantesLabel, didSelectPhoneNumber phoneNumber: String)
+    func attributedLabel(_ label: NantesLabel, didSelectTextCheckingResult result: NSTextCheckingResult)
+    func attributedLabel(_ label: NantesLabel, didSelectTransitInfo transitInfo: [NSTextCheckingKey: String])
 }
 
-public extension LabelDelegate {
-    func attributedLabel(_ label: Label, didSelectAddress addressComponents: [NSTextCheckingKey: String]) { }
-    func attributedLabel(_ label: Label, didSelectDate date: Date, timeZone: TimeZone, duration: TimeInterval) { }
-    func attributedLabel(_ label: Label, didSelectLink link: URL) { }
-    func attributedLabel(_ label: Label, didSelectPhoneNumber phoneNumber: String) { }
-    func attributedLabel(_ label: Label, didSelectTextCheckingResult result: NSTextCheckingResult) { }
-    func attributedLabel(_ label: Label, didSelectTransitInfo transitInfo: [NSTextCheckingKey: String]) { }
+public extension NantesLabelDelegate {
+    func attributedLabel(_ label: NantesLabel, didSelectAddress addressComponents: [NSTextCheckingKey: String]) { }
+    func attributedLabel(_ label: NantesLabel, didSelectDate date: Date, timeZone: TimeZone, duration: TimeInterval) { }
+    func attributedLabel(_ label: NantesLabel, didSelectLink link: URL) { }
+    func attributedLabel(_ label: NantesLabel, didSelectPhoneNumber phoneNumber: String) { }
+    func attributedLabel(_ label: NantesLabel, didSelectTextCheckingResult result: NSTextCheckingResult) { }
+    func attributedLabel(_ label: NantesLabel, didSelectTransitInfo transitInfo: [NSTextCheckingKey: String]) { }
 }
 
-private class LabelAccessibilityElement: UIAccessibilityElement {
+private class NantesLabelAccessibilityElement: UIAccessibilityElement {
     var boundingRect: CGRect = .zero
     weak var superview: UIView?
 
@@ -45,16 +45,16 @@ private class LabelAccessibilityElement: UIAccessibilityElement {
     }
 }
 
-public typealias LinkTappedBlock = ((Label, LabelLink) -> Void)
+public typealias NantesLinkTappedBlock = ((NantesLabel, NantesLabelLink) -> Void)
 
-public struct LabelLink: Equatable {
+public struct NantesLabelLink: Equatable {
     public var attributes: [AnyHashable: Any]
     public var activeAttributes: [AnyHashable: Any]
     public var inactiveAttributes: [AnyHashable: Any]
-    public var linkTappedBlock: LinkTappedBlock?
+    public var linkTappedBlock: NantesLinkTappedBlock?
     public var result: NSTextCheckingResult?
 
-    public init(attributes: [AnyHashable: Any]?, activeAttributes: [AnyHashable: Any]?, inactiveAttributes: [AnyHashable: Any]?, linkTappedBlock: LinkTappedBlock?, result: NSTextCheckingResult?) {
+    public init(attributes: [AnyHashable: Any]?, activeAttributes: [AnyHashable: Any]?, inactiveAttributes: [AnyHashable: Any]?, linkTappedBlock: NantesLinkTappedBlock?, result: NSTextCheckingResult?) {
         self.attributes = attributes ?? [:]
         self.activeAttributes = activeAttributes ?? [:]
         self.inactiveAttributes = inactiveAttributes ?? [:]
@@ -62,11 +62,11 @@ public struct LabelLink: Equatable {
         self.result = result
     }
 
-    public init(label: Label, result: NSTextCheckingResult?) {
+    public init(label: NantesLabel, result: NSTextCheckingResult?) {
         self.init(attributes: label.linkAttributes, activeAttributes: label.activeLinkAttributes, inactiveAttributes: label.inactiveLinkAttributes, linkTappedBlock: nil, result: result)
     }
 
-    public static func == (lhs: LabelLink, rhs: LabelLink) -> Bool {
+    public static func == (lhs: NantesLabelLink, rhs: NantesLabelLink) -> Bool {
         return (lhs.attributes as NSDictionary).isEqual(to: rhs.attributes) &&
             (lhs.activeAttributes as NSDictionary).isEqual(to: rhs.activeAttributes) &&
             (lhs.inactiveAttributes as NSDictionary).isEqual(to: rhs.inactiveAttributes) &&
@@ -85,15 +85,15 @@ private struct TruncationDrawingContext {
 }
 
 public extension NSAttributedString.Key {
-    public static let labelBackgroundCornerRadius: NSAttributedString.Key = .init("LabelBackgroundCornerRadiusAttribute")
-    public static let labelBackgroundFillColor: NSAttributedString.Key = .init("LabelBackgroundFillColorAttribute")
-    public static let labelBackgroundFillPadding: NSAttributedString.Key = .init("LabelBackgroundFillPaddingAttribute")
-    public static let labelBackgroundLineWidth: NSAttributedString.Key = .init("LabelBackgroundLineWidthAttribute")
-    public static let labelBackgroundStrokeColor: NSAttributedString.Key = .init("LabelBackgroundStrokeColorAttribute")
-    public static let labelStrikeOut: NSAttributedString.Key = .init("LabelStrikeOutAttribute")
+    public static let nantesLabelBackgroundCornerRadius: NSAttributedString.Key = .init("NantesLabelBackgroundCornerRadiusAttribute")
+    public static let nantesLabelBackgroundFillColor: NSAttributedString.Key = .init("NantesLabelBackgroundFillColorAttribute")
+    public static let nantesLabelBackgroundFillPadding: NSAttributedString.Key = .init("NantesLabelBackgroundFillPaddingAttribute")
+    public static let nantesLabelBackgroundLineWidth: NSAttributedString.Key = .init("NantesLabelBackgroundLineWidthAttribute")
+    public static let nantesLabelBackgroundStrokeColor: NSAttributedString.Key = .init("NantesLabelBackgroundStrokeColorAttribute")
+    public static let nantesLabelStrikeOut: NSAttributedString.Key = .init("NantesLabelStrikeOutAttribute")
 }
 
-public class Label: UILabel {
+public class NantesLabel: UILabel {
     /// NSAttributedString attributes used to style active links
     /// nil or [:] will add no styling
     public var activeLinkAttributes: [AnyHashable: Any]?
@@ -103,7 +103,7 @@ public class Label: UILabel {
 
     /// Handling for touch events after touchesEnded
     /// Warning: Will not be called if `labelTappedBlock` is supplied
-    public weak var delegate: LabelDelegate?
+    public weak var delegate: NantesLabelDelegate?
 
     /// A list of text checking types that are enabled for the label. The label will automatically highlight elements when `text` or `attributedText` is set if this value is supplied before they're set.
     public var enabledTextCheckingTypes: NSTextCheckingResult.CheckingType = [] {
@@ -112,7 +112,7 @@ public class Label: UILabel {
                 return
             }
 
-            let preBuiltDataDetector = Label.dataDetectorsByType[enabledTextCheckingTypes.rawValue]
+            let preBuiltDataDetector = NantesLabel.dataDetectorsByType[enabledTextCheckingTypes.rawValue]
             guard preBuiltDataDetector == nil else {
                 dataDetector = preBuiltDataDetector
                 return
@@ -120,8 +120,8 @@ public class Label: UILabel {
 
             do {
                 let detector = try NSDataDetector(types: enabledTextCheckingTypes.rawValue)
-                Label.dataDetectorsByType[enabledTextCheckingTypes.rawValue] = detector
-                dataDetector = Label.dataDetectorsByType[enabledTextCheckingTypes.rawValue]
+                NantesLabel.dataDetectorsByType[enabledTextCheckingTypes.rawValue] = detector
+                dataDetector = NantesLabel.dataDetectorsByType[enabledTextCheckingTypes.rawValue]
             } catch {
                 print("Failed to create data detector")
             }
@@ -176,7 +176,7 @@ public class Label: UILabel {
 
     /// Vertical alignment of the text within its frame
     /// defaults to .center
-    public var verticalAlignment: LabelVerticalAlignment = .center
+    public var verticalAlignment: NantesLabelVerticalAlignment = .center
 
     // MARK: - Private constants
 
@@ -192,7 +192,7 @@ public class Label: UILabel {
 
     private var _attributedText: NSAttributedString?
 
-    private var activeLink: LabelLink? {
+    private var activeLink: NantesLabelLink? {
         didSet {
             let linkAttributes = activeLink?.activeAttributes.isEmpty == false ? activeLink?.activeAttributes : activeLinkAttributes
             guard let activeLink = activeLink,
@@ -265,7 +265,7 @@ public class Label: UILabel {
 
     private var inactiveAttributedText: NSAttributedString?
 
-    private(set) var linkModels: [LabelLink] = []
+    private(set) var linkModels: [NantesLabelLink] = []
 
     private var needsFramesetter: Bool = false
 
@@ -448,7 +448,7 @@ public class Label: UILabel {
                 return super.sizeThatFits(size)
         }
 
-        let labelSize = Label.suggestFrameSize(for: string, framesetter: framesetter, withSize: size, numberOfLines: numberOfLines)
+        let labelSize = NantesLabel.suggestFrameSize(for: string, framesetter: framesetter, withSize: size, numberOfLines: numberOfLines)
         // add textInsets?
 
         return labelSize
@@ -571,13 +571,13 @@ public class Label: UILabel {
     // MARK: - Public
 
     /// Adds a single link
-    public func addLink(_ link: LabelLink) {
+    public func addLink(_ link: NantesLabelLink) {
         addLinks([link])
     }
 
     /// Adds a link to a `url` with a specified `range`
     @discardableResult
-    public func addLink(to url: URL, withRange range: NSRange) -> LabelLink? {
+    public func addLink(to url: URL, withRange range: NSRange) -> NantesLabelLink? {
         return addLinks(with: [.linkCheckingResult(range: range, url: url)], withAttributes: linkAttributes).first
     }
 
@@ -605,11 +605,11 @@ public class Label: UILabel {
     }
 
     @discardableResult
-    private func addLinks(with textCheckingResults: [NSTextCheckingResult], withAttributes attributes: [AnyHashable: Any]?) -> [LabelLink] {
-        var links: [LabelLink] = []
+    private func addLinks(with textCheckingResults: [NSTextCheckingResult], withAttributes attributes: [AnyHashable: Any]?) -> [NantesLabelLink] {
+        var links: [NantesLabelLink] = []
 
         for result in textCheckingResults {
-            let link = LabelLink(attributes: attributes, activeAttributes: activeLinkAttributes, inactiveAttributes: inactiveLinkAttributes, linkTappedBlock: nil, result: result)
+            let link = NantesLabelLink(attributes: attributes, activeAttributes: activeLinkAttributes, inactiveAttributes: inactiveLinkAttributes, linkTappedBlock: nil, result: result)
             links.append(link)
         }
 
@@ -618,7 +618,7 @@ public class Label: UILabel {
         return links
     }
 
-    private func addLinks(_ links: [LabelLink]) {
+    private func addLinks(_ links: [NantesLabelLink]) {
         guard let attributedText = attributedText?.mutableCopy() as? NSMutableAttributedString else {
             return
         }
@@ -853,11 +853,11 @@ public class Label: UILabel {
                     continue
                 }
 
-                let strokeColor: UIColor? = attributes[.labelBackgroundStrokeColor] as? UIColor
-                let fillColor: UIColor? = attributes[.labelBackgroundFillColor] as? UIColor
-                let fillPadding: UIEdgeInsets = attributes[.labelBackgroundFillPadding] as? UIEdgeInsets ?? .zero
-                let cornerRadius: CGFloat = attributes[.labelBackgroundCornerRadius] as? CGFloat ?? 0.0
-                let lineWidth: CGFloat = attributes[.labelBackgroundLineWidth] as? CGFloat ?? 0.0
+                let strokeColor: UIColor? = attributes[.nantesLabelBackgroundStrokeColor] as? UIColor
+                let fillColor: UIColor? = attributes[.nantesLabelBackgroundFillColor] as? UIColor
+                let fillPadding: UIEdgeInsets = attributes[.nantesLabelBackgroundFillPadding] as? UIEdgeInsets ?? .zero
+                let cornerRadius: CGFloat = attributes[.nantesLabelBackgroundCornerRadius] as? CGFloat ?? 0.0
+                let lineWidth: CGFloat = attributes[.nantesLabelBackgroundLineWidth] as? CGFloat ?? 0.0
 
                 guard strokeColor != nil || fillColor != nil else {
                     lineIndex += 1
@@ -948,7 +948,7 @@ public class Label: UILabel {
                     continue
                 }
 
-                guard let strikeOut = attributes[.labelStrikeOut] as? Bool, strikeOut else {
+                guard let strikeOut = attributes[.nantesLabelStrikeOut] as? Bool, strikeOut else {
                     continue
                 }
 
@@ -1074,7 +1074,7 @@ public class Label: UILabel {
     /// Finds the link at the character index `CFIndex`
     ///
     /// returns nil if there's no link
-    private func link(at characterIndex: CFIndex) -> LabelLink? {
+    private func link(at characterIndex: CFIndex) -> NantesLabelLink? {
         // Skip if the index is outside the bounds of the text
         guard let attributedText = attributedText,
             NSLocationInRange(characterIndex, NSRange(location: 0, length: attributedText.length)) else {
@@ -1097,7 +1097,7 @@ public class Label: UILabel {
     /// Tries to find the link at a point
     ///
     /// returns nil if there's no link
-    private func link(at point: CGPoint) -> LabelLink? {
+    private func link(at point: CGPoint) -> NantesLabelLink? {
         guard !linkModels.isEmpty && bounds.inset(by: UIEdgeInsets(top: -15, left: -15, bottom: -15, right: -15)).contains(point) else {
             return nil
         }
@@ -1168,10 +1168,10 @@ public class Label: UILabel {
             return
         }
 
-        var elements: [LabelAccessibilityElement] = []
+        var elements: [NantesLabelAccessibilityElement] = []
 
         guard !linkModels.isEmpty else {
-            let baseElement = LabelAccessibilityElement(accessibilityContainer: self)
+            let baseElement = NantesLabelAccessibilityElement(accessibilityContainer: self)
             baseElement.accessibilityLabel = truncatedAccessibilityLabel ?? super.accessibilityLabel
             baseElement.accessibilityHint = super.accessibilityHint
             baseElement.accessibilityValue = super.accessibilityValue
@@ -1203,12 +1203,12 @@ public class Label: UILabel {
 
             currentRange = NSRange(location: result.range.location + result.range.length, length: 0)
 
-            let leadingAccessibilityElement = LabelAccessibilityElement(accessibilityContainer: self)
+            let leadingAccessibilityElement = NantesLabelAccessibilityElement(accessibilityContainer: self)
             leadingAccessibilityElement.accessibilityLabel = leadingString.string
             leadingAccessibilityElement.boundingRect = boundingRect(for: leadingRange)
             leadingAccessibilityElement.superview = self
 
-            let linkAccessibilityElement = LabelAccessibilityElement(accessibilityContainer: self)
+            let linkAccessibilityElement = NantesLabelAccessibilityElement(accessibilityContainer: self)
             linkAccessibilityElement.accessibilityLabel = linkString.string
             linkAccessibilityElement.boundingRect = boundingRect(for: result.range)
             linkAccessibilityElement.superview = self
@@ -1224,7 +1224,7 @@ public class Label: UILabel {
     }
 }
 
-extension Label {
+extension NantesLabel {
     /// Returns a `CGSize` that the `attributedString` fits within based on the `constraints` and number of lines from `limitedToNumberOfLines`
     public static func sizeThatFitsAttributedString(_ attributedString: NSAttributedString?, withConstraints constraints: CGSize, limitedToNumberOfLines: Int) -> CGSize {
         guard let attributedString = attributedString, attributedString.length != 0 else {
@@ -1232,7 +1232,7 @@ extension Label {
         }
 
         let framesetter = CTFramesetterCreateWithAttributedString(attributedString)
-        return Label.suggestFrameSize(for: attributedString, framesetter: framesetter, withSize: constraints, numberOfLines: limitedToNumberOfLines)
+        return NantesLabel.suggestFrameSize(for: attributedString, framesetter: framesetter, withSize: constraints, numberOfLines: limitedToNumberOfLines)
     }
 
     private static func suggestFrameSize(for attributedString: NSAttributedString, framesetter: CTFramesetter, withSize size: CGSize, numberOfLines: Int) -> CGSize {
@@ -1263,7 +1263,7 @@ extension Label {
 }
 
 extension NSAttributedString {
-    static func attributes(from label: Label) -> [NSAttributedString.Key: Any] {
+    static func attributes(from label: NantesLabel) -> [NSAttributedString.Key: Any] {
         var attributes: [NSAttributedString.Key: Any] = [:]
 
         attributes[.font] = label.font

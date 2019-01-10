@@ -1,5 +1,5 @@
 //
-//  LabelTests.swift
+//  NantesLabelTests.swift
 //  InstacartTests
 //
 //  Created by Chris Hansen on 1/7/19.
@@ -9,8 +9,8 @@
 import XCTest
 @testable import Nantes
 
-final class LabelTests: XCTestCase {
-    var label: Label = .init(frame: .zero)
+final class NantesLabelTests: XCTestCase {
+    var label: NantesLabel = .init(frame: .zero)
 
     override func setUp() {
         super.setUp()
@@ -18,7 +18,7 @@ final class LabelTests: XCTestCase {
     }
 
     func testInit() {
-        let label: Label = .init(frame: .zero)
+        let label: NantesLabel = .init(frame: .zero)
         XCTAssertNil(label.attributedText)
         XCTAssertNil(label.text)
     }
@@ -26,15 +26,15 @@ final class LabelTests: XCTestCase {
     func testLabelLink() {
         label.activeLinkAttributes = [NSAttributedString.Key.foregroundColor: UIColor.green]
 
-        let labelLink: LabelLink = .init(attributes: nil, activeAttributes: nil, inactiveAttributes: nil, linkTappedBlock: nil, result: nil)
+        let labelLink: NantesLabelLink = .init(attributes: nil, activeAttributes: nil, inactiveAttributes: nil, linkTappedBlock: nil, result: nil)
         XCTAssertNil(labelLink.result)
 
-        let anotherLink: LabelLink = .init(label: label, result: nil)
+        let anotherLink: NantesLabelLink = .init(label: label, result: nil)
         XCTAssertNil(anotherLink.result)
 
         XCTAssertFalse(labelLink == anotherLink)
 
-        let equalLabel: LabelLink = .init(attributes: nil, activeAttributes: nil, inactiveAttributes: nil, linkTappedBlock: nil, result: nil)
+        let equalLabel: NantesLabelLink = .init(attributes: nil, activeAttributes: nil, inactiveAttributes: nil, linkTappedBlock: nil, result: nil)
         XCTAssertTrue(labelLink == equalLabel)
     }
 
@@ -142,22 +142,22 @@ final class LabelTests: XCTestCase {
 
     func testSizeThatFits() {
         let constraints = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
-        let emptySize = Label.sizeThatFitsAttributedString(nil, withConstraints: constraints, limitedToNumberOfLines: 0)
+        let emptySize = NantesLabel.sizeThatFitsAttributedString(nil, withConstraints: constraints, limitedToNumberOfLines: 0)
         XCTAssertTrue(emptySize == .zero)
 
         let attributedString = NSAttributedString(string: "Test string")
         label.attributedText = attributedString
-        let size = Label.sizeThatFitsAttributedString(attributedString, withConstraints: constraints, limitedToNumberOfLines: 0)
+        let size = NantesLabel.sizeThatFitsAttributedString(attributedString, withConstraints: constraints, limitedToNumberOfLines: 0)
         XCTAssertTrue(size == CGSize(width: 55.0, height: 15.0))
     }
 
-    private func addLink(_ link: NSAttributedString, to label: Label) {
+    private func addLink(_ link: NSAttributedString, to label: NantesLabel) {
         let dataDetector = try! NSDataDetector(types: label.enabledTextCheckingTypes.rawValue)
         let result = dataDetector.matches(in: link.string, options: .withTransparentBounds, range: NSRange(location: 0, length: link.length)).first
 
-        let labelLink = LabelLink(attributes: [:], activeAttributes: [:], inactiveAttributes: [:], linkTappedBlock: nil, result: result)
+        let labelLink = NantesLabelLink(attributes: [:], activeAttributes: [:], inactiveAttributes: [:], linkTappedBlock: nil, result: result)
         label.addLink(labelLink)
     }
 }
 
-private final class DelegateTestClass: LabelDelegate { }
+private final class DelegateTestClass: NantesLabelDelegate { }

@@ -37,7 +37,7 @@ final class ViewController: UIViewController {
 
     @IBOutlet private weak var labelStackView: UIStackView!
 
-    @IBOutlet private weak var titleLabel: Label!
+    @IBOutlet private weak var titleLabel: NantesLabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,7 +78,7 @@ final class ViewController: UIViewController {
     }
 
     private func setupAddressLabel() {
-        let label: Label = .init(frame: .zero)
+        let label: NantesLabel = .init(frame: .zero)
         label.delegate = self
         label.linkAttributes = [NSAttributedString.Key.foregroundColor: UIColor.green]
         label.text = ExampleString.address.rawValue
@@ -86,7 +86,7 @@ final class ViewController: UIViewController {
     }
 
     private func setupDateLabel() {
-        let label: Label = .init(frame: .zero)
+        let label: NantesLabel = .init(frame: .zero)
         label.delegate = self
         label.linkAttributes = [NSAttributedString.Key.foregroundColor: UIColor.blue]
         label.enabledTextCheckingTypes = [.date]
@@ -95,7 +95,7 @@ final class ViewController: UIViewController {
     }
 
     private func setupLinkLabel() {
-        let label: Label = .init(frame: .zero)
+        let label: NantesLabel = .init(frame: .zero)
         label.delegate = self
         label.linkAttributes = [NSAttributedString.Key.foregroundColor: UIColor.green]
         label.activeLinkAttributes = [NSAttributedString.Key.foregroundColor: UIColor.red] // Highlight color while the user is pressing down on the label's link
@@ -104,7 +104,7 @@ final class ViewController: UIViewController {
     }
 
     private func setupOtherLinkLabel() {
-        let label: Label = .init(frame: .zero)
+        let label: NantesLabel = .init(frame: .zero)
         let string = NSAttributedString(string: ExampleString.otherLink.rawValue)
         label.attributedText = string
 
@@ -113,7 +113,7 @@ final class ViewController: UIViewController {
             return
         }
 
-        let labelLink = LabelLink(attributes: [NSAttributedString.Key.foregroundColor: UIColor.red], activeAttributes: nil, inactiveAttributes: nil, linkTappedBlock: { _, link in
+        let labelLink = NantesLabelLink(attributes: [NSAttributedString.Key.foregroundColor: UIColor.red], activeAttributes: nil, inactiveAttributes: nil, linkTappedBlock: { _, link in
             print("Tapped other link: \(link)")
         }, result: result)
         label.addLink(labelLink)
@@ -121,7 +121,7 @@ final class ViewController: UIViewController {
     }
 
     private func setupPhoneNumber() {
-        let label: Label = .init(frame: .zero)
+        let label: NantesLabel = .init(frame: .zero)
         label.delegate = self
         label.linkAttributes = [NSAttributedString.Key.foregroundColor: UIColor.blue]
         label.text = ExampleString.phoneNumber.rawValue
@@ -129,7 +129,7 @@ final class ViewController: UIViewController {
     }
 
     private func setupTransitInfo() {
-        let label: Label = .init(frame: .zero)
+        let label: NantesLabel = .init(frame: .zero)
         label.delegate = self
         label.linkAttributes = [NSAttributedString.Key.foregroundColor: UIColor.purple]
         label.enabledTextCheckingTypes = [.transitInformation]
@@ -138,16 +138,16 @@ final class ViewController: UIViewController {
     }
 
     private func setupFancyLabel() {
-        let label: Label = .init(frame: .zero)
+        let label: NantesLabel = .init(frame: .zero)
         let attributedText = NSMutableAttributedString(string: "\(ExampleString.background.rawValue) ", attributes: [NSAttributedString.Key.backgroundColor: UIColor.lightGray])
-        let struckText = NSAttributedString(string: ExampleString.struckOut.rawValue, attributes: [NSAttributedString.Key.labelStrikeOut: true])
+        let struckText = NSAttributedString(string: ExampleString.struckOut.rawValue, attributes: [NSAttributedString.Key.nantesLabelStrikeOut: true])
         attributedText.append(struckText)
         label.attributedText = attributedText
         labelStackView.addArrangedSubview(label)
     }
 
     private func setupHeadTruncatedLabel() {
-        let label: Label = .init(frame: .zero)
+        let label: NantesLabel = .init(frame: .zero)
         label.attributedTruncationToken = NSAttributedString(string: "... more")
         label.lineBreakMode = .byTruncatingHead
         label.attributedText = NSAttributedString(string: ExampleString.headTruncated.rawValue)
@@ -155,7 +155,7 @@ final class ViewController: UIViewController {
     }
 
     private func setupMiddleTruncatedLabel() {
-        let label: Label = .init(frame: .zero)
+        let label: NantesLabel = .init(frame: .zero)
         label.attributedTruncationToken = NSAttributedString(string: "... more")
         label.lineBreakMode = .byTruncatingMiddle
         label.attributedText = NSAttributedString(string: ExampleString.middleTruncated.rawValue)
@@ -163,7 +163,7 @@ final class ViewController: UIViewController {
     }
 
     private func setupScalingLabel() {
-        let label: Label = .init(frame: .zero)
+        let label: NantesLabel = .init(frame: .zero)
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.5
         label.attributedText = NSAttributedString(string: ExampleString.scaling.rawValue, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12.0)])
@@ -171,14 +171,14 @@ final class ViewController: UIViewController {
     }
 
     private func setupShadowedLabel() {
-        let label: Label = .init(frame: .zero)
+        let label: NantesLabel = .init(frame: .zero)
         label.shadowColor = .blue
         label.text = ExampleString.shadow.rawValue
         labelStackView.addArrangedSubview(label)
     }
 
     private func setupHighlightedShadowedLabel() {
-        let label: Label = .init(frame: .zero)
+        let label: NantesLabel = .init(frame: .zero)
         label.highlightedTextColor = .yellow
         label.isHighlighted = true
         label.highlightedShadowColor = .green
@@ -187,35 +187,35 @@ final class ViewController: UIViewController {
     }
 
     private func setupBottomVerticalAlignedLabel() {
-        let label: Label = .init(frame: .zero)
+        let label: NantesLabel = .init(frame: .zero)
         label.verticalAlignment = .bottom
         label.text = ExampleString.bottomAlignment.rawValue
         labelStackView.addArrangedSubview(label)
     }
 
     private func setupTopVerticalAlignedLabel() {
-        let label: Label = .init(frame: .zero)
+        let label: NantesLabel = .init(frame: .zero)
         label.verticalAlignment = .top
         label.text = ExampleString.topAlignment.rawValue
         labelStackView.addArrangedSubview(label)
     }
 
     private func setupFilledLabel() {
-        let label: Label = .init(frame: .zero)
+        let label: NantesLabel = .init(frame: .zero)
         label.verticalAlignment = .top
-        label.attributedText = NSAttributedString(string: ExampleString.filled.rawValue, attributes: [NSAttributedString.Key.labelBackgroundFillColor: UIColor.magenta])
+        label.attributedText = NSAttributedString(string: ExampleString.filled.rawValue, attributes: [NSAttributedString.Key.nantesLabelBackgroundFillColor: UIColor.magenta])
         labelStackView.addArrangedSubview(label)
     }
 
     private func setupStrokedLabel() {
-        let label: Label = .init(frame: .zero)
+        let label: NantesLabel = .init(frame: .zero)
         label.verticalAlignment = .top
-        label.attributedText = NSAttributedString(string: ExampleString.stroked.rawValue, attributes: [NSAttributedString.Key.labelBackgroundStrokeColor: UIColor.magenta])
+        label.attributedText = NSAttributedString(string: ExampleString.stroked.rawValue, attributes: [NSAttributedString.Key.nantesLabelBackgroundStrokeColor: UIColor.magenta])
         labelStackView.addArrangedSubview(label)
     }
 
     private func setupTruncatedAttributedToken() {
-        let label: Label = .init(frame: .zero)
+        let label: NantesLabel = .init(frame: .zero)
         label.verticalAlignment = .top
         label.attributedTruncationToken = NSAttributedString(string: ExampleString.truncatedLink.rawValue, attributes: [NSAttributedString.Key.link: ExampleString.truncatedLink.rawValue])
         label.labelTappedBlock = {
@@ -226,24 +226,24 @@ final class ViewController: UIViewController {
     }
 }
 
-extension ViewController: LabelDelegate {
-    func attributedLabel(_ label: Label, didSelectAddress addressComponents: [NSTextCheckingKey: String]) {
+extension ViewController: NantesLabelDelegate {
+    func attributedLabel(_ label: NantesLabel, didSelectAddress addressComponents: [NSTextCheckingKey: String]) {
         print("Tapped address: \(addressComponents)")
     }
 
-    func attributedLabel(_ label: Label, didSelectDate date: Date, timeZone: TimeZone, duration: TimeInterval) {
+    func attributedLabel(_ label: NantesLabel, didSelectDate date: Date, timeZone: TimeZone, duration: TimeInterval) {
         print("Tapped Date: \(date), in time zone: \(timeZone), with duration: \(duration)")
     }
 
-    func attributedLabel(_ label: Label, didSelectLink link: URL) {
+    func attributedLabel(_ label: NantesLabel, didSelectLink link: URL) {
         print("Tapped link: \(link)")
     }
 
-    func attributedLabel(_ label: Label, didSelectPhoneNumber phoneNumber: String) {
+    func attributedLabel(_ label: NantesLabel, didSelectPhoneNumber phoneNumber: String) {
         print("Tapped phone number: \(phoneNumber)")
     }
 
-    func attributedLabel(_ label: Label, didSelectTransitInfo transitInfo: [NSTextCheckingKey: String]) {
+    func attributedLabel(_ label: NantesLabel, didSelectTransitInfo transitInfo: [NSTextCheckingKey: String]) {
         print("Tapped transit info: \(transitInfo)")
     }
 }

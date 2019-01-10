@@ -17,9 +17,9 @@
 		434EA13E21E57BE600B98CD7 /* Nantes.h in Headers */ = {isa = PBXBuildFile; fileRef = 434EA12E21E57BE600B98CD7 /* Nantes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		434EA14121E57BE600B98CD7 /* Nantes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 434EA12C21E57BE600B98CD7 /* Nantes.framework */; };
 		434EA14221E57BE600B98CD7 /* Nantes.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 434EA12C21E57BE600B98CD7 /* Nantes.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		434EA14B21E6562C00B98CD7 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434EA14A21E6562C00B98CD7 /* Label.swift */; };
+		434EA14B21E6562C00B98CD7 /* NantesLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434EA14A21E6562C00B98CD7 /* NantesLabel.swift */; };
 		434EA17621E6679400B98CD7 /* Nantes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 434EA12C21E57BE600B98CD7 /* Nantes.framework */; };
-		434EA17D21E667A000B98CD7 /* LabelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434EA17C21E6679F00B98CD7 /* LabelTests.swift */; };
+		434EA17D21E667A000B98CD7 /* NantesLabelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434EA17C21E6679F00B98CD7 /* NantesLabelTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,10 +84,10 @@
 		434EA12C21E57BE600B98CD7 /* Nantes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Nantes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		434EA12E21E57BE600B98CD7 /* Nantes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Nantes.h; sourceTree = "<group>"; };
 		434EA12F21E57BE600B98CD7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		434EA14A21E6562C00B98CD7 /* Label.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
+		434EA14A21E6562C00B98CD7 /* NantesLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NantesLabel.swift; sourceTree = "<group>"; };
 		434EA17121E6679300B98CD7 /* NantesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NantesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		434EA17521E6679400B98CD7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		434EA17C21E6679F00B98CD7 /* LabelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelTests.swift; sourceTree = "<group>"; };
+		434EA17C21E6679F00B98CD7 /* NantesLabelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NantesLabelTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,7 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				434EA12E21E57BE600B98CD7 /* Nantes.h */,
-				434EA14A21E6562C00B98CD7 /* Label.swift */,
+				434EA14A21E6562C00B98CD7 /* NantesLabel.swift */,
 				434EA12F21E57BE600B98CD7 /* Info.plist */,
 			);
 			path = Nantes;
@@ -199,7 +199,7 @@
 		434EA17221E6679400B98CD7 /* NantesTests */ = {
 			isa = PBXGroup;
 			children = (
-				434EA17C21E6679F00B98CD7 /* LabelTests.swift */,
+				434EA17C21E6679F00B98CD7 /* NantesLabelTests.swift */,
 				434EA17521E6679400B98CD7 /* Info.plist */,
 			);
 			path = NantesTests;
@@ -433,7 +433,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				434EA14B21E6562C00B98CD7 /* Label.swift in Sources */,
+				434EA14B21E6562C00B98CD7 /* NantesLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,7 +441,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				434EA17D21E667A000B98CD7 /* LabelTests.swift in Sources */,
+				434EA17D21E667A000B98CD7 /* NantesLabelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
