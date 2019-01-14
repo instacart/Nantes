@@ -53,24 +53,27 @@ public struct NantesLabelLink: Equatable {
     public var inactiveAttributes: [AnyHashable: Any]
     public var linkTappedBlock: NantesLinkTappedBlock?
     public var result: NSTextCheckingResult?
+    public var text: String?
 
-    public init(attributes: [AnyHashable: Any]?, activeAttributes: [AnyHashable: Any]?, inactiveAttributes: [AnyHashable: Any]?, linkTappedBlock: NantesLinkTappedBlock?, result: NSTextCheckingResult?) {
+    public init(attributes: [AnyHashable: Any]?, activeAttributes: [AnyHashable: Any]?, inactiveAttributes: [AnyHashable: Any]?, linkTappedBlock: NantesLinkTappedBlock?, result: NSTextCheckingResult?, text: String?) {
         self.attributes = attributes ?? [:]
         self.activeAttributes = activeAttributes ?? [:]
         self.inactiveAttributes = inactiveAttributes ?? [:]
         self.linkTappedBlock = linkTappedBlock
         self.result = result
+        self.text = text
     }
 
-    public init(label: NantesLabel, result: NSTextCheckingResult?) {
-        self.init(attributes: label.linkAttributes, activeAttributes: label.activeLinkAttributes, inactiveAttributes: label.inactiveLinkAttributes, linkTappedBlock: nil, result: result)
+    public init(label: NantesLabel, result: NSTextCheckingResult?, text: String?) {
+        self.init(attributes: label.linkAttributes, activeAttributes: label.activeLinkAttributes, inactiveAttributes: label.inactiveLinkAttributes, linkTappedBlock: nil, result: result, text: text)
     }
 
     public static func == (lhs: NantesLabelLink, rhs: NantesLabelLink) -> Bool {
         return (lhs.attributes as NSDictionary).isEqual(to: rhs.attributes) &&
             (lhs.activeAttributes as NSDictionary).isEqual(to: rhs.activeAttributes) &&
             (lhs.inactiveAttributes as NSDictionary).isEqual(to: rhs.inactiveAttributes) &&
-            lhs.result?.range == rhs.result?.range
+            lhs.result?.range == rhs.result?.range &&
+            lhs.text == rhs.text
     }
 }
 
@@ -278,8 +281,6 @@ public class NantesLabel: UILabel {
 
     private var _renderedAttributedText: NSAttributedString?
 
-    private var truncatedAccessibilityLabel: String?
-
     // MARK: - UILabel vars
 
     override public var accessibilityElements: [Any]? {
@@ -340,7 +341,6 @@ public class NantesLabel: UILabel {
     override public var numberOfLines: Int {
         didSet {
             accessibilityElements = nil
-            truncatedAccessibilityLabel = nil
         }
     }
 
@@ -510,46 +510,7 @@ public class NantesLabel: UILabel {
             return
         }
 
-        guard activeLink.linkTappedBlock == nil else {
-            activeLink.linkTappedBlock?(self, activeLink)
-            self.activeLink = nil
-            return
-        }
-
-        guard let result = activeLink.result else {
-            return
-        }
-
-        self.activeLink = nil
-
-        guard let delegate = delegate else {
-            return
-        }
-
-        switch result.resultType {
-        case .address:
-            if let address = result.addressComponents {
-                delegate.attributedLabel(self, didSelectAddress: address)
-            }
-        case .date:
-            if let date = result.date {
-                delegate.attributedLabel(self, didSelectDate: date, timeZone: result.timeZone ?? TimeZone.current, duration: result.duration)
-            }
-        case .link:
-            if let url = result.url {
-                delegate.attributedLabel(self, didSelectLink: url)
-            }
-        case .phoneNumber:
-            if let phoneNumber = result.phoneNumber {
-                delegate.attributedLabel(self, didSelectPhoneNumber: phoneNumber)
-            }
-        case .transitInformation:
-            if let transitInfo = result.components {
-                delegate.attributedLabel(self, didSelectTransitInfo: transitInfo)
-            }
-        default: // fallback to result if we aren't sure
-            delegate.attributedLabel(self, didSelectTextCheckingResult: result)
-        }
+        handleLinkTapped(activeLink)
     }
 
     override public func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -583,33 +544,18 @@ public class NantesLabel: UILabel {
 
     // MARK: - Private
 
-    private func getTruncatedTextForAccessibilityLabel(in line: CTLine, originalAttributedString: NSAttributedString, originalAttributedTruncationString: NSAttributedString, cleanedTruncationString: NSAttributedString) -> String? {
-        guard let truncatedRun = ((CTLineGetGlyphRuns(line) as [AnyObject]) as? [CTRun])?.first else {
-            return nil
-        }
-
-        let truncatedRange = CTRunGetStringRange(truncatedRun)
-
-        guard let truncatedTextRange = Range<String.Index>(NSRange(location: truncatedRange.location, length: truncatedRange.length), in: cleanedTruncationString.string) else {
-            return nil
-        }
-
-        let truncatedText = cleanedTruncationString.string[truncatedTextRange]
-
-        guard let fullTextRange = originalAttributedString.string.range(of: truncatedText) else {
-            return nil
-        }
-
-        let leadingText = originalAttributedString.string[..<fullTextRange.upperBound]
-        return "\(leadingText)\(originalAttributedTruncationString.string)"
-    }
-
     @discardableResult
     private func addLinks(with textCheckingResults: [NSTextCheckingResult], withAttributes attributes: [AnyHashable: Any]?) -> [NantesLabelLink] {
         var links: [NantesLabelLink] = []
 
         for result in textCheckingResults {
-            let link = NantesLabelLink(attributes: attributes, activeAttributes: activeLinkAttributes, inactiveAttributes: inactiveLinkAttributes, linkTappedBlock: nil, result: result)
+            var text = self.text
+
+            if let checkingText = self.text, let range = Range(result.range, in: checkingText) {
+                text = String(checkingText[range])
+            }
+
+            let link = NantesLabelLink(attributes: attributes, activeAttributes: activeLinkAttributes, inactiveAttributes: inactiveLinkAttributes, linkTappedBlock: nil, result: result, text: text)
             links.append(link)
         }
 
@@ -1047,8 +993,6 @@ public class NantesLabel: UILabel {
             return
         }
 
-        truncatedAccessibilityLabel = getTruncatedTextForAccessibilityLabel(in: line, originalAttributedString: truncationDrawingContext.attributedString, originalAttributedTruncationString: attributedTruncationString, cleanedTruncationString: truncationString)
-
         let penOffset = CGFloat(CTLineGetPenOffsetForFlush(line, flushFactor, Double(truncationDrawingContext.rect.size.width)))
         let yDifference = truncationDrawingContext.lineOrigin.y - truncationDrawingContext.descent - font.descender
         truncationDrawingContext.context.textPosition = CGPoint(x: penOffset, y: yDifference)
@@ -1069,6 +1013,49 @@ public class NantesLabel: UILabel {
         }
 
         addLink(to: url, withRange: tokenLinkRange)
+    }
+
+    private func handleLinkTapped(_ link: NantesLabelLink) {
+        guard link.linkTappedBlock == nil else {
+            link.linkTappedBlock?(self, link)
+            self.activeLink = nil
+            return
+        }
+
+        guard let result = link.result else {
+            return
+        }
+
+        self.activeLink = nil
+
+        guard let delegate = delegate else {
+            return
+        }
+
+        switch result.resultType {
+        case .address:
+            if let address = result.addressComponents {
+                delegate.attributedLabel(self, didSelectAddress: address)
+            }
+        case .date:
+            if let date = result.date {
+                delegate.attributedLabel(self, didSelectDate: date, timeZone: result.timeZone ?? TimeZone.current, duration: result.duration)
+            }
+        case .link:
+            if let url = result.url {
+                delegate.attributedLabel(self, didSelectLink: url)
+            }
+        case .phoneNumber:
+            if let phoneNumber = result.phoneNumber {
+                delegate.attributedLabel(self, didSelectPhoneNumber: phoneNumber)
+            }
+        case .transitInformation:
+            if let transitInfo = result.components {
+                delegate.attributedLabel(self, didSelectTransitInfo: transitInfo)
+            }
+        default: // fallback to result if we aren't sure
+            delegate.attributedLabel(self, didSelectTextCheckingResult: result)
+        }
     }
 
     /// Finds the link at the character index `CFIndex`
@@ -1163,64 +1150,44 @@ public class NantesLabel: UILabel {
     // MARK: - Accessibility
 
     private func configureAccessibilityElements() {
-        guard let sourceText = attributedText else {
+        guard attributedText != nil else {
             _accessibilityElements = nil
             return
         }
 
         var elements: [NantesLabelAccessibilityElement] = []
+        var actions: [UIAccessibilityCustomAction] = []
 
-        guard !linkModels.isEmpty else {
-            let baseElement = NantesLabelAccessibilityElement(accessibilityContainer: self)
-            baseElement.accessibilityLabel = truncatedAccessibilityLabel ?? super.accessibilityLabel
-            baseElement.accessibilityHint = super.accessibilityHint
-            baseElement.accessibilityValue = super.accessibilityValue
-            baseElement.accessibilityTraits = super.accessibilityTraits
-            baseElement.boundingRect = bounds
-            baseElement.superview = self
-            _accessibilityElements = [baseElement]
+        let baseElement = NantesLabelAccessibilityElement(accessibilityContainer: self)
+        baseElement.accessibilityLabel = super.accessibilityLabel
+        baseElement.accessibilityHint = super.accessibilityHint
+        baseElement.accessibilityValue = super.accessibilityValue
+        baseElement.accessibilityTraits = super.accessibilityTraits
+        baseElement.boundingRect = bounds
+        baseElement.superview = self
+        elements.append(baseElement)
+
+        for link in linkModels {
+            guard let name = link.text else {
+                continue
+            }
+
+            let action = UIAccessibilityCustomAction(name: name, target: self, selector: #selector(handleAccessibilityActivate(_:)))
+            actions.append(action)
+        }
+
+        accessibilityElements = elements
+        accessibilityCustomActions = actions
+    }
+
+    @objc private func handleAccessibilityActivate(_ action: UIAccessibilityCustomAction) {
+        guard let link = linkModels.first(where: { link -> Bool in
+            link.text == action.name
+        }) else {
             return
         }
 
-        var currentRange = NSRange(location: 0, length: 0)
-
-        for link in linkModels {
-            guard currentRange.location < sourceText.length else {
-                break
-            }
-
-            guard let result = link.result, result.range.location != NSNotFound else {
-                continue
-            }
-
-            let length = result.range.location - currentRange.length
-            let leadingRange = NSRange(location: currentRange.location, length: length)
-            guard leadingRange.length + leadingRange.location < sourceText.length else {
-                continue
-            }
-            let leadingString = sourceText.attributedSubstring(from: leadingRange)
-            let linkString = sourceText.attributedSubstring(from: result.range)
-
-            currentRange = NSRange(location: result.range.location + result.range.length, length: 0)
-
-            let leadingAccessibilityElement = NantesLabelAccessibilityElement(accessibilityContainer: self)
-            leadingAccessibilityElement.accessibilityLabel = leadingString.string
-            leadingAccessibilityElement.boundingRect = boundingRect(for: leadingRange)
-            leadingAccessibilityElement.superview = self
-
-            let linkAccessibilityElement = NantesLabelAccessibilityElement(accessibilityContainer: self)
-            linkAccessibilityElement.accessibilityLabel = linkString.string
-            linkAccessibilityElement.boundingRect = boundingRect(for: result.range)
-            linkAccessibilityElement.superview = self
-
-            if leadingRange.length != 0 {
-                // Only add leading elements that have a length
-                elements.append(leadingAccessibilityElement)
-            }
-            elements.append(linkAccessibilityElement)
-        }
-
-        _accessibilityElements = elements
+        handleLinkTapped(link)
     }
 }
 
