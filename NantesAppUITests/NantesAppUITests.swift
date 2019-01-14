@@ -24,21 +24,27 @@ class NantesAppUITests: XCTestCase {
         titleLabel.tap() // Expand text
         titleLabel.tap() // Collapse text
 
-        app.otherElements["123 Main St"].tap()
-        app.otherElements["08-27-2018"].tap()
-        app.otherElements["http://www.instacart.com"].tap()
+        app.staticTexts["123 Main St"].firstMatch.tap()
+        app.staticTexts["Date: 08-27-2018"].firstMatch.tap()
+        app.staticTexts["http://www.instacart.com"].firstMatch.tap()
 
         // Touches Moved
-        app.otherElements["http://www.instacart.com"].press(forDuration: 0.2, thenDragTo: titleLabel)
+        app.staticTexts["http://www.instacart.com"].firstMatch.press(forDuration: 0.2, thenDragTo: titleLabel)
 
-        app.otherElements["http://www.google.com"].tap()
+        app.staticTexts["http://www.google.com"].firstMatch.tap()
 
-        app.otherElements["415-555-0000"].tap()
-        app.otherElements["UA450"].tap()
+        app.staticTexts["415-555-0000"].firstMatch.tap()
+        app.staticTexts["UA450"].firstMatch.tap()
 
         app.staticTexts["String with a background set this is struck out text"].firstMatch.tap()
-        app.staticTexts["Head truncated ... more"].firstMatch.tap()
-        app.staticTexts["Middle truncated text so we s... more"].firstMatch.tap()
+
+        let headPredicate = NSPredicate(format: "label BEGINSWITH 'Head truncated'")
+        let headLabel = app.staticTexts.element(matching: headPredicate).firstMatch
+        headLabel.tap()
+
+        let middlePredicate = NSPredicate(format: "label BEGINSWITH 'Middle truncated'")
+        let middleLabel = app.staticTexts.element(matching: middlePredicate).firstMatch
+        middleLabel.tap()
 
         let scalingPredicate = NSPredicate(format: "label BEGINSWITH 'Scaling text'")
         let scalingLabel = app.staticTexts.element(matching: scalingPredicate).firstMatch

@@ -26,15 +26,15 @@ final class NantesLabelTests: XCTestCase {
     func testLabelLink() {
         label.activeLinkAttributes = [NSAttributedString.Key.foregroundColor: UIColor.green]
 
-        let labelLink: NantesLabelLink = .init(attributes: nil, activeAttributes: nil, inactiveAttributes: nil, linkTappedBlock: nil, result: nil)
+        let labelLink: NantesLabelLink = .init(attributes: nil, activeAttributes: nil, inactiveAttributes: nil, linkTappedBlock: nil, result: nil, text: nil)
         XCTAssertNil(labelLink.result)
 
-        let anotherLink: NantesLabelLink = .init(label: label, result: nil)
+        let anotherLink: NantesLabelLink = .init(label: label, result: nil, text: nil)
         XCTAssertNil(anotherLink.result)
 
         XCTAssertFalse(labelLink == anotherLink)
 
-        let equalLabel: NantesLabelLink = .init(attributes: nil, activeAttributes: nil, inactiveAttributes: nil, linkTappedBlock: nil, result: nil)
+        let equalLabel: NantesLabelLink = .init(attributes: nil, activeAttributes: nil, inactiveAttributes: nil, linkTappedBlock: nil, result: nil, text: nil)
         XCTAssertTrue(labelLink == equalLabel)
     }
 
@@ -65,7 +65,7 @@ final class NantesLabelTests: XCTestCase {
         let linkAndLeadingText = NSAttributedString(string: "Leading text and a link: http://www.instacart.com")
         label.attributedText = linkAndLeadingText
         addLink(linkAndLeadingText, to: label)
-        XCTAssertTrue(label.accessibilityElements?.count == 2)
+        XCTAssertTrue(label.accessibilityElements?.count == 1)
     }
 
     func testTextCheckingTypes() {
@@ -155,7 +155,7 @@ final class NantesLabelTests: XCTestCase {
         let dataDetector = try! NSDataDetector(types: label.enabledTextCheckingTypes.rawValue)
         let result = dataDetector.matches(in: link.string, options: .withTransparentBounds, range: NSRange(location: 0, length: link.length)).first
 
-        let labelLink = NantesLabelLink(attributes: [:], activeAttributes: [:], inactiveAttributes: [:], linkTappedBlock: nil, result: result)
+        let labelLink = NantesLabelLink(attributes: [:], activeAttributes: [:], inactiveAttributes: [:], linkTappedBlock: nil, result: result, text: label.text)
         label.addLink(labelLink)
     }
 }
