@@ -6,12 +6,6 @@
 //  Copyright © 2018 Instacart. All rights reserved.
 //
 
-public enum NantesLabelVerticalAlignment {
-    case top
-    case center
-    case bottom
-}
-
 public protocol NantesLabelDelegate: class {
     func attributedLabel(_ label: NantesLabel, didSelectAddress addressComponents: [NSTextCheckingKey: String])
     func attributedLabel(_ label: NantesLabel, didSelectDate date: Date, timeZone: TimeZone, duration: TimeInterval)
@@ -45,8 +39,6 @@ private class NantesLabelAccessibilityElement: UIAccessibilityElement {
     }
 }
 
-public typealias NantesLinkTappedBlock = ((NantesLabel, NantesLabel.Link) -> Void)
-
 private struct TruncationDrawingContext {
     let attributedString: NSAttributedString
     let context: CGContext
@@ -71,11 +63,11 @@ public class NantesLabel: UILabel {
         public var attributes: [NSAttributedString.Key: Any]
         public var activeAttributes: [NSAttributedString.Key: Any]
         public var inactiveAttributes: [NSAttributedString.Key: Any]
-        public var linkTappedBlock: NantesLinkTappedBlock?
+        public var linkTappedBlock: NantesLabel.LinkTappedBlock?
         public var result: NSTextCheckingResult?
         public var text: String?
 
-        public init(attributes: [NSAttributedString.Key: Any]?, activeAttributes: [NSAttributedString.Key: Any]?, inactiveAttributes: [NSAttributedString.Key: Any]?, linkTappedBlock: NantesLinkTappedBlock?, result: NSTextCheckingResult?, text: String?) {
+        public init(attributes: [NSAttributedString.Key: Any]?, activeAttributes: [NSAttributedString.Key: Any]?, inactiveAttributes: [NSAttributedString.Key: Any]?, linkTappedBlock: NantesLabel.LinkTappedBlock?, result: NSTextCheckingResult?, text: String?) {
             self.attributes = attributes ?? [:]
             self.activeAttributes = activeAttributes ?? [:]
             self.inactiveAttributes = inactiveAttributes ?? [:]
@@ -96,6 +88,15 @@ public class NantesLabel: UILabel {
                 lhs.text == rhs.text
         }
     }
+
+    public enum VerticalAlignment {
+        case top
+        case center
+        case bottom
+    }
+
+    public typealias LinkTappedBlock = ((NantesLabel, NantesLabel.Link) -> Void)
+
     /// NSAttributedString attributes used to style active links
     /// nil or [:] will add no styling
     public var activeLinkAttributes: [NSAttributedString.Key: Any]?
@@ -178,7 +179,7 @@ public class NantesLabel: UILabel {
 
     /// Vertical alignment of the text within its frame
     /// defaults to .center
-    public var verticalAlignment: NantesLabelVerticalAlignment = .center
+    public var verticalAlignment: NantesLabel.VerticalAlignment = .center
 
     // MARK: - Private constants
 
