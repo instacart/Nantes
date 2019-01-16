@@ -1129,7 +1129,7 @@ public class NantesLabel: UILabel {
         return nil
     }
 
-    private func truncationInfo(from lastLineLocation: CFIndex, length: Int, for lineBreakMode: NSLineBreakMode) -> (position: CFIndex, type: CTLineTruncationType) {
+    private func truncationInfo(from lastLineLocation: Int, length: Int, for lineBreakMode: NSLineBreakMode) -> (position: Int, type: CTLineTruncationType) {
         var position = lastLineLocation
         var truncationType: CTLineTruncationType
 
