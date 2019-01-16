@@ -48,14 +48,14 @@ private class NantesLabelAccessibilityElement: UIAccessibilityElement {
 public typealias NantesLinkTappedBlock = ((NantesLabel, NantesLabelLink) -> Void)
 
 public struct NantesLabelLink: Equatable {
-    public var attributes: [AnyHashable: Any]
-    public var activeAttributes: [AnyHashable: Any]
-    public var inactiveAttributes: [AnyHashable: Any]
+    public var attributes: [NSAttributedString.Key: Any]
+    public var activeAttributes: [NSAttributedString.Key: Any]
+    public var inactiveAttributes: [NSAttributedString.Key: Any]
     public var linkTappedBlock: NantesLinkTappedBlock?
     public var result: NSTextCheckingResult?
     public var text: String?
 
-    public init(attributes: [AnyHashable: Any]?, activeAttributes: [AnyHashable: Any]?, inactiveAttributes: [AnyHashable: Any]?, linkTappedBlock: NantesLinkTappedBlock?, result: NSTextCheckingResult?, text: String?) {
+    public init(attributes: [NSAttributedString.Key: Any]?, activeAttributes: [NSAttributedString.Key: Any]?, inactiveAttributes: [NSAttributedString.Key: Any]?, linkTappedBlock: NantesLinkTappedBlock?, result: NSTextCheckingResult?, text: String?) {
         self.attributes = attributes ?? [:]
         self.activeAttributes = activeAttributes ?? [:]
         self.inactiveAttributes = inactiveAttributes ?? [:]
@@ -145,7 +145,7 @@ public class NantesLabel: UILabel {
 
     /// NSAttributedString attributes used to style inactive links
     /// nil or [:] will add no styling
-    public var inactiveLinkAttributes: [AnyHashable: Any]?
+    public var inactiveLinkAttributes: [NSAttributedString.Key: Any]?
 
     /// Floating point number in points; amount to modify default kerning. 0 means kerning is disabled. nil uses default kerning
     public var kern: CGFloat?
@@ -163,7 +163,7 @@ public class NantesLabel: UILabel {
     /// NSAttributedString attributes used to style links that are detected or manually added
     /// You must specify linkAttributes before setting autodetecting or manually adding links for these
     /// attributes to be applied
-    public var linkAttributes: [AnyHashable: Any]?
+    public var linkAttributes: [NSAttributedString.Key: Any]?
 
     /// The edge inset for the background of a link. The default value is `{0, -1, 0, -1}`.
     public var linkBackgroundEdgeInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: -1, bottom: 0, right: -1)
@@ -545,7 +545,7 @@ public class NantesLabel: UILabel {
     // MARK: - Private
 
     @discardableResult
-    private func addLinks(with textCheckingResults: [NSTextCheckingResult], withAttributes attributes: [AnyHashable: Any]?) -> [NantesLabelLink] {
+    private func addLinks(with textCheckingResults: [NSTextCheckingResult], withAttributes attributes: [NSAttributedString.Key: Any]?) -> [NantesLabelLink] {
         var links: [NantesLabelLink] = []
 
         for result in textCheckingResults {
