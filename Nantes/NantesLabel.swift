@@ -198,7 +198,7 @@ public class NantesLabel: UILabel {
         didSet {
             let linkAttributes = activeLink?.activeAttributes.isEmpty == false ? activeLink?.activeAttributes : activeLinkAttributes
             guard let activeLink = activeLink,
-                let attributes = linkAttributes as? [NSAttributedString.Key: Any],
+                let attributes = linkAttributes,
                 attributes.isEmpty == false else {
                     if inactiveAttributedText != nil {
                         attributedText = inactiveAttributedText
@@ -569,9 +569,10 @@ public class NantesLabel: UILabel {
         }
 
         for link in links {
-            guard let attributes = link.attributes as? [NSAttributedString.Key: Any],
-                let range = link.result?.range else {
-                    continue
+            let attributes = link.attributes
+            
+            guard let range = link.result?.range else {
+                continue
             }
 
             attributedText.addAttributes(attributes, range: range)
