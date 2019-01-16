@@ -26,15 +26,15 @@ final class NantesLabelTests: XCTestCase {
     func testLabelLink() {
         label.activeLinkAttributes = [NSAttributedString.Key.foregroundColor: UIColor.green]
 
-        let labelLink: NantesLabelLink = .init(attributes: nil, activeAttributes: nil, inactiveAttributes: nil, linkTappedBlock: nil, result: nil, text: nil)
+        let labelLink: NantesLabel.Link = .init(attributes: nil, activeAttributes: nil, inactiveAttributes: nil, linkTappedBlock: nil, result: nil, text: nil)
         XCTAssertNil(labelLink.result)
 
-        let anotherLink: NantesLabelLink = .init(label: label, result: nil, text: nil)
+        let anotherLink: NantesLabel.Link = .init(label: label, result: nil, text: nil)
         XCTAssertNil(anotherLink.result)
 
         XCTAssertFalse(labelLink == anotherLink)
 
-        let equalLabel: NantesLabelLink = .init(attributes: nil, activeAttributes: nil, inactiveAttributes: nil, linkTappedBlock: nil, result: nil, text: nil)
+        let equalLabel: NantesLabel.Link = .init(attributes: nil, activeAttributes: nil, inactiveAttributes: nil, linkTappedBlock: nil, result: nil, text: nil)
         XCTAssertTrue(labelLink == equalLabel)
     }
 
@@ -155,7 +155,7 @@ final class NantesLabelTests: XCTestCase {
         let dataDetector = try! NSDataDetector(types: label.enabledTextCheckingTypes.rawValue)
         let result = dataDetector.matches(in: link.string, options: .withTransparentBounds, range: NSRange(location: 0, length: link.length)).first
 
-        let labelLink = NantesLabelLink(attributes: [:], activeAttributes: [:], inactiveAttributes: [:], linkTappedBlock: nil, result: result, text: label.text)
+        let labelLink = NantesLabel.Link(attributes: [:], activeAttributes: [:], inactiveAttributes: [:], linkTappedBlock: nil, result: result, text: label.text)
         label.addLink(labelLink)
     }
 }

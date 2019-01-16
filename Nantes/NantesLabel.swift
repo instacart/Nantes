@@ -45,37 +45,7 @@ private class NantesLabelAccessibilityElement: UIAccessibilityElement {
     }
 }
 
-public typealias NantesLinkTappedBlock = ((NantesLabel, NantesLabelLink) -> Void)
-
-public struct NantesLabelLink: Equatable {
-    public var attributes: [NSAttributedString.Key: Any]
-    public var activeAttributes: [NSAttributedString.Key: Any]
-    public var inactiveAttributes: [NSAttributedString.Key: Any]
-    public var linkTappedBlock: NantesLinkTappedBlock?
-    public var result: NSTextCheckingResult?
-    public var text: String?
-
-    public init(attributes: [NSAttributedString.Key: Any]?, activeAttributes: [NSAttributedString.Key: Any]?, inactiveAttributes: [NSAttributedString.Key: Any]?, linkTappedBlock: NantesLinkTappedBlock?, result: NSTextCheckingResult?, text: String?) {
-        self.attributes = attributes ?? [:]
-        self.activeAttributes = activeAttributes ?? [:]
-        self.inactiveAttributes = inactiveAttributes ?? [:]
-        self.linkTappedBlock = linkTappedBlock
-        self.result = result
-        self.text = text
-    }
-
-    public init(label: NantesLabel, result: NSTextCheckingResult?, text: String?) {
-        self.init(attributes: label.linkAttributes, activeAttributes: label.activeLinkAttributes, inactiveAttributes: label.inactiveLinkAttributes, linkTappedBlock: nil, result: result, text: text)
-    }
-
-    public static func == (lhs: NantesLabelLink, rhs: NantesLabelLink) -> Bool {
-        return (lhs.attributes as NSDictionary).isEqual(to: rhs.attributes) &&
-            (lhs.activeAttributes as NSDictionary).isEqual(to: rhs.activeAttributes) &&
-            (lhs.inactiveAttributes as NSDictionary).isEqual(to: rhs.inactiveAttributes) &&
-            lhs.result?.range == rhs.result?.range &&
-            lhs.text == rhs.text
-    }
-}
+public typealias NantesLinkTappedBlock = ((NantesLabel, NantesLabel.Link) -> Void)
 
 private struct TruncationDrawingContext {
     let attributedString: NSAttributedString
@@ -97,6 +67,35 @@ public extension NSAttributedString.Key {
 }
 
 public class NantesLabel: UILabel {
+    public struct Link: Equatable {
+        public var attributes: [NSAttributedString.Key: Any]
+        public var activeAttributes: [NSAttributedString.Key: Any]
+        public var inactiveAttributes: [NSAttributedString.Key: Any]
+        public var linkTappedBlock: NantesLinkTappedBlock?
+        public var result: NSTextCheckingResult?
+        public var text: String?
+
+        public init(attributes: [NSAttributedString.Key: Any]?, activeAttributes: [NSAttributedString.Key: Any]?, inactiveAttributes: [NSAttributedString.Key: Any]?, linkTappedBlock: NantesLinkTappedBlock?, result: NSTextCheckingResult?, text: String?) {
+            self.attributes = attributes ?? [:]
+            self.activeAttributes = activeAttributes ?? [:]
+            self.inactiveAttributes = inactiveAttributes ?? [:]
+            self.linkTappedBlock = linkTappedBlock
+            self.result = result
+            self.text = text
+        }
+
+        public init(label: NantesLabel, result: NSTextCheckingResult?, text: String?) {
+            self.init(attributes: label.linkAttributes, activeAttributes: label.activeLinkAttributes, inactiveAttributes: label.inactiveLinkAttributes, linkTappedBlock: nil, result: result, text: text)
+        }
+
+        public static func == (lhs: NantesLabel.Link, rhs: NantesLabel.Link) -> Bool {
+            return (lhs.attributes as NSDictionary).isEqual(to: rhs.attributes) &&
+                (lhs.activeAttributes as NSDictionary).isEqual(to: rhs.activeAttributes) &&
+                (lhs.inactiveAttributes as NSDictionary).isEqual(to: rhs.inactiveAttributes) &&
+                lhs.result?.range == rhs.result?.range &&
+                lhs.text == rhs.text
+        }
+    }
     /// NSAttributedString attributes used to style active links
     /// nil or [:] will add no styling
     public var activeLinkAttributes: [NSAttributedString.Key: Any]?
@@ -195,7 +194,7 @@ public class NantesLabel: UILabel {
 
     private var _attributedText: NSAttributedString?
 
-    private var activeLink: NantesLabelLink? {
+    private var activeLink: NantesLabel.Link? {
         didSet {
             let linkAttributes = activeLink?.activeAttributes.isEmpty == false ? activeLink?.activeAttributes : activeLinkAttributes
             guard let activeLink = activeLink,
@@ -268,7 +267,7 @@ public class NantesLabel: UILabel {
 
     private var inactiveAttributedText: NSAttributedString?
 
-    private(set) var linkModels: [NantesLabelLink] = []
+    private(set) var linkModels: [NantesLabel.Link] = []
 
     private var needsFramesetter: Bool = false
 
@@ -532,21 +531,21 @@ public class NantesLabel: UILabel {
     // MARK: - Public
 
     /// Adds a single link
-    public func addLink(_ link: NantesLabelLink) {
+    public func addLink(_ link: NantesLabel.Link) {
         addLinks([link])
     }
 
     /// Adds a link to a `url` with a specified `range`
     @discardableResult
-    public func addLink(to url: URL, withRange range: NSRange) -> NantesLabelLink? {
+    public func addLink(to url: URL, withRange range: NSRange) -> NantesLabel.Link? {
         return addLinks(with: [.linkCheckingResult(range: range, url: url)], withAttributes: linkAttributes).first
     }
 
     // MARK: - Private
 
     @discardableResult
-    private func addLinks(with textCheckingResults: [NSTextCheckingResult], withAttributes attributes: [NSAttributedString.Key: Any]?) -> [NantesLabelLink] {
-        var links: [NantesLabelLink] = []
+    private func addLinks(with textCheckingResults: [NSTextCheckingResult], withAttributes attributes: [NSAttributedString.Key: Any]?) -> [NantesLabel.Link] {
+        var links: [NantesLabel.Link] = []
 
         for result in textCheckingResults {
             var text = self.text
@@ -555,7 +554,7 @@ public class NantesLabel: UILabel {
                 text = String(checkingText[range])
             }
 
-            let link = NantesLabelLink(attributes: attributes, activeAttributes: activeLinkAttributes, inactiveAttributes: inactiveLinkAttributes, linkTappedBlock: nil, result: result, text: text)
+            let link = NantesLabel.Link(attributes: attributes, activeAttributes: activeLinkAttributes, inactiveAttributes: inactiveLinkAttributes, linkTappedBlock: nil, result: result, text: text)
             links.append(link)
         }
 
@@ -564,7 +563,7 @@ public class NantesLabel: UILabel {
         return links
     }
 
-    private func addLinks(_ links: [NantesLabelLink]) {
+    private func addLinks(_ links: [NantesLabel.Link]) {
         guard let attributedText = attributedText?.mutableCopy() as? NSMutableAttributedString else {
             return
         }
@@ -1015,7 +1014,7 @@ public class NantesLabel: UILabel {
         addLink(to: url, withRange: tokenLinkRange)
     }
 
-    private func handleLinkTapped(_ link: NantesLabelLink) {
+    private func handleLinkTapped(_ link: NantesLabel.Link) {
         guard link.linkTappedBlock == nil else {
             link.linkTappedBlock?(self, link)
             self.activeLink = nil
@@ -1061,7 +1060,7 @@ public class NantesLabel: UILabel {
     /// Finds the link at the character index
     ///
     /// returns nil if there's no link
-    private func link(at characterIndex: Int) -> NantesLabelLink? {
+    private func link(at characterIndex: Int) -> NantesLabel.Link? {
         // Skip if the index is outside the bounds of the text
         guard let attributedText = attributedText,
             NSLocationInRange(characterIndex, NSRange(location: 0, length: attributedText.length)) else {
@@ -1084,7 +1083,7 @@ public class NantesLabel: UILabel {
     /// Tries to find the link at a point
     ///
     /// returns nil if there's no link
-    private func link(at point: CGPoint) -> NantesLabelLink? {
+    private func link(at point: CGPoint) -> NantesLabel.Link? {
         guard !linkModels.isEmpty && bounds.inset(by: UIEdgeInsets(top: -15, left: -15, bottom: -15, right: -15)).contains(point) else {
             return nil
         }

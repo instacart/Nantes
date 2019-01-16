@@ -113,7 +113,7 @@ final class ViewController: UIViewController {
             return
         }
 
-        let labelLink = NantesLabelLink(attributes: [NSAttributedString.Key.foregroundColor: UIColor.red], activeAttributes: nil, inactiveAttributes: nil, linkTappedBlock: { _, link in
+        let labelLink = NantesLabel.Link(attributes: [NSAttributedString.Key.foregroundColor: UIColor.red], activeAttributes: nil, inactiveAttributes: nil, linkTappedBlock: { _, link in
             print("Tapped other link: \(link)")
         }, result: result, text: ExampleString.otherLink.rawValue)
         label.addLink(labelLink)
