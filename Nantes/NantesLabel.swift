@@ -99,7 +99,7 @@ public extension NSAttributedString.Key {
 public class NantesLabel: UILabel {
     /// NSAttributedString attributes used to style active links
     /// nil or [:] will add no styling
-    public var activeLinkAttributes: [AnyHashable: Any]?
+    public var activeLinkAttributes: [NSAttributedString.Key: Any]?
 
     /// A token to use when the label is truncated in height. Defaults to "\u{2026}" which is "…"
     public var attributedTruncationToken: NSAttributedString?
@@ -407,9 +407,9 @@ public class NantesLabel: UILabel {
         context.scaleBy(x: 1.0, y: -1.0)
 
         let textRange = CFRangeMake(0, attributedText.length)
-        let txtRect = textRect(forBounds: rect, limitedToNumberOfLines: numberOfLines)
+        let limitedRect = textRect(forBounds: rect, limitedToNumberOfLines: numberOfLines)
 
-        context.translateBy(x: rect.origin.x, y: rect.size.height - txtRect.origin.y - txtRect.size.height)
+        context.translateBy(x: rect.origin.x, y: rect.size.height - limitedRect.origin.y - limitedRect.size.height)
 
         if let shadowColor = shadowColor, !isHighlighted {
             context.setShadow(offset: shadowOffset, blur: shadowRadius, color: shadowColor.cgColor)
@@ -418,14 +418,14 @@ public class NantesLabel: UILabel {
         }
 
         if let highlightedTextColor = highlightedTextColor, isHighlighted {
-            drawHighlightedString(renderedAttributedText, highlightedTextColor: highlightedTextColor, textRange: textRange, inRect: txtRect, context: context)
+            drawHighlightedString(renderedAttributedText, highlightedTextColor: highlightedTextColor, textRange: textRange, inRect: limitedRect, context: context)
         } else {
             guard let framesetter = framesetter,
                 let renderedAttributedText = renderedAttributedText else {
                     return
             }
 
-            drawAttributedString(renderedAttributedText, inFramesetter: framesetter, textRange: textRange, inRect: txtRect, context: context)
+            drawAttributedString(renderedAttributedText, inFramesetter: framesetter, textRange: textRange, inRect: limitedRect, context: context)
         }
 
         // If we had to scale it to fit, lets reset to the original attributed text
@@ -610,7 +610,7 @@ public class NantesLabel: UILabel {
         enabledTextCheckingTypes = [.link, .address, .phoneNumber]
     }
 
-    private func characterIndex(at point: CGPoint) -> CFIndex {
+    private func characterIndex(at point: CGPoint) -> Int {
         guard bounds.contains(point) else {
             return NSNotFound
         }
@@ -713,11 +713,11 @@ public class NantesLabel: UILabel {
             return nil
         }
 
-        guard let lastCharacter = UnicodeScalar((attributedString.string as NSString).character(at: index - 1)) else {
+        guard let character = attributedString.string.last, let scalar = Unicode.Scalar(String(character)) else {
             return nil
         }
 
-        guard NSCharacterSet.newlines.contains(lastCharacter) else {
+        guard CharacterSet.newlines.contains(scalar) else {
             return nil
         }
 
@@ -1058,10 +1058,10 @@ public class NantesLabel: UILabel {
         }
     }
 
-    /// Finds the link at the character index `CFIndex`
+    /// Finds the link at the character index
     ///
     /// returns nil if there's no link
-    private func link(at characterIndex: CFIndex) -> NantesLabelLink? {
+    private func link(at characterIndex: Int) -> NantesLabelLink? {
         // Skip if the index is outside the bounds of the text
         guard let attributedText = attributedText,
             NSLocationInRange(characterIndex, NSRange(location: 0, length: attributedText.length)) else {
@@ -1168,7 +1168,7 @@ public class NantesLabel: UILabel {
         elements.append(baseElement)
 
         for link in linkModels {
-            guard let name = link.text else {
+            guard let name = link.text, name.isEmpty == false else {
                 continue
             }
 
