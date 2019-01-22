@@ -15,8 +15,6 @@
 		434EA10F21E57AA200B98CD7 /* NantesAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434EA10E21E57AA200B98CD7 /* NantesAppTests.swift */; };
 		434EA11A21E57AA200B98CD7 /* NantesAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434EA11921E57AA200B98CD7 /* NantesAppUITests.swift */; };
 		434EA13E21E57BE600B98CD7 /* Nantes.h in Headers */ = {isa = PBXBuildFile; fileRef = 434EA12E21E57BE600B98CD7 /* Nantes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		434EA14121E57BE600B98CD7 /* Nantes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 434EA12C21E57BE600B98CD7 /* Nantes.framework */; };
-		434EA14221E57BE600B98CD7 /* Nantes.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 434EA12C21E57BE600B98CD7 /* Nantes.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		434EA14B21E6562C00B98CD7 /* NantesLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434EA14A21E6562C00B98CD7 /* NantesLabel.swift */; };
 		434EA17621E6679400B98CD7 /* Nantes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 434EA12C21E57BE600B98CD7 /* Nantes.framework */; };
 		434EA17D21E667A000B98CD7 /* NantesLabelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434EA17C21E6679F00B98CD7 /* NantesLabelTests.swift */; };
@@ -60,7 +58,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				434EA14221E57BE600B98CD7 /* Nantes.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,7 +92,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				434EA14121E57BE600B98CD7 /* Nantes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +223,7 @@
 				434EA0F321E57AA100B98CD7 /* Frameworks */,
 				434EA0F421E57AA100B98CD7 /* Resources */,
 				434EA14621E57BE600B98CD7 /* Embed Frameworks */,
+				4302357C21F77E8600D38223 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -402,6 +399,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4302357C21F77E8600D38223 /* Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Nantes.framework",
+			);
+			name = Carthage;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		434EA0F221E57AA100B98CD7 /* Sources */ = {
