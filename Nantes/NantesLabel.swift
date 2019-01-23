@@ -58,7 +58,7 @@ public extension NSAttributedString.Key {
     public static let nantesLabelStrikeOut: NSAttributedString.Key = .init("NantesLabelStrikeOutAttribute")
 }
 
-public class NantesLabel: UILabel {
+open class NantesLabel: UILabel {
     public struct Link: Equatable {
         public var attributes: [NSAttributedString.Key: Any]
         public var activeAttributes: [NSAttributedString.Key: Any]
@@ -99,17 +99,17 @@ public class NantesLabel: UILabel {
 
     /// NSAttributedString attributes used to style active links
     /// nil or [:] will add no styling
-    public var activeLinkAttributes: [NSAttributedString.Key: Any]?
+    open var activeLinkAttributes: [NSAttributedString.Key: Any]?
 
     /// A token to use when the label is truncated in height. Defaults to "\u{2026}" which is "…"
-    public var attributedTruncationToken: NSAttributedString?
+    open var attributedTruncationToken: NSAttributedString?
 
     /// Handling for touch events after touchesEnded
     /// Warning: Will not be called if `labelTappedBlock` is supplied
-    public weak var delegate: NantesLabelDelegate?
+    open weak var delegate: NantesLabelDelegate?
 
     /// A list of text checking types that are enabled for the label. The label will automatically highlight elements when `text` or `attributedText` is set if this value is supplied before they're set.
-    public var enabledTextCheckingTypes: NSTextCheckingResult.CheckingType = [] {
+    open var enabledTextCheckingTypes: NSTextCheckingResult.CheckingType = [] {
         didSet {
             guard !enabledTextCheckingTypes.isEmpty else {
                 return
@@ -132,54 +132,54 @@ public class NantesLabel: UILabel {
     }
 
     /// The distance, in points, from the leading margin of a frame to the beginning of the line paragraph's first line. 0.0 by default
-    public var firstLineIndent: CGFloat = 0.0
+    open var firstLineIndent: CGFloat = 0.0
 
     /// The shadow color for the label when the label's `highlighted` property is true. Defaults to nil
-    public var highlightedShadowColor: UIColor?
+    open var highlightedShadowColor: UIColor?
 
     /// The shadow offset for the label when the label's `highlighted` propert is true. A value of 0 indicates no blur, larger numbers indicate more blur. This can't be a negative value.
-    public var highlightedShadowOffset: CGSize = .zero
+    open var highlightedShadowOffset: CGSize = .zero
 
     /// The shadow blur radius for the label. A value of 0 indicates no blur. Larger values indicate more blur. This can't be a negative value.
-    public var highlightedShadowRadius: CGFloat = 0.0
+    open var highlightedShadowRadius: CGFloat = 0.0
 
     /// NSAttributedString attributes used to style inactive links
     /// nil or [:] will add no styling
-    public var inactiveLinkAttributes: [NSAttributedString.Key: Any]?
+    open var inactiveLinkAttributes: [NSAttributedString.Key: Any]?
 
     /// Floating point number in points; amount to modify default kerning. 0 means kerning is disabled. nil uses default kerning
-    public var kern: CGFloat?
+    open var kern: CGFloat?
 
     /// Block to run whenever the label is tapped. Triggered on touchesEnded.
     /// Warning: Will disable calls to `delegate` on taps if this property is set
-    public var labelTappedBlock: (() -> Void)?
+    open var labelTappedBlock: (() -> Void)?
 
     /// The line height multiple. 1.0 by default
-    public var lineHeightMultiple: CGFloat = 1.0
+    open var lineHeightMultiple: CGFloat = 1.0
 
     /// The space in points added between lines within the paragraph
-    public var lineSpacing: CGFloat = 0.0
+    open var lineSpacing: CGFloat = 0.0
 
     /// NSAttributedString attributes used to style links that are detected or manually added
     /// You must specify linkAttributes before setting autodetecting or manually adding links for these
     /// attributes to be applied
-    public var linkAttributes: [NSAttributedString.Key: Any]?
+    open var linkAttributes: [NSAttributedString.Key: Any]?
 
     /// The edge inset for the background of a link. The default value is `{0, -1, 0, -1}`.
-    public var linkBackgroundEdgeInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: -1, bottom: 0, right: -1)
+    open var linkBackgroundEdgeInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: -1, bottom: 0, right: -1)
 
     /// The maximum line height within the paragraph. If the value is 0.0, the maximum line height is set to the line height of the `font`. 0.0 by default
-    public var maximumLineHeight: CGFloat = 0.0
+    open var maximumLineHeight: CGFloat = 0.0
 
     /// The minimum line height within the paragraph. If the value is 0.0, the minimum line height is set to the line height of the `font`. 0.0 by default
-    public var minimumLineHeight: CGFloat = 0.0
+    open var minimumLineHeight: CGFloat = 0.0
 
     /// The shadow blur radius for the label. 0 indicates no blur, larger values indicate more blur. This can't be a negative value
-    public var shadowRadius: CGFloat = 0.0
+    open var shadowRadius: CGFloat = 0.0
 
     /// Vertical alignment of the text within its frame
     /// defaults to .center
-    public var verticalAlignment: NantesLabel.VerticalAlignment = .center
+    open var verticalAlignment: NantesLabel.VerticalAlignment = .center
 
     // MARK: - Private constants
 
@@ -283,7 +283,7 @@ public class NantesLabel: UILabel {
 
     // MARK: - UILabel vars
 
-    override public var accessibilityElements: [Any]? {
+    override open var accessibilityElements: [Any]? {
         get {
             accessibilityLock.lock()
             defer {
@@ -301,7 +301,7 @@ public class NantesLabel: UILabel {
         }
     }
 
-    override public var attributedText: NSAttributedString? {
+    override open var attributedText: NSAttributedString? {
         get {
             return _attributedText
         } set {
@@ -324,27 +324,27 @@ public class NantesLabel: UILabel {
         }
     }
 
-    override public var canBecomeFirstResponder: Bool {
+    override open var canBecomeFirstResponder: Bool {
         return true
     }
 
-    override public var intrinsicContentSize: CGSize {
+    override open var intrinsicContentSize: CGSize {
         return sizeThatFits(super.intrinsicContentSize)
     }
 
-    override public var isAccessibilityElement: Bool {
+    override open var isAccessibilityElement: Bool {
         get {
             return false
         } set { }
     }
 
-    override public var numberOfLines: Int {
+    override open var numberOfLines: Int {
         didSet {
             accessibilityElements = nil
         }
     }
 
-    override public var text: String? {
+    override open var text: String? {
         get {
             return attributedText?.string
         } set {
@@ -370,11 +370,11 @@ public class NantesLabel: UILabel {
         commonInit()
     }
 
-    override public func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+    override open func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
         return action == #selector(copy(_:))
     }
 
-    override public func drawText(in rect: CGRect) {
+    override open func drawText(in rect: CGRect) {
         guard var attributedText = attributedText else {
             super.drawText(in: rect)
             return
@@ -434,7 +434,7 @@ public class NantesLabel: UILabel {
         }
     }
 
-    override public func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+    override open func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         guard link(at: point) != nil && isUserInteractionEnabled && !isHidden && alpha > 0.0 else {
             return super.hitTest(point, with: event)
         }
@@ -442,7 +442,7 @@ public class NantesLabel: UILabel {
         return self
     }
 
-    override public func sizeThatFits(_ size: CGSize) -> CGSize {
+    override open func sizeThatFits(_ size: CGSize) -> CGSize {
         guard let string = renderedAttributedText,
             let framesetter = framesetter else {
                 return super.sizeThatFits(size)
@@ -454,7 +454,7 @@ public class NantesLabel: UILabel {
         return labelSize
     }
 
-    override public func textRect(forBounds bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
+    override open func textRect(forBounds bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
         guard let attributedText = attributedText,
             let framesetter = framesetter else {
                 return super.textRect(forBounds: bounds, limitedToNumberOfLines: numberOfLines)
@@ -484,7 +484,7 @@ public class NantesLabel: UILabel {
     }
 
     /// We're handling link touches elsewhere, so we want to do nothing if we end up on a link
-    override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first,
             let activeLink = link(at: touch.location(in: self)) else {
                 super.touchesBegan(touches, with: event)
@@ -494,7 +494,7 @@ public class NantesLabel: UILabel {
         self.activeLink = activeLink
     }
 
-    override public func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard activeLink != nil else {
             super.touchesCancelled(touches, with: event)
             return
@@ -503,7 +503,7 @@ public class NantesLabel: UILabel {
         activeLink = nil
     }
 
-    override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let activeLink = activeLink else {
             super.touchesEnded(touches, with: event)
             labelTappedBlock?()
@@ -513,7 +513,7 @@ public class NantesLabel: UILabel {
         handleLinkTapped(activeLink)
     }
 
-    override public func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override open func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let activeLink = activeLink else {
             super.touchesMoved(touches, with: event)
             return
@@ -532,13 +532,13 @@ public class NantesLabel: UILabel {
     // MARK: - Public
 
     /// Adds a single link
-    public func addLink(_ link: NantesLabel.Link) {
+    open func addLink(_ link: NantesLabel.Link) {
         addLinks([link])
     }
 
     /// Adds a link to a `url` with a specified `range`
     @discardableResult
-    public func addLink(to url: URL, withRange range: NSRange) -> NantesLabel.Link? {
+    open func addLink(to url: URL, withRange range: NSRange) -> NantesLabel.Link? {
         return addLinks(with: [.linkCheckingResult(range: range, url: url)], withAttributes: linkAttributes).first
     }
 
