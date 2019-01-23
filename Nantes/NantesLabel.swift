@@ -1194,7 +1194,7 @@ open class NantesLabel: UILabel {
 
 extension NantesLabel {
     /// Returns a `CGSize` that the `attributedString` fits within based on the `constraints` and number of lines from `limitedToNumberOfLines`
-    open static func sizeThatFitsAttributedString(_ attributedString: NSAttributedString?, withConstraints constraints: CGSize, limitedToNumberOfLines: Int) -> CGSize {
+    public static func sizeThatFitsAttributedString(_ attributedString: NSAttributedString?, withConstraints constraints: CGSize, limitedToNumberOfLines: Int) -> CGSize {
         guard let attributedString = attributedString, attributedString.length != 0 else {
             return .zero
         }
