@@ -15,11 +15,10 @@
 		434EA10F21E57AA200B98CD7 /* NantesAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434EA10E21E57AA200B98CD7 /* NantesAppTests.swift */; };
 		434EA11A21E57AA200B98CD7 /* NantesAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434EA11921E57AA200B98CD7 /* NantesAppUITests.swift */; };
 		434EA13E21E57BE600B98CD7 /* Nantes.h in Headers */ = {isa = PBXBuildFile; fileRef = 434EA12E21E57BE600B98CD7 /* Nantes.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		434EA14121E57BE600B98CD7 /* Nantes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 434EA12C21E57BE600B98CD7 /* Nantes.framework */; };
-		434EA14221E57BE600B98CD7 /* Nantes.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 434EA12C21E57BE600B98CD7 /* Nantes.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		434EA14B21E6562C00B98CD7 /* NantesLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434EA14A21E6562C00B98CD7 /* NantesLabel.swift */; };
 		434EA17621E6679400B98CD7 /* Nantes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 434EA12C21E57BE600B98CD7 /* Nantes.framework */; };
 		434EA17D21E667A000B98CD7 /* NantesLabelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 434EA17C21E6679F00B98CD7 /* NantesLabelTests.swift */; };
+		43E1692321F7A94F00A7893D /* Nantes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 434EA12C21E57BE600B98CD7 /* Nantes.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,7 +59,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				434EA14221E57BE600B98CD7 /* Nantes.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,7 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				434EA14121E57BE600B98CD7 /* Nantes.framework in Frameworks */,
+				43E1692321F7A94F00A7893D /* Nantes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,6 +138,7 @@
 				434EA11821E57AA200B98CD7 /* NantesAppUITests */,
 				434EA17221E6679400B98CD7 /* NantesTests */,
 				434EA0F721E57AA100B98CD7 /* Products */,
+				43E1692221F7A94F00A7893D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -203,6 +202,13 @@
 				434EA17521E6679400B98CD7 /* Info.plist */,
 			);
 			path = NantesTests;
+			sourceTree = "<group>";
+		};
+		43E1692221F7A94F00A7893D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -614,6 +620,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 59VC75K95Z;
 				INFOPLIST_FILE = NantesApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -633,6 +640,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 59VC75K95Z;
 				INFOPLIST_FILE = NantesApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -740,6 +748,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Nantes/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -770,6 +779,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Nantes/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
