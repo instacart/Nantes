@@ -20,6 +20,7 @@ DerivedData
 #Carthage
 Carthage/Checkouts
 Carthage/Build
+Example/Carthage
 Cartfile.private
 
 #Certs
@@ -27,6 +28,7 @@ Certs/*
 
 #CocoaPods
 Pods
+Example/Pods/
 
 #Confs
 Configs/*Private.xcconfig
