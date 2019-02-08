@@ -1,6 +1,6 @@
 Nantes 🥕
 ========
-[![CI Status](https://img.shields.io/travis/Instacart/Nantes.svg?style=flat)](https://travis-ci.org/Instacart/Nantes)
+[![CI Status](https://img.shields.io/travis/instacart/Nantes.svg?style=flat)](https://travis-ci.org/Instacart/Nantes)
 [![CocoaPods Compatible](https://img.shields.io/cocoapods/v/Nantes.svg)](https://img.shields.io/cocoapods/v/Nantes.svg)
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
