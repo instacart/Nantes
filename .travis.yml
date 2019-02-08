@@ -1,0 +1,7 @@
+language: swift
+osx_image: xcode10.1
+cache: bundler
+before_script:
+  cd Nantes
+script:
+  - bundle exec fastlane ios test
