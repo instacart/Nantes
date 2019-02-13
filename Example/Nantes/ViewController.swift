@@ -31,6 +31,7 @@ final class ViewController: UIViewController {
         case truncatedLink = "http://www.more.com"
         case truncatedLinkText = "Truncated link text with a longer body so we'll truncate it\nMaybe a newline for good measure"
         case transitInfo = "UA450"
+        case privacyPolicyText = "By creating an account, you agree to our\nTerms of Service and Privacy Policy"
     }
 
     private var strings: [String] = []
@@ -60,6 +61,7 @@ final class ViewController: UIViewController {
         setupFilledLabel()
         setupStrokedLabel()
         setupTruncatedAttributedToken()
+        setupPrivacyPolicyLabel()
     }
 
     private func setupTitleLabel() {
@@ -222,6 +224,25 @@ final class ViewController: UIViewController {
             print("Tapped truncated link text")
         }
         label.attributedText = NSAttributedString(string: ExampleString.truncatedLinkText.rawValue, attributes: [:])
+        labelStackView.addArrangedSubview(label)
+    }
+
+    private func setupPrivacyPolicyLabel() {
+        let label: NantesLabel = .init(frame: .zero)
+        label.delegate = self
+        label.numberOfLines = 0
+        let text = ExampleString.privacyPolicyText.rawValue
+        label.text = text
+        label.linkAttributes = [
+            NSAttributedString.Key.foregroundColor: UIColor.green,
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0)
+        ]
+        label.activeLinkAttributes = [
+            NSAttributedString.Key.foregroundColor: UIColor.green,
+            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 14.0)
+        ]
+        label.addLink(to: URL(string: "https://www.instacart.com")!, withRange: (text as NSString).range(of: "Terms of Service"))
+        label.addLink(to: URL(string: "https://www.google.com")!, withRange: (text as NSString).range(of: "Privacy Policy"))
         labelStackView.addArrangedSubview(label)
     }
 }

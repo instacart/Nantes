@@ -202,7 +202,7 @@ open class NantesLabel: UILabel {
                 let attributes = linkAttributes,
                 attributes.isEmpty == false else {
                     if inactiveAttributedText != nil {
-                        attributedText = inactiveAttributedText
+                        _attributedText = inactiveAttributedText
                         inactiveAttributedText = nil
                         setNeedsDisplay()
                     }
@@ -228,7 +228,8 @@ open class NantesLabel: UILabel {
 
             updatedAttributedString.addAttributes(attributes, range: linkResultRange)
 
-            attributedText = updatedAttributedString
+            _attributedText = updatedAttributedString
+            setNeedsFramesetter()
             setNeedsDisplay()
             CATransaction.flush()
         }
@@ -301,6 +302,8 @@ open class NantesLabel: UILabel {
         }
     }
 
+    /// It's important to set `attributedText` or `text` before adding links
+    /// Since we reset linkModels to make sure our links are up to date when the text changes
     override open var attributedText: NSAttributedString? {
         get {
             return _attributedText
@@ -310,13 +313,12 @@ open class NantesLabel: UILabel {
             }
 
             _attributedText = newValue
-            _renderedAttributedText = nil
+            setNeedsFramesetter()
             _accessibilityElements = nil
             linkModels = []
 
             checkText()
 
-            setNeedsFramesetter()
             setNeedsDisplay()
             invalidateIntrinsicContentSize()
 
@@ -344,6 +346,8 @@ open class NantesLabel: UILabel {
         }
     }
 
+    /// It's important to set `attributedText` or `text` before adding links
+    /// Since we reset linkModels to make sure our links are up to date when the text changes
     override open var text: String? {
         get {
             return attributedText?.string
@@ -386,7 +390,6 @@ open class NantesLabel: UILabel {
             // Scale the font down if need be, to fit the width
             if let scaledAttributedText = scaleAttributedTextIfNeeded(attributedText) {
                 _attributedText = scaledAttributedText
-                _renderedAttributedText = nil
                 setNeedsFramesetter()
                 attributedText = scaledAttributedText
             }
@@ -582,7 +585,6 @@ open class NantesLabel: UILabel {
         linkModels.append(contentsOf: links)
 
         _attributedText = attributedText
-        _renderedAttributedText = nil
         setNeedsFramesetter()
         setNeedsDisplay()
     }
