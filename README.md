@@ -8,6 +8,8 @@ This library is a Swift port/fork of the popular Objective-C library [TTTAttribu
 
 `Nantes` is a pure-Swift `UILabel` replacement. It supports attributes, data detectors, and more. It also supports link embedding automatically and with `NSTextCheckingTypes`.
 
+Come build awesome things with us here at [Instacart!](https://careers.instacart.com/)
+
 ### Requirements ###
 - iOS 8.0+
 - Swift 4.2
