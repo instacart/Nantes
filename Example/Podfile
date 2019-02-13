@@ -6,7 +6,5 @@ target 'Nantes_Example' do
 
   target 'Nantes_Tests' do
     inherit! :search_paths
-
-    
   end
 end
