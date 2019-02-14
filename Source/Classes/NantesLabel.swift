@@ -204,6 +204,7 @@ open class NantesLabel: UILabel {
                     if inactiveAttributedText != nil {
                         _attributedText = inactiveAttributedText
                         inactiveAttributedText = nil
+                        setNeedsFramesetter()
                         setNeedsDisplay()
                     }
                     return
