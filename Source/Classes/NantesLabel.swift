@@ -66,6 +66,7 @@ public extension NSAttributedString.Key {
         public var linkTappedBlock: NantesLabel.LinkTappedBlock?
         public var result: NSTextCheckingResult?
         public var text: String?
+   
 
         public init(attributes: [NSAttributedString.Key: Any]?, activeAttributes: [NSAttributedString.Key: Any]?, inactiveAttributes: [NSAttributedString.Key: Any]?, linkTappedBlock: NantesLabel.LinkTappedBlock?, result: NSTextCheckingResult?, text: String?) {
             self.attributes = attributes ?? [:]
@@ -102,7 +103,7 @@ public extension NSAttributedString.Key {
     open var activeLinkAttributes: [NSAttributedString.Key: Any]?
 
     /// A token to use when the label is truncated in height. Defaults to "\u{2026}" which is "…"
-    open var attributedTruncationToken: NSAttributedString?
+    @IBInspectable open var attributedTruncationToken: NSAttributedString?
 
     /// Handling for touch events after touchesEnded
     /// Warning: Will not be called if `labelTappedBlock` is supplied
@@ -132,33 +133,33 @@ public extension NSAttributedString.Key {
     }
 
     /// The distance, in points, from the leading margin of a frame to the beginning of the line paragraph's first line. 0.0 by default
-    open var firstLineIndent: CGFloat = 0.0
+    @IBInspectable open var firstLineIndent: CGFloat = 0.0
 
     /// The shadow color for the label when the label's `highlighted` property is true. Defaults to nil
-    open var highlightedShadowColor: UIColor?
+    @IBInspectable open var highlightedShadowColor: UIColor?
 
     /// The shadow offset for the label when the label's `highlighted` propert is true. A value of 0 indicates no blur, larger numbers indicate more blur. This can't be a negative value.
-    open var highlightedShadowOffset: CGSize = .zero
+    @IBInspectable open var highlightedShadowOffset: CGSize = .zero
 
     /// The shadow blur radius for the label. A value of 0 indicates no blur. Larger values indicate more blur. This can't be a negative value.
-    open var highlightedShadowRadius: CGFloat = 0.0
+    @IBInspectable open var highlightedShadowRadius: CGFloat = 0.0
 
     /// NSAttributedString attributes used to style inactive links
     /// nil or [:] will add no styling
-    open var inactiveLinkAttributes: [NSAttributedString.Key: Any]?
+    @IBInspectable open var inactiveLinkAttributes: [NSAttributedString.Key: Any]?
 
     /// Floating point number in points; amount to modify default kerning. 0 means kerning is disabled. nil uses default kerning
-    open var kern: CGFloat?
+    @IBInspectable open var kern: CGFloat = 0
 
     /// Block to run whenever the label is tapped. Triggered on touchesEnded.
     /// Warning: Will disable calls to `delegate` on taps if this property is set
     open var labelTappedBlock: (() -> Void)?
 
     /// The line height multiple. 1.0 by default
-    open var lineHeightMultiple: CGFloat = 1.0
+    @IBInspectable open var lineHeightMultiple: CGFloat = 1.0
 
     /// The space in points added between lines within the paragraph
-    open var lineSpacing: CGFloat = 0.0
+    @IBInspectable open var lineSpacing: CGFloat = 0.0
 
     /// NSAttributedString attributes used to style links that are detected or manually added
     /// You must specify linkAttributes before setting autodetecting or manually adding links for these
@@ -169,13 +170,13 @@ public extension NSAttributedString.Key {
     open var linkBackgroundEdgeInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: -1, bottom: 0, right: -1)
 
     /// The maximum line height within the paragraph. If the value is 0.0, the maximum line height is set to the line height of the `font`. 0.0 by default
-    open var maximumLineHeight: CGFloat = 0.0
+    @IBInspectable open var maximumLineHeight: CGFloat = 0.0
 
     /// The minimum line height within the paragraph. If the value is 0.0, the minimum line height is set to the line height of the `font`. 0.0 by default
-    open var minimumLineHeight: CGFloat = 0.0
+    @IBInspectable open var minimumLineHeight: CGFloat = 0.0
 
     /// The shadow blur radius for the label. 0 indicates no blur, larger values indicate more blur. This can't be a negative value
-    open var shadowRadius: CGFloat = 0.0
+    @IBInspectable open var shadowRadius: CGFloat = 0.0
 
     /// Vertical alignment of the text within its frame
     /// defaults to .center
@@ -341,7 +342,7 @@ public extension NSAttributedString.Key {
         } set { }
     }
 
-    override open var numberOfLines: Int {
+    @IBInspectable override open var numberOfLines: Int {
         didSet {
             accessibilityElements = nil
         }
@@ -349,7 +350,7 @@ public extension NSAttributedString.Key {
 
     /// It's important to set `attributedText` or `text` before adding links
     /// Since we reset linkModels to make sure our links are up to date when the text changes
-    override open var text: String? {
+    @IBInspectable override open var text: String? {
         get {
             return attributedText?.string
         } set {
