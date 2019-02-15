@@ -66,8 +66,7 @@ public extension NSAttributedString.Key {
         public var linkTappedBlock: NantesLabel.LinkTappedBlock?
         public var result: NSTextCheckingResult?
         public var text: String?
-   
-
+        
         public init(attributes: [NSAttributedString.Key: Any]?, activeAttributes: [NSAttributedString.Key: Any]?, inactiveAttributes: [NSAttributedString.Key: Any]?, linkTappedBlock: NantesLabel.LinkTappedBlock?, result: NSTextCheckingResult?, text: String?) {
             self.attributes = attributes ?? [:]
             self.activeAttributes = activeAttributes ?? [:]
@@ -103,7 +102,7 @@ public extension NSAttributedString.Key {
     open var activeLinkAttributes: [NSAttributedString.Key: Any]?
 
     /// A token to use when the label is truncated in height. Defaults to "\u{2026}" which is "…"
-    @IBInspectable open var attributedTruncationToken: NSAttributedString?
+    open var attributedTruncationToken: NSAttributedString?
 
     /// Handling for touch events after touchesEnded
     /// Warning: Will not be called if `labelTappedBlock` is supplied
@@ -148,7 +147,7 @@ public extension NSAttributedString.Key {
     /// nil or [:] will add no styling
     @IBInspectable open var inactiveLinkAttributes: [NSAttributedString.Key: Any]?
 
-    /// Floating point number in points; amount to modify default kerning. 0 means kerning is disabled. nil uses default kerning
+    /// Floating point number in points; amount to modify default kerning. 0 means kerning is disabled. 0 is the default.
     @IBInspectable open var kern: CGFloat = 0
 
     /// Block to run whenever the label is tapped. Triggered on touchesEnded.
