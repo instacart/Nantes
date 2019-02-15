@@ -66,7 +66,7 @@ public extension NSAttributedString.Key {
         public var linkTappedBlock: NantesLabel.LinkTappedBlock?
         public var result: NSTextCheckingResult?
         public var text: String?
-        
+
         public init(attributes: [NSAttributedString.Key: Any]?, activeAttributes: [NSAttributedString.Key: Any]?, inactiveAttributes: [NSAttributedString.Key: Any]?, linkTappedBlock: NantesLabel.LinkTappedBlock?, result: NSTextCheckingResult?, text: String?) {
             self.attributes = attributes ?? [:]
             self.activeAttributes = activeAttributes ?? [:]
