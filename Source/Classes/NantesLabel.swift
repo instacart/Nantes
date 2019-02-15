@@ -58,7 +58,7 @@ public extension NSAttributedString.Key {
     public static let nantesLabelStrikeOut: NSAttributedString.Key = .init("NantesLabelStrikeOutAttribute")
 }
 
-open class NantesLabel: UILabel {
+@IBDesignable open class NantesLabel: UILabel {
     public struct Link: Equatable {
         public var attributes: [NSAttributedString.Key: Any]
         public var activeAttributes: [NSAttributedString.Key: Any]
