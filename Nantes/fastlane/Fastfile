@@ -20,4 +20,8 @@ platform :ios do
   lane :test do
     scan(scheme: "Nantes")
   end
+
+  lane :lint do
+    swiftlint()
+  end
 end

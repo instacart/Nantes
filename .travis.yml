@@ -4,4 +4,5 @@ cache: bundler
 before_script:
   cd Nantes; bundle install
 script:
+  - bundle exec fastlane lint
   - bundle exec fastlane ios test

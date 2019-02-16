@@ -21,6 +21,11 @@ or alternatively using `brew cask install fastlane`
 fastlane ios test
 ```
 Runs Nantes tests
+### ios lint
+```
+fastlane ios lint
+```
+
 
 ----
 
