@@ -145,7 +145,7 @@ public extension NSAttributedString.Key {
 
     /// NSAttributedString attributes used to style inactive links
     /// nil or [:] will add no styling
-    @IBInspectable open var inactiveLinkAttributes: [NSAttributedString.Key: Any]?
+    open var inactiveLinkAttributes: [NSAttributedString.Key: Any]?
 
     /// Floating point number in points; amount to modify default kerning. 0 means kerning is disabled. 0 is the default.
     @IBInspectable open var kern: CGFloat = 0
@@ -575,7 +575,7 @@ public extension NSAttributedString.Key {
 
         for link in links {
             let attributes = link.attributes
-            
+
             guard let range = link.result?.range else {
                 continue
             }
