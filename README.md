@@ -22,7 +22,7 @@ it, add the following line to your `Cartfile`:
 github "instacart/nantes"
 ```
 
-### Cocoapods
+### CocoaPods
 
 Nantes is available through [CocoaPods](https://cocoapods.org). To install
 it, simply add the following line to your Podfile:
