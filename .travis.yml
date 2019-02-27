@@ -3,5 +3,5 @@ osx_image: xcode10.1
 cache: bundler
 install: bundle install
 script:
-  - swift run swiftlint --strict
+  - swift run swiftlint --strict --quiet
   - bundle exec fastlane ios test

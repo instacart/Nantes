@@ -111,7 +111,7 @@
 				438D159E21FFBFCA0001E86B /* Sources */,
 				438D159F21FFBFCA0001E86B /* Frameworks */,
 				438D15A021FFBFCA0001E86B /* Resources */,
-				431D2B4722178C53000184FA /* ShellScript */,
+				431D2B4722178C53000184FA /* Lint */,
 			);
 			buildRules = (
 			);
@@ -195,22 +195,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		431D2B4722178C53000184FA /* ShellScript */ = {
+		431D2B4722178C53000184FA /* Lint */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			files = (
 			);
 			inputFileListPaths = (
 			);
 			inputPaths = (
 			);
+			name = Lint;
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "swift run swiftlint --path ..\n";
+			shellScript = "swift run swiftlint --path .. --strict --quiet\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
