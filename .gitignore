@@ -42,8 +42,11 @@ Configs/*.private.xcconfig
 InstacartTests/FailureDiffs
 
 #Fastlane
-Nantes/fastlane/report.xml
-Nantes/fastlane/test_output/*
+*fastlane/report.xml
+*fastlane/test_output/*
 
 #Vim
 *.swp
+
+#SPM
+.build/*

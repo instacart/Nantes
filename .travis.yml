@@ -1,8 +1,10 @@
 language: swift
 osx_image: xcode10.1
-cache: bundler
-before_script:
-  cd Nantes; bundle install
+cache:
+  bundler: true
+  directories:
+    - .build
+install: bundle install
 script:
-  - bundle exec fastlane lint
+  - swift run swiftlint --strict --quiet
   - bundle exec fastlane ios test

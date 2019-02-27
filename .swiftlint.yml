@@ -17,24 +17,14 @@ opt_in_rules:
 disabled_rules:
   - file_length
   - line_length
-  - trailing_comma
-  - switch_case_alignment
-  - discarded_notification_center_observer
   - identifier_name
   - cyclomatic_complexity
   - type_body_length
   - function_body_length
   - type_name
-  - multiple_closures_with_trailing_closure
-  - notification_center_detachment
   - todo
-  - nesting
-  - syntactic_sugar
-  - legacy_hashing
+  - unused_setter_value
 
 included:
-  - ../Source
+  - Source
 
-excluded: # paths to ignore during linting. Takes precedence over `included`.
-  - NantesTests
-  - build
