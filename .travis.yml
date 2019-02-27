@@ -1,6 +1,9 @@
 language: swift
 osx_image: xcode10.1
-cache: bundler
+cache:
+  bundler: true
+  directories:
+    - .build
 install: bundle install
 script:
   - swift run swiftlint --strict --quiet
