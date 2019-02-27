@@ -13,29 +13,41 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="NantesApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Nantes_Example" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="VqB-WZ-ecC">
-                                <rect key="frame" x="8" y="32" width="359" height="20.5"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="82x-2V-lMc">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aGh-S4-y8W" customClass="NantesLabel" customModule="Nantes">
-                                        <rect key="frame" x="0.0" y="0.0" width="33.5" height="20.5"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="VqB-WZ-ecC">
+                                        <rect key="frame" x="8" y="8" width="359" height="21"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aGh-S4-y8W" customClass="NantesLabel" customModule="Nantes">
+                                                <rect key="frame" x="0.0" y="0.0" width="34" height="21"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
                                 </subviews>
-                            </stackView>
+                                <constraints>
+                                    <constraint firstItem="VqB-WZ-ecC" firstAttribute="top" secondItem="82x-2V-lMc" secondAttribute="top" constant="8" id="7je-qT-Xzu"/>
+                                    <constraint firstItem="VqB-WZ-ecC" firstAttribute="leading" secondItem="82x-2V-lMc" secondAttribute="leading" constant="8" id="FZT-Yo-Fal"/>
+                                    <constraint firstAttribute="bottom" secondItem="VqB-WZ-ecC" secondAttribute="bottom" id="LqL-WF-THW"/>
+                                    <constraint firstAttribute="trailing" secondItem="VqB-WZ-ecC" secondAttribute="trailing" constant="8" id="cbe-fQ-CsC"/>
+                                    <constraint firstItem="VqB-WZ-ecC" firstAttribute="width" secondItem="82x-2V-lMc" secondAttribute="width" constant="-16" id="niL-Hd-2Kk"/>
+                                </constraints>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="VqB-WZ-ecC" firstAttribute="height" relation="lessThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="height" id="Y3z-hk-Rei"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="VqB-WZ-ecC" secondAttribute="trailing" constant="8" id="nl8-o8-UwT"/>
-                            <constraint firstItem="VqB-WZ-ecC" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="12" id="rYO-s1-1Qr"/>
-                            <constraint firstItem="VqB-WZ-ecC" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="yFT-4C-hMB"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="82x-2V-lMc" secondAttribute="trailing" id="GUE-Wx-Gur"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="82x-2V-lMc" secondAttribute="bottom" id="Pg1-lZ-K7f"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="82x-2V-lMc" secondAttribute="top" id="czR-Ck-hkz"/>
+                            <constraint firstItem="82x-2V-lMc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="dEJ-QS-WHZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
