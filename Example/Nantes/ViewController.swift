@@ -32,6 +32,7 @@ final class ViewController: UIViewController {
         case truncatedLinkText = "Truncated link text with a longer body so we'll truncate it\nMaybe a newline for good measure"
         case transitInfo = "UA450"
         case privacyPolicyText = "By creating an account, you agree to our\nTerms of Service and Privacy Policy"
+        case linespace = "Test string with font and linespace set with some extra content in there so it'll wrap around and have multiple lines"
     }
 
     private var strings: [String] = []
@@ -62,6 +63,8 @@ final class ViewController: UIViewController {
         setupStrokedLabel()
         setupTruncatedAttributedToken()
         setupPrivacyPolicyLabel()
+        setupLineSpace()
+        setupUILabelLineSpace()
     }
 
     private func setupTitleLabel() {
@@ -243,6 +246,27 @@ final class ViewController: UIViewController {
         ]
         label.addLink(to: URL(string: "https://www.instacart.com")!, withRange: (text as NSString).range(of: "Terms of Service"))
         label.addLink(to: URL(string: "https://www.google.com")!, withRange: (text as NSString).range(of: "Privacy Policy"))
+        labelStackView.addArrangedSubview(label)
+    }
+
+    private func setupLineSpace() {
+        let label: NantesLabel = .init(frame: .zero)
+        label.numberOfLines = 0
+        label.lineSpacing = 40
+        label.font = .systemFont(ofSize: 14.0)
+        label.text = ExampleString.linespace.rawValue
+
+        labelStackView.addArrangedSubview(label)
+    }
+
+    private func setupUILabelLineSpace() {
+        let label: UILabel = .init(frame: .zero)
+        label.numberOfLines = 0
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 40
+        let attributedText = NSAttributedString(string: ExampleString.linespace.rawValue, attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0)])
+        label.attributedText = attributedText
+
         labelStackView.addArrangedSubview(label)
     }
 }

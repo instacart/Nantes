@@ -309,11 +309,18 @@ public extension NSAttributedString.Key {
         get {
             return _attributedText
         } set {
-            guard newValue != _attributedText else {
+            let attributes = NSAttributedString.attributes(from: self)
+            guard let updatedText = newValue?.mutableCopy() as? NSMutableAttributedString else {
                 return
             }
 
-            _attributedText = newValue
+            updatedText.addAttributes(attributes, range: NSRange(location: 0, length: updatedText.length))
+
+            guard updatedText != _attributedText else {
+                return
+            }
+
+            _attributedText = updatedText
             setNeedsFramesetter()
             _accessibilityElements = nil
             linkModels = []
