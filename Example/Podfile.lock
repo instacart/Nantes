@@ -1,5 +1,5 @@
 PODS:
-  - Nantes (0.0.4)
+  - Nantes (0.0.6)
 
 DEPENDENCIES:
   - Nantes (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Nantes: f7f93de5a749e62f7367f93d2c0f15f4c6dabf09
+  Nantes: 51aca87ec9cebf6141711d6cc2c3d322a613e102
 
 PODFILE CHECKSUM: 1c8633395754df792140631cc4cd6cb86ec7966b
 
