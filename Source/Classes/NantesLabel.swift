@@ -309,18 +309,11 @@ public extension NSAttributedString.Key {
         get {
             return _attributedText
         } set {
-            let attributes = NSAttributedString.attributes(from: self)
-            guard let updatedText = newValue?.mutableCopy() as? NSMutableAttributedString else {
+            guard newValue != _attributedText else {
                 return
             }
 
-            updatedText.addAttributes(attributes, range: NSRange(location: 0, length: updatedText.length))
-
-            guard updatedText != _attributedText else {
-                return
-            }
-
-            _attributedText = updatedText
+            _attributedText = newValue
             setNeedsFramesetter()
             _accessibilityElements = nil
             linkModels = []
@@ -541,6 +534,17 @@ public extension NSAttributedString.Key {
     }
 
     // MARK: - Public
+
+    public func setAttributedText(_ attributedString: NSAttributedString, afterInheritingLabelAttributesAndConfiguringWithBlock block: ((NSMutableAttributedString) -> NSMutableAttributedString)?) {
+        var mutableAttributedString = NSMutableAttributedString(attributedString: attributedString)
+        mutableAttributedString.addAttributes(NSAttributedString.attributes(from: self), range: NSRange(location: 0, length: attributedString.length))
+
+        if let block = block {
+            mutableAttributedString = block(mutableAttributedString)
+        }
+
+        attributedText = mutableAttributedString
+    }
 
     /// Adds a single link
     open func addLink(_ link: NantesLabel.Link) {

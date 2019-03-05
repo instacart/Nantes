@@ -151,6 +151,86 @@ final class NantesLabelTests: XCTestCase {
         XCTAssertTrue(size == CGSize(width: 55.0, height: 15.0))
     }
 
+    func testAttributedStringPropertiesStay() {
+        let paragraphStyle = getParagraphStyle()
+        let attributedString = NSAttributedString(string: "Test string with properties", attributes: [.paragraphStyle: paragraphStyle, .kern: 30])
+        addPropertiesToLabel(&label)
+
+        label.attributedText = attributedString
+
+        let updatedParagraphStyle = label.attributedText!.attribute(.paragraphStyle, at: 0, effectiveRange: nil) as! NSParagraphStyle
+        let updatedKern = label.attributedText!.attribute(.kern, at: 0, effectiveRange: nil) as! NSNumber
+
+        XCTAssertEqual(updatedParagraphStyle.lineSpacing, 20)
+        XCTAssertEqual(updatedParagraphStyle.minimumLineHeight, 30)
+        XCTAssertEqual(updatedParagraphStyle.maximumLineHeight, 40)
+        XCTAssertEqual(updatedKern.intValue, 30)
+    }
+
+    func testAttributedStringPropertiesUpdate() {
+        let paragraphStyle = getParagraphStyle()
+        let attributedString = NSAttributedString(string: "Test string with properties", attributes: [.paragraphStyle: paragraphStyle, .kern: 30])
+        addPropertiesToLabel(&label)
+
+        label.setAttributedText(attributedString, afterInheritingLabelAttributesAndConfiguringWithBlock: nil)
+
+        let updatedParagraphStyle = label.attributedText!.attribute(.paragraphStyle, at: 0, effectiveRange: nil) as! NSParagraphStyle
+        let updatedKern = label.attributedText!.attribute(.kern, at: 0, effectiveRange: nil) as! NSNumber
+
+        XCTAssertEqual(updatedParagraphStyle.lineSpacing, 21)
+        XCTAssertEqual(updatedParagraphStyle.minimumLineHeight, 31)
+        XCTAssertEqual(updatedParagraphStyle.maximumLineHeight, 41)
+        XCTAssertEqual(updatedKern.intValue, 31)
+    }
+
+    func testAttributedStringPropertiesUpdateWithBlock() {
+        let paragraphStyle = getParagraphStyle()
+        let attributedString = NSAttributedString(string: "Test string with properties", attributes: [.paragraphStyle: paragraphStyle, .kern: 30])
+        addPropertiesToLabel(&label)
+
+        let promise = expectation(description: "waiting for attributes to be set")
+
+        label.setAttributedText(attributedString) { mutableString -> NSMutableAttributedString in
+            defer {
+                promise.fulfill()
+            }
+            let range = NSRange(location: 0, length: mutableString.length)
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineSpacing = 22
+            paragraphStyle.minimumLineHeight = 32
+            paragraphStyle.maximumLineHeight = 42
+
+            mutableString.addAttribute(.paragraphStyle, value: paragraphStyle, range: range)
+            mutableString.addAttribute(.kern, value: 32, range: range)
+            return mutableString
+        }
+
+        XCTWaiter().wait(for: [promise], timeout: 2)
+
+        let updatedParagraphStyle = label.attributedText!.attribute(.paragraphStyle, at: 0, effectiveRange: nil) as! NSParagraphStyle
+        let updatedKern = label.attributedText!.attribute(.kern, at: 0, effectiveRange: nil) as! NSNumber
+
+        XCTAssertEqual(updatedParagraphStyle.lineSpacing, 22)
+        XCTAssertEqual(updatedParagraphStyle.minimumLineHeight, 32)
+        XCTAssertEqual(updatedParagraphStyle.maximumLineHeight, 42)
+        XCTAssertEqual(updatedKern.intValue, 32)
+    }
+
+    private func addPropertiesToLabel(_ label: inout NantesLabel) {
+        label.lineSpacing = 21
+        label.minimumLineHeight = 31
+        label.maximumLineHeight = 41
+        label.kern = 31
+    }
+
+    private func getParagraphStyle() -> NSParagraphStyle {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 20
+        paragraphStyle.minimumLineHeight = 30
+        paragraphStyle.maximumLineHeight = 40
+        return paragraphStyle
+    }
+
     private func addLink(_ link: NSAttributedString, to label: NantesLabel) {
         let dataDetector = try! NSDataDetector(types: label.enabledTextCheckingTypes.rawValue)
         let result = dataDetector.matches(in: link.string, options: .withTransparentBounds, range: NSRange(location: 0, length: link.length)).first
