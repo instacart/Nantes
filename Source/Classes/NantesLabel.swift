@@ -535,6 +535,13 @@ public extension NSAttributedString.Key {
 
     // MARK: - Public
 
+    /// Use this setter when you want to set attributes on NantesLabel before setting attributedText and have the properties get copied over
+    /// This will overwrite properties set on the attributedString passed in, if they're set on NantesLabel. Use `attributedText` if you want
+    /// to keep the properties inside attributedString
+    ///
+    /// More info:
+    /// Check out the `testAttributedStringPropertiesUpdate` test and `testAttributedStringPropertiesUpdateWithBlock` and compare them against
+    /// `testAttributedStringPropertiesStay` for expected behavior against the functions
     public func setAttributedText(_ attributedString: NSAttributedString, afterInheritingLabelAttributesAndConfiguringWithBlock block: ((NSMutableAttributedString) -> NSMutableAttributedString)?) {
         var mutableAttributedString = NSMutableAttributedString(attributedString: attributedString)
         mutableAttributedString.addAttributes(NSAttributedString.attributes(from: self), range: NSRange(location: 0, length: attributedString.length))
