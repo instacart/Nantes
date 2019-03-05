@@ -309,18 +309,11 @@ public extension NSAttributedString.Key {
         get {
             return _attributedText
         } set {
-            let attributes = NSAttributedString.attributes(from: self)
-            guard let updatedText = newValue?.mutableCopy() as? NSMutableAttributedString else {
+            guard newValue != _attributedText else {
                 return
             }
 
-            updatedText.addAttributes(attributes, range: NSRange(location: 0, length: updatedText.length))
-
-            guard updatedText != _attributedText else {
-                return
-            }
-
-            _attributedText = updatedText
+            _attributedText = newValue
             setNeedsFramesetter()
             _accessibilityElements = nil
             linkModels = []
@@ -541,6 +534,24 @@ public extension NSAttributedString.Key {
     }
 
     // MARK: - Public
+
+    /// Use this setter when you want to set attributes on NantesLabel before setting attributedText and have the properties get copied over
+    /// This will overwrite properties set on the attributedString passed in, if they're set on NantesLabel. Use `attributedText` if you want
+    /// to keep the properties inside attributedString
+    ///
+    /// More info:
+    /// Check out the `testAttributedStringPropertiesUpdate` test and `testAttributedStringPropertiesUpdateWithBlock` and compare them against
+    /// `testAttributedStringPropertiesStay` for expected behavior against the functions
+    public func setAttributedText(_ attributedString: NSAttributedString, afterInheritingLabelAttributesAndConfiguringWithBlock block: ((NSMutableAttributedString) -> NSMutableAttributedString)?) {
+        var mutableAttributedString = NSMutableAttributedString(attributedString: attributedString)
+        mutableAttributedString.addAttributes(NSAttributedString.attributes(from: self), range: NSRange(location: 0, length: attributedString.length))
+
+        if let block = block {
+            mutableAttributedString = block(mutableAttributedString)
+        }
+
+        attributedText = mutableAttributedString
+    }
 
     /// Adds a single link
     open func addLink(_ link: NantesLabel.Link) {

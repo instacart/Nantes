@@ -211,7 +211,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "swift run swiftlint --path .. --strict --quiet\n";
+			shellScript = "if [ -z \"$CARTHAGE\" ]\nthen\n    swift run swiftlint --path .. --strict --quiet\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
