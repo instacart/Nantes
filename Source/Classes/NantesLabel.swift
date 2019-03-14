@@ -491,7 +491,9 @@ public extension NSAttributedString.Key {
     override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first,
             let activeLink = link(at: touch.location(in: self)) else {
-                super.touchesBegan(touches, with: event)
+                if labelTappedBlock == nil {
+                    super.touchesBegan(touches, with: event)
+                }
                 return
         }
 
