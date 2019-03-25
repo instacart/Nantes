@@ -13,6 +13,7 @@ public protocol NantesLabelDelegate: class {
     func attributedLabel(_ label: NantesLabel, didSelectPhoneNumber phoneNumber: String)
     func attributedLabel(_ label: NantesLabel, didSelectTextCheckingResult result: NSTextCheckingResult)
     func attributedLabel(_ label: NantesLabel, didSelectTransitInfo transitInfo: [NSTextCheckingKey: String])
+    func attributedLabel(_ label: NantesLabel, didChangeTruncationFrom oldValue: Bool, to newValue: Bool)
 }
 
 public extension NantesLabelDelegate {
@@ -22,6 +23,7 @@ public extension NantesLabelDelegate {
     func attributedLabel(_ label: NantesLabel, didSelectPhoneNumber phoneNumber: String) { }
     func attributedLabel(_ label: NantesLabel, didSelectTextCheckingResult result: NSTextCheckingResult) { }
     func attributedLabel(_ label: NantesLabel, didSelectTransitInfo transitInfo: [NSTextCheckingKey: String]) { }
+    func attributedLabel(_ label: NantesLabel, didChangeTruncationFrom oldValue: Bool, to newValue: Bool) { }
 }
 
 private class NantesLabelAccessibilityElement: UIAccessibilityElement {
@@ -180,6 +182,14 @@ public extension NSAttributedString.Key {
     /// Vertical alignment of the text within its frame
     /// defaults to .center
     open var verticalAlignment: NantesLabel.VerticalAlignment = .center
+
+    /// Displays whether there is currently any text that is being hidden by the line truncation.  This only updates
+    /// after drawing the text occurs so it may not be accurate immediately after setting the text.
+    public private(set) var showsFullText = false {
+        didSet {
+            delegate?.attributedLabel(self, didChangeTruncationFrom: oldValue, to: showsFullText)
+        }
+    }
 
     // MARK: - Private constants
 
@@ -767,6 +777,7 @@ public extension NSAttributedString.Key {
         var lineOrigins: [CGPoint] = .init(repeating: .zero, count: numberOfLines)
         CTFrameGetLineOrigins(frame, CFRangeMake(0, numberOfLines), &lineOrigins)
 
+        var isTruncated = false
         for lineIndex in 0..<lineOrigins.count {
             let lineOrigin = lineOrigins[lineIndex]
             context.textPosition = lineOrigin
@@ -783,6 +794,7 @@ public extension NSAttributedString.Key {
                 !(lastLineRange.length == 0 && lastLineRange.location == 0) &&
                 lastLineRange.location + lastLineRange.length < textRange.location + textRange.length {
                 let truncationDrawingContext = TruncationDrawingContext(attributedString: attributedString, context: context, descent: descent, lastLineRange: lastLineRange, lineOrigin: lineOrigin, numberOfLines: numberOfLines, rect: rect)
+                isTruncated = true
                 drawTruncation(truncationDrawingContext)
             } else { // otherwise normal drawing here
                 let penOffset = CGFloat(CTLineGetPenOffsetForFlush(line, flushFactor, Double(rect.size.width)))
@@ -791,7 +803,7 @@ public extension NSAttributedString.Key {
                 CTLineDraw(line, context)
             }
         }
-
+        showsFullText = !isTruncated
         drawStrike(frame: frame, inRect: rect, context: context)
     }
 
