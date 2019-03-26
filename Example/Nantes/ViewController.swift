@@ -26,7 +26,7 @@ final class ViewController: UIViewController {
         case shadow = "Shadowed Text"
         case stroked = "Stroked text"
         case struckOut = "this is struck out text"
-        case title = "Title text: Long title that will wrap so we can see some truncated text and expand it on taps on this label.\nWith some new lines."
+        case title = "Title text: Long title that will wrap so we can see some truncated text and expand it on taps on this label. Other text that's long and interesting as well.\nWith some new lines."
         case topAlignment = "Top Alignment"
         case truncatedLink = "http://www.more.com"
         case truncatedLinkText = "Truncated link text with a longer body so we'll truncate it\nMaybe a newline for good measure"
@@ -67,7 +67,7 @@ final class ViewController: UIViewController {
     }
 
     private func setupTitleLabel() {
-        titleLabel.attributedTruncationToken = NSAttributedString(string: "... more")
+        titleLabel.attributedTruncationToken = NSAttributedString(string: "...\ntap for more")
         titleLabel.numberOfLines = 3
         titleLabel.labelTappedBlock = { [weak self] in
             guard let self = self else { return }

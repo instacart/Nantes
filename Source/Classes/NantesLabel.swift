@@ -177,6 +177,15 @@ public extension NSAttributedString.Key {
     /// The shadow blur radius for the label. 0 indicates no blur, larger values indicate more blur. This can't be a negative value
     @IBInspectable open var shadowRadius: CGFloat = 0.0
 
+    public var showsFullText: Bool {
+        let attributedText = self.attributedText ?? NSAttributedString(string: self.text ?? "", attributes: NSAttributedString.attributes(from: self))
+
+        let size = CGSize(width: frame.size.width, height: .greatestFiniteMagnitude)
+        let framesetter = CTFramesetterCreateWithAttributedString(attributedText)
+        let suggestedSize = NantesLabel.suggestFrameSize(for: attributedText, framesetter: framesetter, withSize: size, numberOfLines: 0)
+        return frame.height >= suggestedSize.height
+    }
+
     /// Vertical alignment of the text within its frame
     /// defaults to .center
     open var verticalAlignment: NantesLabel.VerticalAlignment = .center
@@ -756,14 +765,92 @@ public extension NSAttributedString.Key {
         path.addRect(rect)
         let frame = CTFramesetterCreateFrame(framesetter, textRange, path, nil)
 
-        drawBackground(frame, inRect: rect, context: context)
-
-        guard let lines = CTFrameGetLines(frame) as [AnyObject] as? [CTLine] else {
+        guard var lines = CTFrameGetLines(frame) as [AnyObject] as? [CTLine] else {
             return
         }
 
+        // We don't want to handle truncation for lineBreakModes .byWordWrapping, .byCharWrapping, or .byClipping
+        let shouldHandleTruncation = lineBreakMode == .byTruncatingHead || lineBreakMode == .byTruncatingMiddle || lineBreakMode == .byTruncatingTail
+
+        // If we have more lines than number of lines, we should paint truncation
+        let hasExtraLines = self.numberOfLines != 0 && self.numberOfLines < lines.count
+
+        // If our last line's range is less than our total strings range, we should paint truncation
+        guard let lastLine = lines.last else {
+            return
+        }
+        let lastLineRange = NSRange(range: CTLineGetStringRange(lastLine))
+        let isPaintingTruncatedString = lastLineRange.location + lastLineRange.length < textRange.location + textRange.length
+
+        // TODO: Chris - Break this function out
+        if shouldHandleTruncation && (hasExtraLines || isPaintingTruncatedString) {
+            var lineBreakMode = self.lineBreakMode
+
+            if self.numberOfLines != 1 {
+                lineBreakMode = .byTruncatingTail
+            }
+
+            // TODO: Chris - Fix the position here, we should be copying from where we're truncating, not from the end of the string
+            let truncationAttributePosition = attributedString.length - 1
+            // This should never be nil, is there a better way to write this?
+            if attributedTruncationToken == nil {
+                let truncationTokenString = "\u{2026}" // … unicode
+                let truncationTokenStringAttributes = attributedString.attributes(at: truncationAttributePosition, effectiveRange: nil)
+                attributedTruncationToken = NSAttributedString(string: truncationTokenString, attributes: truncationTokenStringAttributes)
+            }
+
+            guard let attributedTruncationString = attributedTruncationToken else {
+                // TODO: Chris - We don't want to break out of all our drawing if something like this goes wrong, probably just the truncation drawing
+                return
+            }
+
+            // We need a framesetter to draw truncation tokens that have newlines inside them
+            let tokenFramesetter = CTFramesetterCreateWithAttributedString(attributedTruncationString)
+            let tokenFrame = CTFramesetterCreateFrame(tokenFramesetter, CFRange(location: 0, length: attributedTruncationString.length), path, nil)
+            guard let tokenLines = CTFrameGetLines(tokenFrame) as [AnyObject] as? [CTLine] else {
+                // TODO: Chris - We don't want to break out of all our drawing if something like this goes wrong, probably just the truncation drawing
+                return
+            }
+
+            guard tokenLines.count <= lines.count else {
+                // TODO: Chris - We don't want to break out of all our drawing if something like this goes wrong, probably just the truncation drawing
+                print("The truncation token supplied is bigger than the text inside the label, consider a shorter truncation token, otherwise all we're painting here is truncation info")
+                return
+            }
+
+            // Walk across all the lines of truncation, replacing lines starting with our last line - the number of truncation token lines we have
+            // the first line we replace, we'll truncate it, after that, we 100% replace lines of the original string with truncation lines
+            for (index, tokenLine) in tokenLines.enumerated() {
+                let originalIndex = self.numberOfLines - tokenLines.count + index
+
+                // We want to replace every other line besides the first truncated line completely with the lines from the truncation token
+                guard index == 0 else {
+                    lines[originalIndex] = tokenLine
+                    continue
+                }
+
+                let originalLine = lines[originalIndex]
+                let originalRange = NSRange(range: CTLineGetStringRange(originalLine))
+                let originalString = NSMutableAttributedString(attributedString: attributedString.attributedSubstring(from: originalRange))
+
+                let truncation = truncationInfo(from: originalRange.location, length: originalRange.length, for: lineBreakMode)
+
+                let tokenRange = NSRange(range: CTLineGetStringRange(tokenLine))
+                let tokenString = attributedTruncationString.attributedSubstring(from: tokenRange)
+                originalString.append(tokenString)
+
+                let truncationLine = CTLineCreateWithAttributedString(originalString)
+
+                // CTLineCreateTruncatedLine will return nil if the truncation token is wider than the width, so we fallback to using the full truncation token
+                let truncatedLine: CTLine = CTLineCreateTruncatedLine(truncationLine, Double(rect.width), truncation.type, tokenLine) ?? tokenLine
+
+                lines[originalIndex] = truncatedLine
+            }
+        }
+
+        drawBackground(frame, inRect: rect, context: context)
+
         let numberOfLines = self.numberOfLines > 0 ? min(self.numberOfLines, lines.count) : lines.count
-        let truncateLastLine = lineBreakMode == .byTruncatingHead || lineBreakMode == .byTruncatingMiddle || lineBreakMode == .byTruncatingTail
 
         var lineOrigins: [CGPoint] = .init(repeating: .zero, count: numberOfLines)
         CTFrameGetLineOrigins(frame, CFRangeMake(0, numberOfLines), &lineOrigins)
@@ -776,21 +863,10 @@ public extension NSAttributedString.Key {
             var descent: CGFloat = 0.0
             CTLineGetTypographicBounds(line, nil, &descent, nil)
 
-            let lastLineRange = CTLineGetStringRange(line)
-
-            // Checking to see if we're at the end of our text and that we should truncate since we have no more room to work with
-            if lineIndex == numberOfLines - 1 &&
-                truncateLastLine &&
-                !(lastLineRange.length == 0 && lastLineRange.location == 0) &&
-                lastLineRange.location + lastLineRange.length < textRange.location + textRange.length {
-                let truncationDrawingContext = TruncationDrawingContext(attributedString: attributedString, context: context, descent: descent, lastLineRange: lastLineRange, lineOrigin: lineOrigin, numberOfLines: numberOfLines, rect: rect)
-                drawTruncation(truncationDrawingContext)
-            } else { // otherwise normal drawing here
-                let penOffset = CGFloat(CTLineGetPenOffsetForFlush(line, flushFactor, Double(rect.size.width)))
-                let yOffset = lineOrigin.y - descent - font.descender
-                context.textPosition = CGPoint(x: penOffset, y: yOffset)
-                CTLineDraw(line, context)
-            }
+            let penOffset = CGFloat(CTLineGetPenOffsetForFlush(line, flushFactor, Double(rect.size.width)))
+            let yOffset = lineOrigin.y - descent - font.descender
+            context.textPosition = CGPoint(x: penOffset, y: yOffset)
+            CTLineDraw(line, context)
         }
 
         drawStrike(frame: frame, inRect: rect, context: context)
@@ -975,69 +1051,6 @@ public extension NSAttributedString.Key {
 
             lineIndex += 1
         }
-    }
-
-    private func drawTruncation(_ truncationDrawingContext: TruncationDrawingContext) {
-        var lineBreakMode = self.lineBreakMode
-
-        if truncationDrawingContext.numberOfLines != 1 {
-            lineBreakMode = .byTruncatingTail
-        }
-
-        let truncation = truncationInfo(from: truncationDrawingContext.lastLineRange.location, length: truncationDrawingContext.lastLineRange.length, for: lineBreakMode)
-        let truncationAttributePosition = truncation.position
-        let truncationType = truncation.type
-
-        if attributedTruncationToken == nil {
-            let truncationTokenString = "\u{2026}" // … unicode
-            let truncationTokenStringAttributes = truncationDrawingContext.attributedString.attributes(at: truncationAttributePosition, effectiveRange: nil)
-            attributedTruncationToken = NSAttributedString(string: truncationTokenString, attributes: truncationTokenStringAttributes)
-        }
-
-        guard let attributedTruncationString = attributedTruncationToken else {
-            return
-        }
-
-        let truncationToken = CTLineCreateWithAttributedString(attributedTruncationString)
-
-        let lastLineRange = NSRange(location: truncationDrawingContext.lastLineRange.location, length: truncationDrawingContext.lastLineRange.length)
-        var truncationString = NSMutableAttributedString(attributedString: truncationDrawingContext.attributedString.attributedSubstring(from: lastLineRange))
-
-        truncationString = cleanUpLastNewlineCharIn(truncationString, at: truncationDrawingContext.lastLineRange.length) ?? truncationString
-
-        truncationString.append(attributedTruncationString)
-        let truncationLine = CTLineCreateWithAttributedString(truncationString)
-
-        var truncatedLine: CTLine? = CTLineCreateTruncatedLine(truncationLine, Double(truncationDrawingContext.rect.size.width), truncationType, truncationToken)
-        if truncatedLine == nil {
-            // if the line is not as wide as the truncationToken, truncatedLine is nil
-            truncatedLine = truncationToken
-        }
-
-        guard let line = truncatedLine else {
-            return
-        }
-
-        let penOffset = CGFloat(CTLineGetPenOffsetForFlush(line, flushFactor, Double(truncationDrawingContext.rect.size.width)))
-        let yDifference = truncationDrawingContext.lineOrigin.y - truncationDrawingContext.descent - font.descender
-        truncationDrawingContext.context.textPosition = CGPoint(x: penOffset, y: yDifference)
-
-        CTLineDraw(line, truncationDrawingContext.context)
-
-        var linkRange = NSRange(location: 0, length: 0)
-        guard attributedTruncationString.attribute(.link, at: 0, effectiveRange: &linkRange) != nil else {
-            return
-        }
-
-        let tokenRange = (truncationString.string as NSString).range(of: attributedTruncationString.string)
-        let tokenLinkRange = NSRange(location: (truncationDrawingContext.lastLineRange.location + truncationDrawingContext.lastLineRange.length) - tokenRange.length, length: tokenRange.length)
-
-        guard let urlString = attributedTruncationString.attribute(.link, at: 0, effectiveRange: &linkRange) as? String,
-            let url = URL(string: urlString) else {
-            return
-        }
-
-        addLink(to: url, withRange: tokenLinkRange)
     }
 
     private func handleLinkTapped(_ link: NantesLabel.Link) {
@@ -1332,5 +1345,11 @@ extension NSAttributedString {
                             }
         }
         return relinks
+    }
+}
+
+extension NSRange {
+    init(range: CFRange) {
+        self = NSRange(location: range.location == kCFNotFound ? NSNotFound : range.location, length: range.length)
     }
 }
