@@ -40,6 +40,7 @@ final class ViewController: UIViewController {
     @IBOutlet private weak var labelStackView: UIStackView!
 
     @IBOutlet private weak var titleLabel: NantesLabel!
+    private var nonTruncatedLabel: NantesLabel?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,6 +68,12 @@ final class ViewController: UIViewController {
         setupUILabelLineSpace()
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        print("layout call of title label showing full text: \(titleLabel.showsFullText)")
+        print("non-truncated label is showing full text: \(nonTruncatedLabel?.showsFullText == true)")
+    }
+
     private func setupTitleLabel() {
         titleLabel.attributedTruncationToken = NSAttributedString(string: "... more")
         titleLabel.numberOfLines = 3
@@ -76,10 +83,13 @@ final class ViewController: UIViewController {
 
             UIView.animate(withDuration: 0.2, animations: {
                 self.view.layoutIfNeeded()
+            }, completion: { [weak self] _ in
+                print("titleLabel shows full text after animation: \(self?.titleLabel.showsFullText == true)")
             })
         }
 
         titleLabel.text = ExampleString.title.rawValue
+        titleLabel.setNeedsLayout()
     }
 
     private func setupAddressLabel() {
@@ -87,6 +97,7 @@ final class ViewController: UIViewController {
         label.delegate = self
         label.linkAttributes = [NSAttributedString.Key.foregroundColor: UIColor.green]
         label.text = ExampleString.address.rawValue
+        nonTruncatedLabel = label
         labelStackView.addArrangedSubview(label)
     }
 

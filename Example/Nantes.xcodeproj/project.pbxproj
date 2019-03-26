@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		43CE203621FFBCF1006B3CE4 /* Nantes_ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43CE203521FFBCF1006B3CE4 /* Nantes_ExampleUITests.swift */; };
-		589663CCBC13D9F1B0549691 /* Pods_Nantes_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 578962B2E85377E6F8A72B14 /* Pods_Nantes_Example.framework */; };
+		43EEAFDB224A800D00ADAEEF /* Nantes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43EEAFD7224A7FE400ADAEEF /* Nantes.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -34,12 +34,26 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		43EEAFDA224A7FE500ADAEEF /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0F9BD747F15472788A5C0BD0 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		1CC3384FB231F3F3C9E9AFEE /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		43CE203321FFBCF1006B3CE4 /* Nantes_ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Nantes_ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		43CE203521FFBCF1006B3CE4 /* Nantes_ExampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nantes_ExampleUITests.swift; sourceTree = "<group>"; };
 		43CE203721FFBCF1006B3CE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		43EEAFD7224A7FE400ADAEEF /* Nantes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Nantes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		578962B2E85377E6F8A72B14 /* Pods_Nantes_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Nantes_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD01AFB9204008FA782 /* Nantes_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nantes_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -70,7 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				589663CCBC13D9F1B0549691 /* Pods_Nantes_Example.framework in Frameworks */,
+				43EEAFDB224A800D00ADAEEF /* Nantes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,6 +131,7 @@
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
+				43EEAFD7224A7FE400ADAEEF /* Nantes.framework */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACD21AFB9204008FA782 /* Example for Nantes */,
 				607FACE81AFB9204008FA782 /* Tests */,
@@ -215,6 +230,7 @@
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
 				956562D5C9604084E846FA32 /* [CP] Embed Pods Frameworks */,
+				43EEAFDA224A7FE500ADAEEF /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

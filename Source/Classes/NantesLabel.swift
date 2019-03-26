@@ -177,6 +177,15 @@ public extension NSAttributedString.Key {
     /// The shadow blur radius for the label. 0 indicates no blur, larger values indicate more blur. This can't be a negative value
     @IBInspectable open var shadowRadius: CGFloat = 0.0
 
+    public var showsFullText: Bool {
+        let attributedText = self.attributedText ?? NSAttributedString(string: self.text ?? "", attributes: NSAttributedString.attributes(from: self))
+
+        let size = CGSize(width: frame.size.width, height: .greatestFiniteMagnitude)
+        let framesetter = CTFramesetterCreateWithAttributedString(attributedText)
+        let suggestedSize = NantesLabel.suggestFrameSize(for: attributedText, framesetter: framesetter, withSize: size, numberOfLines: 0)
+        return frame.height >= suggestedSize.height
+    }
+
     /// Vertical alignment of the text within its frame
     /// defaults to .center
     open var verticalAlignment: NantesLabel.VerticalAlignment = .center

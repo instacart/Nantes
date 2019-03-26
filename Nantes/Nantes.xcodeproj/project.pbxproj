@@ -21,6 +21,27 @@
 			remoteGlobalIDString = 438D15A121FFBFCA0001E86B;
 			remoteInfo = Nantes;
 		};
+		43EEAFD1224A7FC600ADAEEF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43EEAFCB224A7FC600ADAEEF /* Nantes.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 607FACD01AFB9204008FA782;
+			remoteInfo = Nantes_Example;
+		};
+		43EEAFD3224A7FC600ADAEEF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43EEAFCB224A7FC600ADAEEF /* Nantes.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 607FACE51AFB9204008FA782;
+			remoteInfo = Nantes_Tests;
+		};
+		43EEAFD5224A7FC600ADAEEF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43EEAFCB224A7FC600ADAEEF /* Nantes.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 43CE203321FFBCF1006B3CE4;
+			remoteInfo = Nantes_ExampleUITests;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +52,7 @@
 		438D15B221FFBFCB0001E86B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		438D15C321FFC0560001E86B /* Nantes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Nantes.h; path = ../../Source/Classes/Nantes.h; sourceTree = "<group>"; };
 		438D15C421FFC0560001E86B /* NantesLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NantesLabel.swift; path = ../../Source/Classes/NantesLabel.swift; sourceTree = "<group>"; };
+		43EEAFCB224A7FC600ADAEEF /* Nantes.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nantes.xcodeproj; path = ../Example/Nantes.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +77,7 @@
 		438D159821FFBFCA0001E86B = {
 			isa = PBXGroup;
 			children = (
+				43EEAFCB224A7FC600ADAEEF /* Nantes.xcodeproj */,
 				438D15A421FFBFCA0001E86B /* Nantes */,
 				438D15AF21FFBFCB0001E86B /* NantesTests */,
 				438D15A321FFBFCA0001E86B /* Products */,
@@ -87,6 +110,16 @@
 				438D15B221FFBFCB0001E86B /* Info.plist */,
 			);
 			path = NantesTests;
+			sourceTree = "<group>";
+		};
+		43EEAFCC224A7FC600ADAEEF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				43EEAFD2224A7FC600ADAEEF /* Nantes_Example.app */,
+				43EEAFD4224A7FC600ADAEEF /* Nantes_Tests.xctest */,
+				43EEAFD6224A7FC600ADAEEF /* Nantes_ExampleUITests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -169,6 +202,12 @@
 			mainGroup = 438D159821FFBFCA0001E86B;
 			productRefGroup = 438D15A321FFBFCA0001E86B /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 43EEAFCC224A7FC600ADAEEF /* Products */;
+					ProjectRef = 43EEAFCB224A7FC600ADAEEF /* Nantes.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				438D15A121FFBFCA0001E86B /* Nantes */,
@@ -176,6 +215,30 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		43EEAFD2224A7FC600ADAEEF /* Nantes_Example.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Nantes_Example.app;
+			remoteRef = 43EEAFD1224A7FC600ADAEEF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		43EEAFD4224A7FC600ADAEEF /* Nantes_Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Nantes_Tests.xctest;
+			remoteRef = 43EEAFD3224A7FC600ADAEEF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		43EEAFD6224A7FC600ADAEEF /* Nantes_ExampleUITests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Nantes_ExampleUITests.xctest;
+			remoteRef = 43EEAFD5224A7FC600ADAEEF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		438D15A021FFBFCA0001E86B /* Resources */ = {
