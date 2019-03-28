@@ -215,6 +215,22 @@ final class NantesLabelTests: XCTestCase {
         XCTAssertEqual(updatedParagraphStyle.maximumLineHeight, 42)
         XCTAssertEqual(updatedKern.intValue, 32)
     }
+    
+    func testExistingAttributedLinksAreAddedAsNantesLinks() {
+        let testUrl = URL(string: "https://www.swiftjoe.com")!
+        let linkString = NSAttributedString(string: "Contains a link", attributes: [.link: testUrl])
+        
+        let promise = expectation(description: "waiting for attributes to be set")
+        XCTAssertTrue(label.linkModels.isEmpty)
+        label.attributedText = linkString
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            promise.fulfill()
+        }
+        
+        XCTWaiter().wait(for: [promise], timeout: 2)
+        XCTAssertFalse(label.linkModels.isEmpty)
+    }
 
     private func addPropertiesToLabel(_ label: inout NantesLabel) {
         label.lineSpacing = 21

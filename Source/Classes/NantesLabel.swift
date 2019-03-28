@@ -717,7 +717,7 @@ public extension NSAttributedString.Key {
             }
             let detectorResult = attributedText.findCheckingResults(usingDetector: dataDetector)
             let existingLinks = attributedText.findExistingLinks()
-            let results = detectorResult + existingLinks
+            let results = detectorResult.union(existingLinks)
 
             guard !results.isEmpty else {
                 return
@@ -728,7 +728,7 @@ public extension NSAttributedString.Key {
                     // The string changed, these results aren't useful
                     return
                 }
-                self?.addLinks(with: results, withAttributes: self?.linkAttributes)
+                self?.addLinks(with: Array(results), withAttributes: self?.linkAttributes)
             }
         }
     }
@@ -1315,20 +1315,20 @@ extension NSAttributedString {
         return copy
     }
 
-    func findCheckingResults(usingDetector dataDetector: NSDataDetector) -> [NSTextCheckingResult] {
-        return dataDetector.matches(in: string,
+    func findCheckingResults(usingDetector dataDetector: NSDataDetector) -> Set<NSTextCheckingResult> {
+        return Set(dataDetector.matches(in: string,
                                     options: .withTransparentBounds,
                                     range: NSRange(location: 0,
-                                                   length: length))
+                                                   length: length)))
     }
 
-    func findExistingLinks() -> [NSTextCheckingResult] {
-        var relinks: [NSTextCheckingResult] = []
+    func findExistingLinks() -> Set<NSTextCheckingResult> {
+        var relinks: Set<NSTextCheckingResult> = []
         enumerateAttribute(.link,
                            in: NSRange(location: 0, length: length),
                            options: []) { attribute, linkRange, _ in
                             if let url = attribute as? URL {
-                                relinks.append(NSTextCheckingResult.linkCheckingResult(range: linkRange, url: url))
+                                relinks.insert(NSTextCheckingResult.linkCheckingResult(range: linkRange, url: url))
                             }
         }
         return relinks
