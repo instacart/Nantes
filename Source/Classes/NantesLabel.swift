@@ -715,8 +715,10 @@ public extension NSAttributedString.Key {
             guard let dataDetector = self.dataDetector else {
                 return
             }
+            let detectorResult = attributedText.findCheckingResults(usingDetector: dataDetector)
+            let existingLinks = attributedText.findExistingLinks()
+            let results = detectorResult + existingLinks
 
-            let results = dataDetector.matches(in: attributedText.string, options: .withTransparentBounds, range: NSRange(location: 0, length: attributedText.length))
             guard !results.isEmpty else {
                 return
             }
@@ -726,7 +728,6 @@ public extension NSAttributedString.Key {
                     // The string changed, these results aren't useful
                     return
                 }
-
                 self?.addLinks(with: results, withAttributes: self?.linkAttributes)
             }
         }
@@ -1312,5 +1313,24 @@ extension NSAttributedString {
         }
 
         return copy
+    }
+
+    func findCheckingResults(usingDetector dataDetector: NSDataDetector) -> [NSTextCheckingResult] {
+        return dataDetector.matches(in: string,
+                                    options: .withTransparentBounds,
+                                    range: NSRange(location: 0,
+                                                   length: length))
+    }
+
+    func findExistingLinks() -> [NSTextCheckingResult] {
+        var relinks: [NSTextCheckingResult] = []
+        enumerateAttribute(.link,
+                           in: NSRange(location: 0, length: length),
+                           options: []) { (attribute, linkRange, _) in
+                            if let url = attribute as? URL {
+                                relinks.append(NSTextCheckingResult.linkCheckingResult(range: linkRange, url: url))
+                            }
+        }
+        return relinks
     }
 }
