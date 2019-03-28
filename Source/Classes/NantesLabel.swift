@@ -1326,7 +1326,7 @@ extension NSAttributedString {
         var relinks: [NSTextCheckingResult] = []
         enumerateAttribute(.link,
                            in: NSRange(location: 0, length: length),
-                           options: []) { (attribute, linkRange, _) in
+                           options: []) { attribute, linkRange, _ in
                             if let url = attribute as? URL {
                                 relinks.append(NSTextCheckingResult.linkCheckingResult(range: linkRange, url: url))
                             }
