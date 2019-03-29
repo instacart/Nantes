@@ -12,6 +12,7 @@ import XCTest
 final class AttributedStringExtensionTests: XCTestCase {
     
     private let testUrl = URL(string: "https://www.swiftjoe.com")!
+    
     func testReturnsLinksIfFoundInAttributedString() {
         let linkString = NSAttributedString(string: "Contains a link", attributes: [.link: testUrl])
         let existingLinks = linkString.findExistingLinks()
@@ -24,13 +25,13 @@ final class AttributedStringExtensionTests: XCTestCase {
             XCTFail()
             return
         }
-        do{
+        do {
             let attributedString = try NSAttributedString(data: data,
                                                           options: [.documentType: NSAttributedString.DocumentType.html,
                                                                     .characterEncoding: String.Encoding.utf8.rawValue],
                                                           documentAttributes: nil)
             let existingLinks = attributedString.findExistingLinks()
-            XCTAssertFalse(existingLinks.isEmpty)
+            XCTAssert(existingLinks.count == 1)
         } catch {
             XCTFail()
         }
@@ -58,7 +59,7 @@ final class AttributedStringExtensionTests: XCTestCase {
             let detector = try NSDataDetector(types: NantesLabel().enabledTextCheckingTypes.rawValue)
             let linkString = NSAttributedString(string: "867-5309")
             let checkingResults = linkString.findCheckingResults(usingDetector: detector)
-            XCTAssertFalse(checkingResults.isEmpty)
+            XCTAssert(checkingResults.count == 1)
         } catch {
             XCTFail()
         }
