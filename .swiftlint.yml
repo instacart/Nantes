@@ -27,4 +27,5 @@ disabled_rules:
 
 included:
   - Source
+  - Nantes/NantesTests
 
