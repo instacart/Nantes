@@ -218,35 +218,35 @@ final class NantesLabelTests: XCTestCase {
         XCTAssertEqual(updatedParagraphStyle.maximumLineHeight, 42)
         XCTAssertEqual(updatedKern.intValue, 32)
     }
-    
+
     func testExistingAttributedLinksAreAddedAsNantesLinks() {
         let testUrl = URL(string: "https://www.swiftjoe.com")!
         let linkString = NSAttributedString(string: "Contains a link", attributes: [.link: testUrl])
-        
+
         let promise = expectation(description: "waiting for attributes to be set")
         XCTAssertTrue(label.linkModels.isEmpty)
         label.attributedText = linkString
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             promise.fulfill()
         }
-        
+
         XCTWaiter().wait(for: [promise], timeout: 2)
         XCTAssertFalse(label.linkModels.isEmpty)
     }
-    
+
     func testMultipleLinksAreAdded() {
         let testUrl = URL(string: "https://www.instacart.com")!
         let linkString = NSMutableAttributedString(string: "Link 1", attributes: [.link: testUrl])
         linkString.append(NSAttributedString(string: "https://www.swiftjoe.com"))
         XCTAssertTrue(label.linkModels.isEmpty)
         label.attributedText = linkString
-        
+
         let promise = expectation(description: "waiting for attributes to be set")
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             promise.fulfill()
         }
-        
+
         XCTWaiter().wait(for: [promise], timeout: 2)
         XCTAssertTrue(label.linkModels.count == 2)
     }
