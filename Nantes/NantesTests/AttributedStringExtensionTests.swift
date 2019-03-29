@@ -12,7 +12,6 @@ import XCTest
 final class AttributedStringExtensionTests: XCTestCase {
 
     private let testUrl = URL(string: "https://www.swiftjoe.com")!
-
     func testReturnsLinksIfFoundInAttributedString() {
         let linkString = NSAttributedString(string: "Contains a link", attributes: [.link: testUrl])
         let existingLinks = linkString.findExistingLinks()
