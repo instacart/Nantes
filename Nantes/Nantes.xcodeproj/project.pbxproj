@@ -11,6 +11,7 @@
 		438D15B121FFBFCB0001E86B /* NantesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438D15B021FFBFCB0001E86B /* NantesTests.swift */; };
 		438D15C521FFC0560001E86B /* Nantes.h in Headers */ = {isa = PBXBuildFile; fileRef = 438D15C321FFC0560001E86B /* Nantes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		438D15C621FFC0560001E86B /* NantesLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438D15C421FFC0560001E86B /* NantesLabel.swift */; };
+		D27D90FF224D5B9C00290225 /* AttributedStringExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27D90FE224D5B9C00290225 /* AttributedStringExtensionTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,6 +32,7 @@
 		438D15B221FFBFCB0001E86B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		438D15C321FFC0560001E86B /* Nantes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Nantes.h; path = ../../Source/Classes/Nantes.h; sourceTree = "<group>"; };
 		438D15C421FFC0560001E86B /* NantesLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NantesLabel.swift; path = ../../Source/Classes/NantesLabel.swift; sourceTree = "<group>"; };
+		D27D90FE224D5B9C00290225 /* AttributedStringExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedStringExtensionTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 			children = (
 				438D15B021FFBFCB0001E86B /* NantesTests.swift */,
 				438D15B221FFBFCB0001E86B /* Info.plist */,
+				D27D90FE224D5B9C00290225 /* AttributedStringExtensionTests.swift */,
 			);
 			path = NantesTests;
 			sourceTree = "<group>";
@@ -228,6 +231,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D27D90FF224D5B9C00290225 /* AttributedStringExtensionTests.swift in Sources */,
 				438D15B121FFBFCB0001E86B /* NantesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
