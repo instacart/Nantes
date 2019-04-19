@@ -9,6 +9,7 @@ before_install:
   - brew outdated carthage || brew upgrade carthage
 install: bundle install
 before_script:
+  - cd Nantes
   - carthage bootstrap --platform iOS --no-use-binaries --cache-builds
 script:
   - swift run swiftlint --strict --quiet
