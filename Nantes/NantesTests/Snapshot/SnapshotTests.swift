@@ -34,7 +34,7 @@ final class SnapshotTests: XCTestCase {
         label.text = "123 Main st. Other text"
 
         waitForLinks(count: 1)
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     func testDate() {
@@ -43,7 +43,7 @@ final class SnapshotTests: XCTestCase {
         label.text = "Date: 08-27-2018"
 
         waitForLinks(count: 1)
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     func testLink() {
@@ -51,7 +51,7 @@ final class SnapshotTests: XCTestCase {
         label.text = "https://www.instacart.com"
 
         waitForLinks(count: 1)
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     func testOtherLinks() {
@@ -67,7 +67,7 @@ final class SnapshotTests: XCTestCase {
         }
 
         XCTAssertTrue(label.linkModels.count == 2)
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     func testPhoneNumber() {
@@ -76,7 +76,7 @@ final class SnapshotTests: XCTestCase {
         label.text = "555-555-5555"
 
         waitForLinks(count: 1)
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     func testTransit() {
@@ -85,7 +85,7 @@ final class SnapshotTests: XCTestCase {
         label.text = "UA450"
 
         waitForLinks(count: 1)
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     func testFancyLabel() {
@@ -93,7 +93,7 @@ final class SnapshotTests: XCTestCase {
         attributedText.append(NSAttributedString(string: "Struck text", attributes: [.nantesLabelStrikeOut: true]))
         label.attributedText = attributedText
 
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     func testHeadTruncated() {
@@ -101,7 +101,7 @@ final class SnapshotTests: XCTestCase {
         label.lineBreakMode = .byTruncatingHead
         label.text = "Longer text that will wrap and will get cut off because it can't have more than one line"
 
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     func testMiddleTruncated() {
@@ -109,7 +109,7 @@ final class SnapshotTests: XCTestCase {
         label.lineBreakMode = .byTruncatingMiddle
         label.text = "Longer text that will wrap and will get cut off because it can't have more than one line"
 
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     func testScaling() {
@@ -117,14 +117,14 @@ final class SnapshotTests: XCTestCase {
         label.minimumScaleFactor = 0.5
         label.text = "Longer text that will wrap and will get cut off because it can't have more than one line"
 
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     func testShadowed() {
         label.shadowColor = .blue
         label.text = "Longer text that will wrap and will get cut off because it can't have more than one line"
 
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     func testHighlightedShadowed() {
@@ -133,40 +133,40 @@ final class SnapshotTests: XCTestCase {
         label.highlightedShadowColor = .green
         label.text = "Longer text that will wrap and will get cut off because it can't have more than one line"
 
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     func testBottomVerticalAlignment() {
         label.verticalAlignment = .bottom
         label.text = "Longer text that will wrap and will get cut off because it can't have more than one line"
 
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     func testTopVerticalAlignment() {
         label.verticalAlignment = .top
         label.text = "Longer text that will wrap and will get cut off because it can't have more than one line"
 
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     func testFilled() {
         label.attributedText = NSAttributedString(string: "Longer text that will wrap and will get cut off because it can't have more than one line", attributes: [.nantesLabelBackgroundFillColor: UIColor.magenta])
 
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     func testStroked() {
         label.attributedText = NSAttributedString(string: "Longer text that will wrap and will get cut off because it can't have more than one line", attributes: [.nantesLabelBackgroundStrokeColor: UIColor.magenta])
 
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     func testTruncatedAttributionToken() {
         label.attributedTruncationToken = NSAttributedString(string: "https://instacart.com", attributes: [.link: "https://instacart.com"])
         label.attributedText = NSAttributedString(string: "Longer text that will wrap and will get cut off because it can't have more than one line")
 
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     func testPrivacyPolicy() {
@@ -183,7 +183,7 @@ final class SnapshotTests: XCTestCase {
         label.addLink(to: URL(string: "https://www.google.com")!, withRange: (text as NSString).range(of: "Privacy Policy"))
         label.addLink(to: URL(string: "https://www.instacart.com")!, withRange: (text as NSString).range(of: "Terms of Service"))
 
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     func testLineSpace() {
@@ -192,14 +192,14 @@ final class SnapshotTests: XCTestCase {
         label.font = .systemFont(ofSize: 14.0)
         label.text = "Longer text that will wrap and will get cut off because it can't have more than one line"
 
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     func testMultiline() {
         label.numberOfLines = 0
         label.text = "Really long text that has a lont of content so we can see it wrap onto multiple lines.\nNew lines are also good."
 
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     func testTruncation() {
@@ -207,7 +207,7 @@ final class SnapshotTests: XCTestCase {
         label.attributedTruncationToken = NSAttributedString(string: "... Tap to see more")
         label.text = "Really long text that has a lont of content so we can see it wrap onto multiple lines.\nNew lines are also good. More text to make it fill in some more"
 
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     func testMutlilineTruncation() {
@@ -215,7 +215,7 @@ final class SnapshotTests: XCTestCase {
         label.attributedTruncationToken = NSAttributedString(string: "...\nTap to see more")
         label.text = "Really long text that has a lont of content so we can see it wrap onto multiple lines.\nNew lines are also good. More text to make it fill in some more"
 
-        assertSnapshot(matching: viewController, as: .image)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
     private func waitForLinks(count: Int) {
@@ -226,6 +226,6 @@ final class SnapshotTests: XCTestCase {
 
         let promise = expectation(for: predicate, evaluatedWith: label, handler: .none)
 
-        wait(for: [promise], timeout: 1.0)
+        wait(for: [promise], timeout: 2.0)
     }
 }
