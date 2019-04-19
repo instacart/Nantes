@@ -11,6 +11,7 @@ install: bundle install
 before_script:
   - cd Nantes
   - carthage bootstrap --platform iOS --no-use-binaries --cache-builds
+  - cd ../
 script:
   - swift run swiftlint --strict --quiet
   - bundle exec fastlane ios test
