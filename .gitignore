@@ -18,10 +18,10 @@ DerivedData
 *.xccheckout
 
 #Carthage
-Carthage/Checkouts
-Carthage/Build
-Example/Carthage
-Cartfile.private
+*/Carthage/Checkouts
+*/Carthage/Build
+*/Example/Carthage
+*/Cartfile.private
 
 #Certs
 Certs/*

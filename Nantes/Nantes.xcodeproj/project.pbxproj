@@ -11,6 +11,9 @@
 		438D15B121FFBFCB0001E86B /* NantesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438D15B021FFBFCB0001E86B /* NantesTests.swift */; };
 		438D15C521FFC0560001E86B /* Nantes.h in Headers */ = {isa = PBXBuildFile; fileRef = 438D15C321FFC0560001E86B /* Nantes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		438D15C621FFC0560001E86B /* NantesLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438D15C421FFC0560001E86B /* NantesLabel.swift */; };
+		43DAAC69226A25A300A7B87D /* SnapshotTesting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43DAAC68226A25A300A7B87D /* SnapshotTesting.framework */; };
+		43DAAC6B226A25AC00A7B87D /* SnapshotTesting.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43DAAC68226A25A300A7B87D /* SnapshotTesting.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		43DAAC6F226A25F400A7B87D /* SnapshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43DAAC6E226A25F400A7B87D /* SnapshotTests.swift */; };
 		D27D90FF224D5B9C00290225 /* AttributedStringExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27D90FE224D5B9C00290225 /* AttributedStringExtensionTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +27,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		43DAAC6A226A25A600A7B87D /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				43DAAC6B226A25AC00A7B87D /* SnapshotTesting.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		438D15A221FFBFCA0001E86B /* Nantes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Nantes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		438D15A621FFBFCA0001E86B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -32,6 +48,8 @@
 		438D15B221FFBFCB0001E86B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		438D15C321FFC0560001E86B /* Nantes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Nantes.h; path = ../../Source/Classes/Nantes.h; sourceTree = "<group>"; };
 		438D15C421FFC0560001E86B /* NantesLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NantesLabel.swift; path = ../../Source/Classes/NantesLabel.swift; sourceTree = "<group>"; };
+		43DAAC68226A25A300A7B87D /* SnapshotTesting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SnapshotTesting.framework; path = Carthage/Build/iOS/SnapshotTesting.framework; sourceTree = "<group>"; };
+		43DAAC6E226A25F400A7B87D /* SnapshotTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotTests.swift; sourceTree = "<group>"; };
 		D27D90FE224D5B9C00290225 /* AttributedStringExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedStringExtensionTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -47,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43DAAC69226A25A300A7B87D /* SnapshotTesting.framework in Frameworks */,
 				438D15AC21FFBFCB0001E86B /* Nantes.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -60,6 +79,7 @@
 				438D15A421FFBFCA0001E86B /* Nantes */,
 				438D15AF21FFBFCB0001E86B /* NantesTests */,
 				438D15A321FFBFCA0001E86B /* Products */,
+				43DAAC67226A25A300A7B87D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -85,11 +105,28 @@
 		438D15AF21FFBFCB0001E86B /* NantesTests */ = {
 			isa = PBXGroup;
 			children = (
+				43DAAC6D226A25D800A7B87D /* Snapshot */,
 				438D15B021FFBFCB0001E86B /* NantesTests.swift */,
 				438D15B221FFBFCB0001E86B /* Info.plist */,
 				D27D90FE224D5B9C00290225 /* AttributedStringExtensionTests.swift */,
 			);
 			path = NantesTests;
+			sourceTree = "<group>";
+		};
+		43DAAC67226A25A300A7B87D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				43DAAC68226A25A300A7B87D /* SnapshotTesting.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		43DAAC6D226A25D800A7B87D /* Snapshot */ = {
+			isa = PBXGroup;
+			children = (
+				43DAAC6E226A25F400A7B87D /* SnapshotTests.swift */,
+			);
+			path = Snapshot;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -132,6 +169,7 @@
 				438D15A721FFBFCB0001E86B /* Sources */,
 				438D15A821FFBFCB0001E86B /* Frameworks */,
 				438D15A921FFBFCB0001E86B /* Resources */,
+				43DAAC6A226A25A600A7B87D /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -168,6 +206,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 438D159821FFBFCA0001E86B;
 			productRefGroup = 438D15A321FFBFCA0001E86B /* Products */;
@@ -232,6 +271,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D27D90FF224D5B9C00290225 /* AttributedStringExtensionTests.swift in Sources */,
+				43DAAC6F226A25F400A7B87D /* SnapshotTests.swift in Sources */,
 				438D15B121FFBFCB0001E86B /* NantesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -430,6 +470,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 59VC75K95Z;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = NantesTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -449,6 +493,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 59VC75K95Z;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = NantesTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
