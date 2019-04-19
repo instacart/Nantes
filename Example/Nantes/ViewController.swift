@@ -64,7 +64,6 @@ final class ViewController: UIViewController {
         setupTruncatedAttributedToken()
         setupPrivacyPolicyLabel()
         setupLineSpace()
-        setupUILabelLineSpace()
     }
 
     private func setupTitleLabel() {
@@ -255,17 +254,6 @@ final class ViewController: UIViewController {
         label.lineSpacing = 40
         label.font = .systemFont(ofSize: 14.0)
         label.text = ExampleString.linespace.rawValue
-
-        labelStackView.addArrangedSubview(label)
-    }
-
-    private func setupUILabelLineSpace() {
-        let label: UILabel = .init(frame: .zero)
-        label.numberOfLines = 0
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 40
-        let attributedText = NSAttributedString(string: ExampleString.linespace.rawValue, attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0)])
-        label.attributedText = attributedText
 
         labelStackView.addArrangedSubview(label)
     }

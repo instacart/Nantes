@@ -18,7 +18,7 @@ default_platform(:ios)
 platform :ios do
   desc "Runs Nantes tests"
   lane :test do
-    scan(project: "Nantes/Nantes.xcodeproj", scheme: "Nantes")
+    scan(project: "Nantes/Nantes.xcodeproj", scheme: "Nantes", devices: ["iPhone 8"])
   end
 
   lane :lint do
