@@ -4,7 +4,12 @@ cache:
   bundler: true
   directories:
     - .build
+before_install:
+  - brew install carthage || true
+  - brew outdated carthage || brew upgrade carthage
 install: bundle install
+before_script:
+  - carthage bootstrap --platform iOS --no-use-binaries --cache-builds
 script:
   - swift run swiftlint --strict --quiet
   - bundle exec fastlane ios test
