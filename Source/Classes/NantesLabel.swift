@@ -101,8 +101,11 @@ public extension NSAttributedString.Key {
     /// nil or [:] will add no styling
     open var activeLinkAttributes: [NSAttributedString.Key: Any]?
 
-    /// A token to use when the label is truncated in height. Defaults to "\u{2026}" which is "…"
+    /// A token to use when the label is truncated in height. Defaults to `backupTruncationToken`
     open var attributedTruncationToken: NSAttributedString?
+
+    /// The string used when there's no attributedTruncationToken set. Defaults to "…"
+    open var backupTruncationToken: String = "\u{2026}"
 
     /// Handling for touch events after touchesEnded
     /// Warning: Will not be called if `labelTappedBlock` is supplied
@@ -181,6 +184,11 @@ public extension NSAttributedString.Key {
     /// defaults to .center
     open var verticalAlignment: NantesLabel.VerticalAlignment = .center
 
+    /// Force the label to only respond to touchesEnded taps that occur on the truncation token
+    ///
+    /// This doesn't stop taps on any data elements (links, addresses and the like)
+    open var forceTapsOntoAttributionToken: Bool = false
+
     // MARK: - Private constants
 
     private let lineBreakWordWrapTextWidthScalingFactor = CGFloat(Double.pi / M_E)
@@ -235,6 +243,11 @@ public extension NSAttributedString.Key {
             CATransaction.flush()
         }
     }
+
+    /// Includes the truncation string so we can check against it later if we're interested in taps on it
+    ///
+    /// **Don't use this for any drawing code**
+    private var finalAttributedText: NSAttributedString?
 
     private var dataDetector: NSDataDetector?
 
@@ -487,17 +500,17 @@ public extension NSAttributedString.Key {
         return textRect
     }
 
-    /// We're handling link touches elsewhere, so we want to do nothing if we end up on a link
+    /// If there's a link at the touch point, handle that in touchesEnded
+    /// If there's a label tapped block, don't forward touches, run the block
+    /// Otherwise forward touches on
     override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first,
-            let activeLink = link(at: touch.location(in: self)) else {
-                if labelTappedBlock == nil {
-                    super.touchesBegan(touches, with: event)
-                }
-                return
+        if let touch = touches.first, let activeLink = link(at: touch.location(in: self)) {
+            self.activeLink = activeLink
+        } else if let labelTappedBlock = labelTappedBlock {
+            labelTappedBlock()
+        } else {
+            super.touchesBegan(touches, with: event)
         }
-
-        self.activeLink = activeLink
     }
 
     override open func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -510,13 +523,15 @@ public extension NSAttributedString.Key {
     }
 
     override open func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let activeLink = activeLink else {
-            super.touchesEnded(touches, with: event)
+        if let activeLink = activeLink {
+            handleLinkTapped(activeLink)
+        } else if let touch = touches.first, forceTapsOntoAttributionToken && attributedTruncationToken(at: touch.location(in: self)) {
             labelTappedBlock?()
-            return
+        } else if let labelTappedBlock = labelTappedBlock {
+            labelTappedBlock()
+        } else {
+            super.touchesEnded(touches, with: event)
         }
-
-        handleLinkTapped(activeLink)
     }
 
     override open func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -634,7 +649,7 @@ public extension NSAttributedString.Key {
         enabledTextCheckingTypes = [.link, .address, .phoneNumber]
     }
 
-    private func characterIndex(at point: CGPoint) -> Int {
+    private func characterIndex(at point: CGPoint, in attributedText: NSAttributedString, framesetter: CTFramesetter) -> Int {
         guard bounds.contains(point) else {
             return NSNotFound
         }
@@ -642,11 +657,6 @@ public extension NSAttributedString.Key {
         let txtRect = textRect(forBounds: bounds, limitedToNumberOfLines: numberOfLines)
         guard txtRect.contains(point) else {
             return NSNotFound
-        }
-
-        guard let framesetter = framesetter,
-            let attributedText = attributedText else {
-                return NSNotFound
         }
 
         var relativePoint = CGPoint(x: point.x - txtRect.origin.x, y: point.y - txtRect.origin.y)
@@ -665,6 +675,9 @@ public extension NSAttributedString.Key {
             return NSNotFound
         }
 
+        let truncateLastLine = lineBreakMode == .byTruncatingHead || lineBreakMode == .byTruncatingMiddle || lineBreakMode == .byTruncatingTail
+        let textRange = CFRangeMake(0, attributedText.length)
+
         var index = NSNotFound
         var lineOrigins: [CGPoint] = .init(repeating: .zero, count: lineCount)
         CTFrameGetLineOrigins(frame, CFRange(location: 0, length: lineCount), &lineOrigins)
@@ -672,11 +685,16 @@ public extension NSAttributedString.Key {
         for lineIndex in 0..<lineOrigins.count {
             var lineOrigin = lineOrigins[lineIndex]
             let line = lines[lineIndex]
+            let lastLineRange = CTLineGetStringRange(line)
+
             var ascent: CGFloat = 0.0
             var descent: CGFloat = 0.0
             var leading: CGFloat = 0.0
 
-            let width = CGFloat(CTLineGetTypographicBounds(line, &ascent, &descent, &leading))
+            var width = CGFloat(CTLineGetTypographicBounds(line, &ascent, &descent, &leading))
+            if truncateLastLine && shouldTruncate(lineIndex: lineIndex, lastLineRange: lastLineRange, textRange: textRange) {
+                width = self.frame.width
+            }
             let yMin = floor(lineOrigin.y - descent)
             let yMax = ceil(lineOrigin.y + ascent)
 
@@ -779,10 +797,7 @@ public extension NSAttributedString.Key {
             let lastLineRange = CTLineGetStringRange(line)
 
             // Checking to see if we're at the end of our text and that we should truncate since we have no more room to work with
-            if lineIndex == numberOfLines - 1 &&
-                truncateLastLine &&
-                !(lastLineRange.length == 0 && lastLineRange.location == 0) &&
-                lastLineRange.location + lastLineRange.length < textRange.location + textRange.length {
+            if truncateLastLine && shouldTruncate(lineIndex: lineIndex, lastLineRange: lastLineRange, textRange: textRange) {
                 let truncationDrawingContext = TruncationDrawingContext(attributedString: attributedString, context: context, descent: descent, lastLineRange: lastLineRange, lineOrigin: lineOrigin, numberOfLines: numberOfLines, rect: rect)
                 drawTruncation(truncationDrawingContext)
             } else { // otherwise normal drawing here
@@ -989,7 +1004,7 @@ public extension NSAttributedString.Key {
         let truncationType = truncation.type
 
         if attributedTruncationToken == nil {
-            let truncationTokenString = "\u{2026}" // … unicode
+            let truncationTokenString = backupTruncationToken
             let truncationTokenStringAttributes = truncationDrawingContext.attributedString.attributes(at: truncationAttributePosition, effectiveRange: nil)
             attributedTruncationToken = NSAttributedString(string: truncationTokenString, attributes: truncationTokenStringAttributes)
         }
@@ -1006,6 +1021,12 @@ public extension NSAttributedString.Key {
         truncationString = cleanUpLastNewlineCharIn(truncationString, at: truncationDrawingContext.lastLineRange.length) ?? truncationString
 
         truncationString.append(attributedTruncationString)
+        if let finalText = _attributedText?.mutableCopy() as? NSMutableAttributedString {
+            // Delete all the text we're not rendering
+            finalText.deleteCharacters(in: NSRange(location: lastLineRange.location, length: finalText.length - lastLineRange.location))
+            finalText.append(truncationString)
+            finalAttributedText = finalText
+        }
         let truncationLine = CTLineCreateWithAttributedString(truncationString)
 
         var truncatedLine: CTLine? = CTLineCreateTruncatedLine(truncationLine, Double(truncationDrawingContext.rect.size.width), truncationType, truncationToken)
@@ -1083,6 +1104,13 @@ public extension NSAttributedString.Key {
         }
     }
 
+    /// Returns whether or not we should truncate the line
+    private func shouldTruncate(lineIndex: Int, lastLineRange: CFRange, textRange: CFRange) -> Bool {
+        return lineIndex == numberOfLines - 1 &&
+            !(lastLineRange.length == 0 && lastLineRange.location == 0) &&
+            lastLineRange.location + lastLineRange.length < textRange.location + textRange.length
+    }
+
     /// Finds the link at the character index
     ///
     /// returns nil if there's no link
@@ -1110,6 +1138,10 @@ public extension NSAttributedString.Key {
     ///
     /// returns nil if there's no link
     private func link(at point: CGPoint) -> NantesLabel.Link? {
+        guard let attributedText = attributedText, let framesetter = framesetter else {
+            return nil
+        }
+
         guard !linkModels.isEmpty && bounds.inset(by: UIEdgeInsets(top: -15, left: -15, bottom: -15, right: -15)).contains(point) else {
             return nil
         }
@@ -1117,7 +1149,29 @@ public extension NSAttributedString.Key {
         // TTTAttributedLabel also does some extra bounds checking around where the point happened
         // if we can't find the link at the point depending on extendsLinkTouchArea being true
         // it adds a lot of extra checks and we're not using it right now, so I'm skipping it
-        return link(at: characterIndex(at: point))
+        return link(at: characterIndex(at: point, in: attributedText, framesetter: framesetter))
+    }
+
+    private func attributedTruncationToken(at point: CGPoint) -> Bool {
+        guard let attributedText = finalAttributedText, bounds.inset(by: UIEdgeInsets(top: -15, left: -15, bottom: -15, right: -15)).contains(point) else {
+            return false
+        }
+
+        let framesetter = CTFramesetterCreateWithAttributedString(attributedText)
+
+        let index = characterIndex(at: point, in: attributedText, framesetter: framesetter)
+        guard NSLocationInRange(index, NSRange(location: 0, length: attributedText.length)) else {
+            return false
+        }
+
+        let truncationString = attributedTruncationToken?.string ?? backupTruncationToken
+        let truncationRange = (attributedText.string as NSString).range(of: truncationString)
+
+        guard truncationRange.location != NSNotFound else {
+            return false
+        }
+
+        return NSLocationInRange(index, truncationRange)
     }
 
     private func setNeedsFramesetter() {
