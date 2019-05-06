@@ -309,11 +309,22 @@ public extension NSAttributedString.Key {
         get {
             return _attributedText
         } set {
-            guard newValue != _attributedText else {
+            guard let newValue = newValue else {
+                _attributedText = nil
                 return
             }
 
-            _attributedText = newValue
+            let attributes = NSAttributedString.attributes(from: self)
+            let final = NSMutableAttributedString(string: newValue.string, attributes: attributes)
+            newValue.enumerateAttributes(in: NSRange(location: 0, length: newValue.length), options: []) { attributes, range, _ in
+                final.addAttributes(attributes, range: range)
+            }
+
+            guard final != _attributedText else {
+                return
+            }
+
+            _attributedText = final
             setNeedsFramesetter()
             _accessibilityElements = nil
             linkModels = []
