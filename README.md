@@ -41,7 +41,7 @@ Opening a pull request is the best way to get something fixed. If you need help,
 
 ### Author
 
-chansen22, chris.hansen@instacart.com
+chansen22, cthansen22@gmail.com
 
 ### Example
 
