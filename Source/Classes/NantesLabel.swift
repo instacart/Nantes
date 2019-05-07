@@ -465,12 +465,21 @@ public extension NSAttributedString.Key {
         }
 
         var textRect = bounds
-        textRect.size.height = max(font.lineHeight * CGFloat(max(2, numberOfLines)), bounds.size.height)
+        var maxLineHeight: CGFloat = -1.0
+        attributedText.enumerateAttribute(.font, in: NSRange(location: 0, length: attributedText.length), options: [], using: { value, _, _ in
+            guard let font = value as? UIFont else {
+                return
+            }
+
+            maxLineHeight = max(maxLineHeight, font.lineHeight)
+        })
+        maxLineHeight = maxLineHeight == -1.0 ? font.lineHeight : maxLineHeight
+        textRect.size.height = max(maxLineHeight * CGFloat(max(2, numberOfLines)), bounds.height)
 
         var textSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, CFRange(location: 0, length: attributedText.length), nil, textRect.size, nil)
         textSize = CGSize(width: ceil(textSize.width), height: ceil(textSize.height))
 
-        if textSize.height < bounds.size.height {
+        if textSize.height < bounds.height {
             var yOffset: CGFloat = 0.0
             switch verticalAlignment {
             case .center:
@@ -1070,12 +1079,6 @@ public extension NSAttributedString.Key {
     /// if the text width is greater than our available width we'll scale the font down
     /// Returns the scaled down NSAttributedString otherwise nil if we didn't scale anything
     private func scaleAttributedTextIfNeeded(_ attributedText: NSAttributedString) -> NSAttributedString? {
-        // Reset so we start from the original font size
-        setNeedsFramesetter()
-        setNeedsDisplay()
-
-        invalidateIntrinsicContentSize()
-
         let maxSize = numberOfLines > 1 ? CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude) : .zero
 
         var textWidth = sizeThatFits(maxSize).width
