@@ -17,6 +17,7 @@ final class SnapshotTests: XCTestCase {
     var label: NantesLabel = .init(frame: .zero)
     var viewController: UIViewController = .init()
     var stackView: UIStackView = .init()
+    var labelTappedExpectation: XCTestExpectation?
 
     override func setUp() {
         super.setUp()
@@ -88,6 +89,72 @@ final class SnapshotTests: XCTestCase {
         assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
+    func testLabelNoDelegate() {
+        label.linkAttributes = [.foregroundColor: UIColor.green]
+        label.text = "http://www.instacart.com"
+
+        waitForLinks(count: 1)
+        label.handleLinkTapped(label.linkModels.first!)
+
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
+    }
+
+    func testLinkWithBlockTapped() {
+        label.linkAttributes = [.foregroundColor: UIColor.green]
+        let text = NSAttributedString(string: "https://www.instacart.com")
+        label.attributedText = text
+        labelTappedExpectation = expectation(description: "waiting for label tap")
+
+        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        let result = detector.matches(in: text.string, options: .withTransparentBounds, range: NSRange(location: 0, length: text.length))
+        var l: NantesLabel.Link!
+        for link in result {
+            let labelLink = NantesLabel.Link(attributes: [.foregroundColor: UIColor.red], activeAttributes: nil, inactiveAttributes: nil, linkTappedBlock: { _, _ in
+                self.labelTappedExpectation?.fulfill()
+            }, result: link, text: link.url!.absoluteString)
+            l = labelLink
+            label.addLink(labelLink)
+        }
+
+        label.handleLinkTapped(l)
+        wait(for: [labelTappedExpectation!], timeout: 0.25)
+
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
+    }
+
+    func testAddressTapped() {
+        tapLabel(withText: "123 Main St")
+
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
+    }
+
+    func testDateTapped() {
+        label.enabledTextCheckingTypes = [.date]
+        tapLabel(withText: "08-27-2018")
+
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
+    }
+
+    func testLinkTapped() {
+        tapLabel(withText: "https://www.instacart.com")
+
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
+    }
+
+    func testPhoneNumberTapped() {
+        label.enabledTextCheckingTypes = [.phoneNumber]
+        tapLabel(withText: "555-555-5555")
+
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
+    }
+
+    func testTransitInfoTapped() {
+        label.enabledTextCheckingTypes = [.transitInformation]
+        tapLabel(withText: "UA450")
+
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
+    }
+
     func testFancyLabel() {
         let attributedText = NSMutableAttributedString(string: "Background set ", attributes: [.backgroundColor: UIColor.lightGray])
         attributedText.append(NSAttributedString(string: "Struck text", attributes: [.nantesLabelStrikeOut: true]))
@@ -116,6 +183,40 @@ final class SnapshotTests: XCTestCase {
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.5
         label.text = "Longer text that will wrap and will get cut off because it can't have more than one line"
+
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
+    }
+
+    func testLineBreakWordWrapScaling() {
+        let longTestString = "Longer test string that will wrap and force the label to scale down in size so that it can make everything fit inside it's smaller frames and have a bit more text"
+        label.numberOfLines = 2
+        label.lineBreakMode = .byWordWrapping
+        label.minimumScaleFactor = 0.5
+        label.adjustsFontSizeToFitWidth = true
+        label.font = .systemFont(ofSize: 12.0)
+        label.text = longTestString
+
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
+    }
+
+    func testMinimumScaleFactorScaling() {
+        let longTestString = "Longer test string that will wrap and force the label to scale down in size so that it can make everything fit inside it's smaller frames and have a bit more text"
+        label.numberOfLines = 2
+        label.minimumScaleFactor = 0.9
+        label.adjustsFontSizeToFitWidth = true
+        label.font = .systemFont(ofSize: 12.0)
+        label.text = longTestString
+
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
+    }
+
+    func testNoScalingNeeded() {
+        let longTestString = "Shorter text that won't wrap"
+        label.numberOfLines = 2
+        label.minimumScaleFactor = 0.9
+        label.adjustsFontSizeToFitWidth = true
+        label.font = .systemFont(ofSize: 12.0)
+        label.text = longTestString
 
         assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
@@ -218,6 +319,18 @@ final class SnapshotTests: XCTestCase {
         assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
+    private func tapLabel(withText text: String) {
+        label.linkAttributes = [.foregroundColor: UIColor.green]
+        label.text = text
+        label.delegate = self
+
+        waitForLinks(count: 1)
+
+        labelTappedExpectation = expectation(description: "waiting for label delegate")
+        label.handleLinkTapped(label.linkModels.first!)
+        wait(for: [labelTappedExpectation!], timeout: 0.25)
+    }
+
     private func waitForLinks(count: Int) {
         let predicate = NSPredicate { object, _ -> Bool in
             guard let label = object as? NantesLabel else { return false }
@@ -228,4 +341,18 @@ final class SnapshotTests: XCTestCase {
 
         wait(for: [promise], timeout: 2.0)
     }
+}
+
+extension SnapshotTests: NantesLabelDelegate {
+    func attributedLabel(_ label: NantesLabel, didSelectAddress addressComponents: [NSTextCheckingKey: String]) { labelTappedExpectation?.fulfill() }
+
+    func attributedLabel(_ label: NantesLabel, didSelectDate date: Date, timeZone: TimeZone, duration: TimeInterval) { labelTappedExpectation?.fulfill() }
+
+    func attributedLabel(_ label: NantesLabel, didSelectLink link: URL) { labelTappedExpectation?.fulfill() }
+
+    func attributedLabel(_ label: NantesLabel, didSelectPhoneNumber phoneNumber: String) { labelTappedExpectation?.fulfill() }
+
+    func attributedLabel(_ label: NantesLabel, didSelectTextCheckingResult result: NSTextCheckingResult) { labelTappedExpectation?.fulfill() }
+
+    func attributedLabel(_ label: NantesLabel, didSelectTransitInfo transitInfo: [NSTextCheckingKey: String]) { labelTappedExpectation?.fulfill() }
 }
