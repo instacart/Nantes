@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		43471B6822833257007678DC /* LabelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43471B6722833257007678DC /* LabelDelegate.swift */; };
+		43471B6B22833279007678DC /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43471B6A22833279007678DC /* Accessibility.swift */; };
+		43471B6E2283330E007678DC /* NSAttributedStringKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43471B6D2283330E007678DC /* NSAttributedStringKey.swift */; };
+		43471B712283339F007678DC /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43471B702283339F007678DC /* Link.swift */; };
+		43471B73228339D8007678DC /* NSRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43471B72228339D8007678DC /* NSRange.swift */; };
+		43471B75228339EE007678DC /* NSAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43471B74228339EE007678DC /* NSAttributedString.swift */; };
+		43471B7A22833B76007678DC /* Sizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43471B7922833B76007678DC /* Sizing.swift */; };
+		43471B7C22833BDC007678DC /* Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43471B7B22833BDC007678DC /* Actions.swift */; };
+		43471B7F22833C97007678DC /* Scaling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43471B7E22833C97007678DC /* Scaling.swift */; };
+		43471B8122833D3B007678DC /* Truncation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43471B8022833D3B007678DC /* Truncation.swift */; };
+		43471B8322833F25007678DC /* Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43471B8222833F25007678DC /* Drawing.swift */; };
 		438D15AC21FFBFCB0001E86B /* Nantes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 438D15A221FFBFCA0001E86B /* Nantes.framework */; };
 		438D15B121FFBFCB0001E86B /* NantesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 438D15B021FFBFCB0001E86B /* NantesTests.swift */; };
 		438D15C521FFC0560001E86B /* Nantes.h in Headers */ = {isa = PBXBuildFile; fileRef = 438D15C321FFC0560001E86B /* Nantes.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -41,6 +52,17 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		43471B6722833257007678DC /* LabelDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelDelegate.swift; sourceTree = "<group>"; };
+		43471B6A22833279007678DC /* Accessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
+		43471B6D2283330E007678DC /* NSAttributedStringKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedStringKey.swift; sourceTree = "<group>"; };
+		43471B702283339F007678DC /* Link.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
+		43471B72228339D8007678DC /* NSRange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSRange.swift; sourceTree = "<group>"; };
+		43471B74228339EE007678DC /* NSAttributedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedString.swift; sourceTree = "<group>"; };
+		43471B7922833B76007678DC /* Sizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sizing.swift; sourceTree = "<group>"; };
+		43471B7B22833BDC007678DC /* Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Actions.swift; sourceTree = "<group>"; };
+		43471B7E22833C97007678DC /* Scaling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scaling.swift; sourceTree = "<group>"; };
+		43471B8022833D3B007678DC /* Truncation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Truncation.swift; sourceTree = "<group>"; };
+		43471B8222833F25007678DC /* Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawing.swift; sourceTree = "<group>"; };
 		438D15A221FFBFCA0001E86B /* Nantes.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Nantes.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		438D15A621FFBFCA0001E86B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		438D15AB21FFBFCB0001E86B /* NantesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NantesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,6 +95,59 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		43471B6622833249007678DC /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				43471B6722833257007678DC /* LabelDelegate.swift */,
+			);
+			path = Delegate;
+			sourceTree = "<group>";
+		};
+		43471B6922833270007678DC /* Accessibility */ = {
+			isa = PBXGroup;
+			children = (
+				43471B6A22833279007678DC /* Accessibility.swift */,
+			);
+			path = Accessibility;
+			sourceTree = "<group>";
+		};
+		43471B6C228332FF007678DC /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				43471B74228339EE007678DC /* NSAttributedString.swift */,
+				43471B6D2283330E007678DC /* NSAttributedStringKey.swift */,
+				43471B72228339D8007678DC /* NSRange.swift */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		43471B6F2283338F007678DC /* ActionHandling */ = {
+			isa = PBXGroup;
+			children = (
+				43471B7B22833BDC007678DC /* Actions.swift */,
+				43471B702283339F007678DC /* Link.swift */,
+			);
+			path = ActionHandling;
+			sourceTree = "<group>";
+		};
+		43471B7822833B5D007678DC /* Sizing */ = {
+			isa = PBXGroup;
+			children = (
+				43471B7922833B76007678DC /* Sizing.swift */,
+			);
+			path = Sizing;
+			sourceTree = "<group>";
+		};
+		43471B7D22833C86007678DC /* Drawing */ = {
+			isa = PBXGroup;
+			children = (
+				43471B8222833F25007678DC /* Drawing.swift */,
+				43471B7E22833C97007678DC /* Scaling.swift */,
+				43471B8022833D3B007678DC /* Truncation.swift */,
+			);
+			path = Drawing;
+			sourceTree = "<group>";
+		};
 		438D159821FFBFCA0001E86B = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +170,12 @@
 		438D15A421FFBFCA0001E86B /* Nantes */ = {
 			isa = PBXGroup;
 			children = (
+				43471B6922833270007678DC /* Accessibility */,
+				43471B6F2283338F007678DC /* ActionHandling */,
+				43471B6C228332FF007678DC /* Categories */,
+				43471B6622833249007678DC /* Delegate */,
+				43471B7D22833C86007678DC /* Drawing */,
+				43471B7822833B5D007678DC /* Sizing */,
 				438D15A621FFBFCA0001E86B /* Info.plist */,
 				438D15C321FFC0560001E86B /* Nantes.h */,
 				438D15C421FFC0560001E86B /* NantesLabel.swift */,
@@ -263,7 +344,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43471B75228339EE007678DC /* NSAttributedString.swift in Sources */,
+				43471B8122833D3B007678DC /* Truncation.swift in Sources */,
+				43471B7A22833B76007678DC /* Sizing.swift in Sources */,
 				438D15C621FFC0560001E86B /* NantesLabel.swift in Sources */,
+				43471B7F22833C97007678DC /* Scaling.swift in Sources */,
+				43471B6B22833279007678DC /* Accessibility.swift in Sources */,
+				43471B6822833257007678DC /* LabelDelegate.swift in Sources */,
+				43471B6E2283330E007678DC /* NSAttributedStringKey.swift in Sources */,
+				43471B8322833F25007678DC /* Drawing.swift in Sources */,
+				43471B7C22833BDC007678DC /* Actions.swift in Sources */,
+				43471B73228339D8007678DC /* NSRange.swift in Sources */,
+				43471B712283339F007678DC /* Link.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
