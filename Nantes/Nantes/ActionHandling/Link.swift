@@ -118,7 +118,7 @@ extension NantesLabel {
     /// Tries to find the link at a point
     ///
     /// returns nil if there's no link
-    func link(at point: CGPoint) -> NantesLabel.Link? {
+    public func link(at point: CGPoint) -> NantesLabel.Link? {
         guard !linkModels.isEmpty && bounds.inset(by: UIEdgeInsets(top: -15, left: -15, bottom: -15, right: -15)).contains(point) else {
             return nil
         }
