@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Nantes'
-  s.version          = '0.0.7'
+  s.version          = '0.0.8'
   s.summary          = 'A swift replacement of TTTAttributedLabel'
 
   s.description      = <<-DESC
@@ -24,6 +24,6 @@ Pod::Spec.new do |s|
 
   s.source_files = 'Source/Classes/**/*'
   
-  s.swift_version = '4.2'
+  s.swift_version = '5.0'
   s.frameworks = 'UIKit'
 end
