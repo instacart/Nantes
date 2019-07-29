@@ -47,7 +47,7 @@ extension NantesLabel {
     /// Adds a link to a `url` with a specified `range`
     @discardableResult
     open func addLink(to url: URL, withRange range: NSRange, linkTappedBlock: NantesLabel.LinkTappedBlock? = nil) -> NantesLabel.Link? {
-		return addLinks(with: [.linkCheckingResult(range: range, url: url)], withAttributes: linkAttributes, linkTappedBlock: linkTappedBlock).first
+        return addLinks(with: [.linkCheckingResult(range: range, url: url)], withAttributes: linkAttributes, linkTappedBlock: linkTappedBlock).first
     }
 
     @discardableResult
