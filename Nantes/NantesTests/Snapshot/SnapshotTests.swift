@@ -319,6 +319,29 @@ final class SnapshotTests: XCTestCase {
         assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
     }
 
+    func testTruncationCrash() {
+        self.stackView.removeArrangedSubview(self.label)
+        let label: NantesLabel = .init(frame: CGRect(x: 5, y: 40, width: 5, height: 20))
+        label.numberOfLines = 0
+        label.kern = 1.0
+        label.lineBreakMode = .byTruncatingTail
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.lineBreakMode = .byWordWrapping
+        paragraph.paragraphSpacing = 0
+        paragraph.alignment = NSTextAlignment(rawValue: 4)!
+        paragraph.lineSpacing = 1
+        paragraph.paragraphSpacingBefore = 0
+        paragraph.headIndent = 0
+        paragraph.tailIndent = 0
+        paragraph.firstLineHeadIndent = 0
+        paragraph.lineHeightMultiple = 0
+        paragraph.baseWritingDirection = NSWritingDirection(rawValue: -1)!
+        let attributedText = NSAttributedString(string: "The text is long enough to be wrapped", attributes: [NSAttributedString.Key.paragraphStyle: paragraph])
+        label.attributedText = attributedText
+        viewController.view.addSubview(label)
+        assertSnapshot(matching: viewController, as: .image(on: .iPhone8))
+    }
+
     private func tapLabel(withText text: String) {
         label.linkAttributes = [.foregroundColor: UIColor.green]
         label.text = text
