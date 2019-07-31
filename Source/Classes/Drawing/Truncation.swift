@@ -54,6 +54,8 @@ extension NantesLabel {
                 continue
             }
 
+            guard 0..<lines.count ~= originalIndex else { continue }
+
             let originalLine = lines[originalIndex]
             let originalRange = NSRange(range: CTLineGetStringRange(originalLine))
             let originalString = NSMutableAttributedString(attributedString: attributedString.attributedSubstring(from: originalRange))
