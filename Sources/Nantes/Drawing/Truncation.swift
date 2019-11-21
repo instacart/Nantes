@@ -6,6 +6,8 @@
 //  Copyright © 2019 Instacart. All rights reserved.
 //
 
+import UIKit
+
 extension NantesLabel {
     /// Returns an array of lines, truncated by `attributedTruncationToken`
     ///

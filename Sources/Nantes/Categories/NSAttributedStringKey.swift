@@ -6,6 +6,8 @@
 //  Copyright © 2019 Instacart. All rights reserved.
 //
 
+import Foundation
+
 public extension NSAttributedString.Key {
     static let nantesLabelBackgroundCornerRadius: NSAttributedString.Key = .init("NantesLabelBackgroundCornerRadiusAttribute")
     static let nantesLabelBackgroundFillColor: NSAttributedString.Key = .init("NantesLabelBackgroundFillColorAttribute")
