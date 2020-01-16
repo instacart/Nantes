@@ -271,12 +271,13 @@ extension NantesLabel {
 extension NSAttributedString {
     func findExistingLinks() -> Set<NSTextCheckingResult> {
         var relinks: Set<NSTextCheckingResult> = []
-        enumerateAttribute(.link,
-                           in: NSRange(location: 0, length: length),
-                           options: []) { attribute, linkRange, _ in
-                            if let url = attribute as? URL {
-                                relinks.insert(NSTextCheckingResult.linkCheckingResult(range: linkRange, url: url))
-                            }
+        enumerateAttribute(.link, in: NSRange(location: 0, length: length), options: []) { attribute, linkRange, _ in
+            var url = attribute as? URL
+            if let stringUrl = attribute as? String {
+                url = URL(string: stringUrl)
+            }
+            guard let u = url else { return }
+            relinks.insert(NSTextCheckingResult.linkCheckingResult(range: linkRange, url: u))
         }
         return relinks
     }
