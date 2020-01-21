@@ -272,7 +272,14 @@ extension NSAttributedString {
     func findExistingLinks() -> Set<NSTextCheckingResult> {
         var relinks: Set<NSTextCheckingResult> = []
         enumerateAttribute(.link, in: NSRange(location: 0, length: length), options: []) { attribute, linkRange, _ in
-            var url = attribute as? URL
+            let url: URL
+            if let urlAttribute = attribute as? URL {
+                url = urlAttribute
+            } else if let stringAttribute = attribute as? String, let urlAttribute = URL(string: stringAttribute) {
+                url = urlAttribute
+            } else { 
+                return
+            }
             if let stringUrl = attribute as? String {
                 url = URL(string: stringUrl)
             }
