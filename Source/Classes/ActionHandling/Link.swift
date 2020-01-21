@@ -280,11 +280,7 @@ extension NSAttributedString {
             } else { 
                 return
             }
-            if let stringUrl = attribute as? String {
-                url = URL(string: stringUrl)
-            }
-            guard let u = url else { return }
-            relinks.insert(NSTextCheckingResult.linkCheckingResult(range: linkRange, url: u))
+            relinks.insert(NSTextCheckingResult.linkCheckingResult(range: linkRange, url: url))
         }
         return relinks
     }
