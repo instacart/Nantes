@@ -277,7 +277,7 @@ extension NSAttributedString {
                 url = urlAttribute
             } else if let stringAttribute = attribute as? String, let urlAttribute = URL(string: stringAttribute) {
                 url = urlAttribute
-            } else { 
+            } else {
                 return
             }
             relinks.insert(NSTextCheckingResult.linkCheckingResult(range: linkRange, url: url))
