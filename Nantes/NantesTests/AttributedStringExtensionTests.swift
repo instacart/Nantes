@@ -17,7 +17,7 @@ final class AttributedStringExtensionTests: XCTestCase {
         let existingLinks = linkString.findExistingLinks()
         XCTAssertFalse(existingLinks.isEmpty)
     }
-    
+
     func testReturnsStringLinksIfFoundInAttributedString() {
         let linkString = NSAttributedString(string: "Contains a link", attributes: [.link: "https://www.swiftjoe.com"])
         let existingLinks = linkString.findExistingLinks()
