@@ -18,6 +18,12 @@ final class AttributedStringExtensionTests: XCTestCase {
         XCTAssertFalse(existingLinks.isEmpty)
     }
 
+    func testReturnsStringLinksIfFoundInAttributedString() {
+        let linkString = NSAttributedString(string: "Contains a link", attributes: [.link: "https://www.swiftjoe.com"])
+        let existingLinks = linkString.findExistingLinks()
+        XCTAssertFalse(existingLinks.isEmpty)
+    }
+
     func testFindsLinksForAttributedStringsCreatedFromHTML() {
         let htmlString = "<a href=\"http://www.google.com\">I can be clicked\""
         guard let data = htmlString.data(using: .utf8) else {
