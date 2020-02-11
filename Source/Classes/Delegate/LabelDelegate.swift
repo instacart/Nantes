@@ -6,7 +6,9 @@
 //  Copyright © 2019 Instacart. All rights reserved.
 //
 
-public protocol NantesLabelDelegate: class {
+import Foundation
+
+public protocol NantesLabelDelegate: AnyObject {
     func attributedLabel(_ label: NantesLabel, didSelectAddress addressComponents: [NSTextCheckingKey: String])
     func attributedLabel(_ label: NantesLabel, didSelectDate date: Date, timeZone: TimeZone, duration: TimeInterval)
     func attributedLabel(_ label: NantesLabel, didSelectLink link: URL)

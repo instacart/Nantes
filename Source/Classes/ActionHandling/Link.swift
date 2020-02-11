@@ -6,6 +6,8 @@
 //  Copyright © 2019 Instacart. All rights reserved.
 //
 
+import UIKit
+
 extension NantesLabel {
     public typealias LinkTappedBlock = ((NantesLabel, NantesLabel.Link) -> Void)
 
