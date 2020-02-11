@@ -1,24 +1,14 @@
-// swift-tools-version:4.2
-// The swift-tools-version declares the minimum version of Swift required to build this package.
-
+// swift-tools-version:5.1
 import PackageDescription
 
 let package = Package(
     name: "Nantes",
-    dependencies: [
-        .package(
-            url: "https://github.com/Realm/SwiftLint",
-            from: "0.30.1"
-        ),
+    platforms: [.iOS(.v8)],
+    products: [
+        .library(name: "Nantes", targets: ["Nantes"]),
     ],
-    // Note: SPM requires 1 target to build the package
     targets: [
-        .target(
-            name: "Nantes",
-            dependencies: ["swiftlint"],
-            path: "Source/Classes",
-            sources: ["NantesLabel.swift"]
-        )
-    ]
+      .target(name: "Nantes", path: "Source/Classes", exclude: ["Nantes.h"])
+    ],
+    swiftLanguageVersions: [.v5]
 )
-
