@@ -23,7 +23,6 @@ platform :ios do
 
   lane :lint do
     sh("brew list mint &>/dev/null || brew install mint")
-    sh("mint install realm/SwiftLint@0.39.1")
-    swiftlint()
+    sh("mint run --mintfile ../Mintfile swiftlint swiftlint --path .. --strict --quiet")
   end
 end
