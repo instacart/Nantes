@@ -178,7 +178,7 @@
     /// Since we reset linkModels to make sure our links are up to date when the text changes
     override open var attributedText: NSAttributedString? {
         get {
-            return _attributedText
+            _attributedText
         } set {
             guard newValue != _attributedText else {
                 return
@@ -199,7 +199,7 @@
     }
 
     override open var canBecomeFirstResponder: Bool {
-        return true
+        true
     }
 
     @IBInspectable override open var numberOfLines: Int {
@@ -212,7 +212,7 @@
     /// Since we reset linkModels to make sure our links are up to date when the text changes
     @IBInspectable override open var text: String? {
         get {
-            return attributedText?.string
+            attributedText?.string
         } set {
             guard let text = newValue else {
                 attributedText = nil
@@ -249,7 +249,7 @@
     }
 
     override open func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
-        return action == #selector(copy(_:))
+        action == #selector(copy(_:))
     }
 
     override open func textRect(forBounds bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {

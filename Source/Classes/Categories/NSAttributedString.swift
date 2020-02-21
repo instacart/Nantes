@@ -68,9 +68,9 @@ extension NSAttributedString {
     }
 
     func findCheckingResults(usingDetector dataDetector: NSDataDetector) -> Set<NSTextCheckingResult> {
-        return Set(dataDetector.matches(in: string,
-                                        options: .withTransparentBounds,
-                                        range: NSRange(location: 0,
-                                                       length: length)))
+        Set(dataDetector.matches(in: string,
+                                 options: .withTransparentBounds,
+                                 range: NSRange(location: 0,
+                                                length: length)))
     }
 }

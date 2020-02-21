@@ -7,7 +7,7 @@
 //
 
 extension NantesLabel {
-    private var lineBreakWordWrapTextWidthScalingFactor: CGFloat { return CGFloat(Double.pi / M_E) }
+    private var lineBreakWordWrapTextWidthScalingFactor: CGFloat { CGFloat(Double.pi / M_E) }
 
     /// if the text width is greater than our available width we'll scale the font down
     /// Returns the scaled down NSAttributedString otherwise nil if we didn't scale anything

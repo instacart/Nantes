@@ -31,7 +31,7 @@ extension NantesLabel {
         }
 
         public static func == (lhs: NantesLabel.Link, rhs: NantesLabel.Link) -> Bool {
-            return (lhs.attributes as NSDictionary).isEqual(to: rhs.attributes) &&
+            (lhs.attributes as NSDictionary).isEqual(to: rhs.attributes) &&
                 (lhs.activeAttributes as NSDictionary).isEqual(to: rhs.activeAttributes) &&
                 (lhs.inactiveAttributes as NSDictionary).isEqual(to: rhs.inactiveAttributes) &&
                 lhs.result?.range == rhs.result?.range &&
@@ -47,7 +47,7 @@ extension NantesLabel {
     /// Adds a link to a `url` with a specified `range`
     @discardableResult
     open func addLink(to url: URL, withRange range: NSRange) -> NantesLabel.Link? {
-        return addLinks(with: [.linkCheckingResult(range: range, url: url)], withAttributes: linkAttributes).first
+        addLinks(with: [.linkCheckingResult(range: range, url: url)], withAttributes: linkAttributes).first
     }
 
     @discardableResult
