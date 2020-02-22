@@ -22,6 +22,7 @@ platform :ios do
   end
 
   lane :lint do
-    swiftlint()
+    sh("brew list mint &>/dev/null || brew install mint")
+    sh("mint run --mintfile ../Mintfile swiftlint swiftlint --path .. --strict --quiet")
   end
 end
