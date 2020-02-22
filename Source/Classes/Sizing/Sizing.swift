@@ -8,7 +8,7 @@
 
 extension NantesLabel {
     override open var intrinsicContentSize: CGSize {
-        sizeThatFits(super.intrinsicContentSize)
+        return sizeThatFits(super.intrinsicContentSize)
     }
 
     override open func sizeThatFits(_ size: CGSize) -> CGSize {
