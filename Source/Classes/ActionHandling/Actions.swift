@@ -6,6 +6,8 @@
 //  Copyright © 2019 Instacart. All rights reserved.
 //
 
+import UIKit
+
 extension NantesLabel {
     override open func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         guard link(at: point) != nil && isUserInteractionEnabled && !isHidden && alpha > 0.0 else {

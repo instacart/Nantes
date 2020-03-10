@@ -6,6 +6,8 @@
 //  Copyright © 2019 Instacart. All rights reserved.
 //
 
+import UIKit
+
 final class NantesLabelAccessibilityElement: UIAccessibilityElement {
     var boundingRect: CGRect = .zero
     weak var superview: UIView?
