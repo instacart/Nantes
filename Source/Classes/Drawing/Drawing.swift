@@ -98,6 +98,9 @@ extension NantesLabel {
 
         if shouldHandleTruncation && (hasExtraLines || isPaintingTruncatedString) {
             lines = truncateLines(lines, fromAttritubedString: attributedString, rect: rect, path: path)
+            truncationChangedBlock?(true)
+        } else {
+            truncationChangedBlock?(false)
         }
 
         drawBackground(frame, inRect: rect, context: context)
