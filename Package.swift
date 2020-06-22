@@ -11,6 +11,7 @@ let package = Package(
     targets: [
         .target(
             name: "Nantes",
+            platforms: [.iOS(.v8)],
             path: "Source/Classes",
             exclude: ["Nantes.h"]
         )
