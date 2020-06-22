@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Nantes'
-  s.version          = '0.0.9'
+  s.version          = '0.1.0'
   s.summary          = 'A swift replacement of TTTAttributedLabel'
 
   s.description      = <<-DESC
