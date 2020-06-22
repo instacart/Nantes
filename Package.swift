@@ -4,6 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "Nantes",
+    platforms: [.iOS(.v8)],
     products: [
         .library(name: "Nantes", targets: ["Nantes"])
     ],
@@ -11,7 +12,6 @@ let package = Package(
     targets: [
         .target(
             name: "Nantes",
-            platforms: [.iOS(.v8)],
             path: "Source/Classes",
             exclude: ["Nantes.h"]
         )
