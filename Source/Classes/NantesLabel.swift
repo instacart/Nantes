@@ -6,6 +6,8 @@
 //  Copyright © 2018 Instacart. All rights reserved.
 //
 
+import UIKit
+
 @IBDesignable open class NantesLabel: UILabel {
     public enum VerticalAlignment {
         case top
