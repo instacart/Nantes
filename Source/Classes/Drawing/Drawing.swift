@@ -174,7 +174,6 @@ extension NantesLabel {
                 let lineWidth: CGFloat = attributes[.nantesLabelBackgroundLineWidth] as? CGFloat ?? 0.0
 
                 guard strokeColor != nil || fillColor != nil else {
-                    lineIndex += 1
                     continue
                 }
 
@@ -199,7 +198,7 @@ extension NantesLabel {
                 runBounds.origin.y = origins[lineIndex].y + rect.origin.y - fillPadding.bottom - rect.origin.y - runDescent
 
                 // We don't want to draw too far to the right
-                runBounds.size.width = runBounds.width > width ? width : runBounds.width
+                runBounds.size.width = runBounds.width > width + fillPadding.left + fillPadding.right ? width + fillPadding.left + fillPadding.right : runBounds.width
 
                 let roundedRect = runBounds.inset(by: linkBackgroundEdgeInset).insetBy(dx: lineWidth, dy: lineWidth)
                 let path: CGPath = UIBezierPath(roundedRect: roundedRect, cornerRadius: cornerRadius).cgPath
