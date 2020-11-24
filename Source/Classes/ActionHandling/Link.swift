@@ -48,12 +48,12 @@ extension NantesLabel {
 
     /// Adds a link to a `url` with a specified `range`
     @discardableResult
-    open func addLink(to url: URL, withRange range: NSRange) -> NantesLabel.Link? {
-        return addLinks(with: [.linkCheckingResult(range: range, url: url)], withAttributes: linkAttributes).first
+    open func addLink(to url: URL, withRange range: NSRange, linkTappedBlock: NantesLabel.LinkTappedBlock? = nil) -> NantesLabel.Link? {
+        return addLinks(with: [.linkCheckingResult(range: range, url: url)], withAttributes: linkAttributes, linkTappedBlock: linkTappedBlock).first
     }
 
     @discardableResult
-    private func addLinks(with textCheckingResults: [NSTextCheckingResult], withAttributes attributes: [NSAttributedString.Key: Any]?) -> [NantesLabel.Link] {
+    private func addLinks(with textCheckingResults: [NSTextCheckingResult], withAttributes attributes: [NSAttributedString.Key: Any]?, linkTappedBlock: NantesLabel.LinkTappedBlock? = nil) -> [NantesLabel.Link] {
         var links: [NantesLabel.Link] = []
 
         for result in textCheckingResults {
@@ -63,7 +63,7 @@ extension NantesLabel {
                 text = String(checkingText[range])
             }
 
-            let link = NantesLabel.Link(attributes: attributes, activeAttributes: activeLinkAttributes, inactiveAttributes: inactiveLinkAttributes, linkTappedBlock: nil, result: result, text: text)
+            let link = NantesLabel.Link(attributes: attributes, activeAttributes: activeLinkAttributes, inactiveAttributes: inactiveLinkAttributes, linkTappedBlock: linkTappedBlock, result: result, text: text)
             links.append(link)
         }
 
