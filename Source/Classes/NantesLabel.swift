@@ -113,6 +113,12 @@ import UIKit
 
     private var _renderedAttributedText: NSAttributedString?
 
+    // MARK: - Internal lets
+    
+    let nantesQueue = DispatchQueue(label: "com.Nantes.NantesQueue",
+                                            qos: .userInitiated,
+                                            attributes: .concurrent)
+    
     // MARK: - Internal vars
 
     var _accessibilityElements: [Any]?
