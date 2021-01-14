@@ -176,7 +176,7 @@ extension NantesLabel {
                 return
         }
 
-        DispatchQueue.global(qos: .default).async { [weak self] in
+        self.nantesQueue.async { [weak self] in
             guard let self = self else {
                 return
             }
