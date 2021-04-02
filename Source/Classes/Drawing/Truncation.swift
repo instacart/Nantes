@@ -48,7 +48,7 @@ extension NantesLabel {
         // Walk across all the lines of truncation, replacing lines starting with our last line - the number of truncation token lines we have
         // the first line we replace, we'll truncate it, after that, we 100% replace lines of the original string with truncation lines
         for (index, tokenLine) in tokenLines.enumerated() {
-            let originalIndex = self.numberOfLines - tokenLines.count + index
+            let originalIndex = lines.count - tokenLines.count + index
 
             // We want to replace every other line besides the first truncated line completely with the lines from the truncation token
             guard index == 0 else {
