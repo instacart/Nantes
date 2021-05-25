@@ -19,8 +19,9 @@ extension NantesLabel {
                 return super.sizeThatFits(size)
         }
 
-        let labelSize = NantesLabel.suggestFrameSize(for: string, framesetter: framesetter, withSize: size, numberOfLines: numberOfLines)
-        // add textInsets?
+        var labelSize = NantesLabel.suggestFrameSize(for: string, framesetter: framesetter, withSize: size, numberOfLines: numberOfLines)
+        labelSize.width += textInsets.left + textInsets.right
+        labelSize.height += textInsets.top + textInsets.bottom
 
         return labelSize
     }
