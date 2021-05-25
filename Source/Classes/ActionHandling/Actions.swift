@@ -107,4 +107,39 @@ extension NantesLabel {
             delegate.attributedLabel(self, didSelectTextCheckingResult: result)
         }
     }
+    
+    func handleLinkLongPress(_ link: NantesLabel.Link) {
+        if let linkLongPressBlock = link.linkLongPressBlock {
+            linkLongPressBlock(self, link)
+            return
+        }
+        guard let result = link.result, let delegate = delegate else {
+            return
+        }
+        
+        switch result.resultType {
+        case .address:
+            if let address = result.addressComponents {
+                delegate.attributedLabel(self, didLongPressAddress: address)
+            }
+        case .date:
+            if let date = result.date {
+                delegate.attributedLabel(self, didLongPressDate: date, timeZone: result.timeZone ?? TimeZone.current, duration: result.duration)
+            }
+        case .link:
+            if let url = result.url {
+                delegate.attributedLabel(self, didLongPressLink: url)
+            }
+        case .phoneNumber:
+            if let phoneNumber = result.phoneNumber {
+                delegate.attributedLabel(self, didLongPressPhoneNumber: phoneNumber)
+            }
+        case .transitInformation:
+            if let transitInfo = result.components {
+                delegate.attributedLabel(self, didLongPressTransitInfo: transitInfo)
+            }
+        default: // fallback to result if we aren't sure
+            delegate.attributedLabel(self, didLongPressTextCheckingResult: result)
+        }
+    }
 }

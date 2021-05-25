@@ -248,6 +248,10 @@ import UIKit
     private func commonInit() {
         isUserInteractionEnabled = true
         enabledTextCheckingTypes = [.link, .address, .phoneNumber]
+        
+        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureDidFire(sender:)))
+        longPressGestureRecognizer.delegate = self
+        self.addGestureRecognizer(longPressGestureRecognizer)
     }
 
     override open func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
@@ -310,5 +314,22 @@ import UIKit
         }
 
         attributedText = mutableAttributedString
+    }
+    
+    @objc private func longPressGestureDidFire(sender: UILongPressGestureRecognizer) {
+        guard sender.state == .began else {
+            return
+        }
+        let touchPoint = sender.location(in: self)
+        guard let link = link(at: touchPoint) else {
+            return
+        }
+        handleLinkLongPress(link)
+    }
+}
+
+extension NantesLabel: UIGestureRecognizerDelegate {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return link(at: touch.location(in: self)) != nil
     }
 }

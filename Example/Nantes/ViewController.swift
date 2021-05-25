@@ -279,5 +279,9 @@ extension ViewController: NantesLabelDelegate {
     func attributedLabel(_ label: NantesLabel, didSelectTransitInfo transitInfo: [NSTextCheckingKey: String]) {
         print("Tapped transit info: \(transitInfo)")
     }
+    
+    func attributedLabel(_ label: NantesLabel, didLongPressLink link: URL) {
+        print("Long press link: \(link)")
+    }
 }
 
