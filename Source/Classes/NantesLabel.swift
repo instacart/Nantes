@@ -103,7 +103,7 @@ import UIKit
     /// sizeThatFits: will have its returned size increased by these margins.
     /// drawTextInRect: will inset all drawn text by these margins.
     @IBInspectable open var textInsets: UIEdgeInsets = UIEdgeInsets.zero
-    
+
     // MARK: - Private vars
 
     static private var dataDetectorsByType: [UInt64: NSDataDetector] = [:]
@@ -253,7 +253,7 @@ import UIKit
     private func commonInit() {
         isUserInteractionEnabled = true
         enabledTextCheckingTypes = [.link, .address, .phoneNumber]
-        
+
         let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureDidFire(sender:)))
         longPressGestureRecognizer.delegate = self
         self.addGestureRecognizer(longPressGestureRecognizer)
@@ -321,7 +321,7 @@ import UIKit
 
         attributedText = mutableAttributedString
     }
-    
+
     @objc private func longPressGestureDidFire(sender: UILongPressGestureRecognizer) {
         guard sender.state == .began else {
             return

@@ -107,7 +107,7 @@ extension NantesLabel {
             delegate.attributedLabel(self, didSelectTextCheckingResult: result)
         }
     }
-    
+
     func handleLinkLongPress(_ link: NantesLabel.Link) {
         if let linkLongPressBlock = link.linkLongPressBlock {
             linkLongPressBlock(self, link)
@@ -116,7 +116,7 @@ extension NantesLabel {
         guard let result = link.result, let delegate = delegate else {
             return
         }
-        
+
         switch result.resultType {
         case .address:
             if let address = result.addressComponents {

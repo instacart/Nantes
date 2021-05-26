@@ -19,7 +19,7 @@ extension NantesLabel {
 
     override open func drawText(in rect: CGRect) {
         let insetRect = rect.inset(by: self.textInsets)
-        
+
         guard var attributedText = attributedText else {
             super.drawText(in: insetRect)
             return
