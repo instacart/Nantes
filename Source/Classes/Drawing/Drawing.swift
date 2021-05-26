@@ -18,8 +18,10 @@ extension NantesLabel {
     }
 
     override open func drawText(in rect: CGRect) {
+        let insetRect = rect.inset(by: self.textInsets)
+
         guard var attributedText = attributedText else {
-            super.drawText(in: rect)
+            super.drawText(in: insetRect)
             return
         }
 
@@ -44,14 +46,14 @@ extension NantesLabel {
 
         context.saveGState()
         context.textMatrix = .identity
-        context.translateBy(x: 0.0, y: rect.size.height)
+        context.translateBy(x: 0.0, y: insetRect.size.height)
         // invert context to match iOS coordinates, otherwise we'll draw upside down
         context.scaleBy(x: 1.0, y: -1.0)
 
         let textRange = CFRangeMake(0, attributedText.length)
         let limitedRect = textRect(forBounds: rect, limitedToNumberOfLines: numberOfLines)
 
-        context.translateBy(x: rect.origin.x, y: rect.size.height - limitedRect.origin.y - limitedRect.size.height)
+        context.translateBy(x: insetRect.origin.x, y: insetRect.size.height - limitedRect.origin.y - limitedRect.size.height)
 
         if let shadowColor = shadowColor, !isHighlighted {
             context.setShadow(offset: shadowOffset, blur: shadowRadius, color: shadowColor.cgColor)
