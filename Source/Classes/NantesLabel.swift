@@ -311,4 +311,25 @@ import UIKit
 
         attributedText = mutableAttributedString
     }
+
+    public func highlightAllOccurrence(text: String, highlightColor: UIColor, textColor: UIColor? = nil) {
+        guard let attributedText = attributedText?.mutableCopy() as? NSMutableAttributedString else {
+            return
+        }
+
+        let string = attributedText.string
+        var searchRange = string.startIndex..<string.endIndex
+
+        while let foundRange = string.range(of: text, options: .caseInsensitive, range: searchRange) {
+            searchRange = foundRange.upperBound..<string.endIndex
+            attributedText.addAttribute(.backgroundColor, value: highlightColor, range: NSRange(foundRange, in: string))
+            if let textColor = textColor {
+                attributedText.addAttribute(.foregroundColor, value: textColor, range: NSRange(foundRange, in: string))
+            }
+        }
+
+        _attributedText = attributedText
+        setNeedsFramesetter()
+        setNeedsDisplay()
+    }
 }
