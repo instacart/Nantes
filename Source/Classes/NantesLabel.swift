@@ -26,6 +26,8 @@ import UIKit
     /// Warning: Will not be called if `labelTappedBlock` is supplied
     open weak var delegate: NantesLabelDelegate?
 
+    open var enableEmailLinks = true
+
     /// A list of text checking types that are enabled for the label. The label will automatically highlight elements when `text` or `attributedText` is set if this value is supplied before they're set.
     open var enabledTextCheckingTypes: NSTextCheckingResult.CheckingType = [] {
         didSet {

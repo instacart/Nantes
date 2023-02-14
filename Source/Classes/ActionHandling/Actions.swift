@@ -93,6 +93,10 @@ extension NantesLabel {
             }
         case .link:
             if let url = result.url {
+                let addEmailGesture = !url.absoluteString.hasPrefix("mailto:") && enableEmailLinks
+
+                guard addEmailGesture else { return }
+
                 delegate.attributedLabel(self, didSelectLink: url)
             }
         case .phoneNumber:
