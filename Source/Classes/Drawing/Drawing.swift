@@ -159,6 +159,7 @@ extension NantesLabel {
             let width = CGFloat(CTLineGetTypographicBounds(line, &ascent, &descent, &leading))
 
             guard let glyphRuns = CTLineGetGlyphRuns(line) as [AnyObject] as? [CTRun] else {
+                lineIndex += 1
                 continue
             }
 
@@ -174,7 +175,6 @@ extension NantesLabel {
                 let lineWidth: CGFloat = attributes[.nantesLabelBackgroundLineWidth] as? CGFloat ?? 0.0
 
                 guard strokeColor != nil || fillColor != nil else {
-                    lineIndex += 1
                     continue
                 }
 
