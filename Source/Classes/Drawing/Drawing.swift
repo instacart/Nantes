@@ -118,7 +118,7 @@ extension NantesLabel {
             CTLineGetTypographicBounds(line, nil, &descent, nil)
 
             let penOffset = CGFloat(CTLineGetPenOffsetForFlush(line, flushFactor, Double(rect.size.width)))
-            let yOffset = lineOrigin.y - descent - font.descender
+            let yOffset = lineOrigin.y
             context.textPosition = CGPoint(x: penOffset, y: yOffset)
             CTLineDraw(line, context)
         }
