@@ -350,7 +350,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ -z \"$CARTHAGE\" ]\nthen\n    brew list mint &>/dev/null || brew install mint\n    mint run --mintfile ../Mintfile swiftlint swiftlint --path .. --strict --quiet\nfi\n";
+			shellScript = "if [ \"${CONFIGURATION}\" = \"Debug\" ]; \nthen\n    brew list mint &>/dev/null || brew install mint\n    mint run --mintfile ../Mintfile swiftlint swiftlint --path .. --strict --quiet\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
