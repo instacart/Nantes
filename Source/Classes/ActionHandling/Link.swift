@@ -42,13 +42,13 @@ extension NantesLabel {
     }
 
     /// Adds a single link
-    open func addLink(_ link: NantesLabel.Link) {
+    public func addLink(_ link: NantesLabel.Link) {
         addLinks([link])
     }
 
     /// Adds a link to a `url` with a specified `range`
     @discardableResult
-    open func addLink(to url: URL, withRange range: NSRange) -> NantesLabel.Link? {
+    public func addLink(to url: URL, withRange range: NSRange) -> NantesLabel.Link? {
         return addLinks(with: [.linkCheckingResult(range: range, url: url)], withAttributes: linkAttributes).first
     }
 
