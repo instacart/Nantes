@@ -114,7 +114,7 @@ extension NantesLabel {
             context.textPosition = lineOrigin
             let line = lines[lineIndex]
             let penOffset = CGFloat(CTLineGetPenOffsetForFlush(line, flushFactor, Double(rect.size.width)))
-            let yOffset = lineOrigin.y - 10
+            let yOffset = lineOrigin.y
             context.textPosition = CGPoint(x: penOffset, y: yOffset)
             CTLineDraw(line, context)
         }
