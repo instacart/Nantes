@@ -98,6 +98,10 @@ import UIKit
     /// Vertical alignment of the text within its frame
     /// defaults to .center
     open var verticalAlignment: NantesLabel.VerticalAlignment = .center
+    
+    /// Block to run whenever the label truncation is changed.
+    /// returns whether label is truncated or not
+    open var truncationChangedBlock: ((Bool) -> Void)?
 
     // MARK: - Private vars
 
