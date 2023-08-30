@@ -98,6 +98,10 @@ import UIKit
     /// Vertical alignment of the text within its frame
     /// defaults to .center
     open var verticalAlignment: NantesLabel.VerticalAlignment = .center
+    
+    /// The flag for drawing text in legacy way that single line of text isn't perfect vertical centered.
+    /// This flag gives control to client for opt-out new changes that an existing UI could build on top of older version.
+    var isLegacyDrawAttributedString: Bool = false
 
     // MARK: - Private vars
 
