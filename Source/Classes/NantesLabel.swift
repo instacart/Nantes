@@ -101,7 +101,7 @@ import UIKit
     
     /// The flag for drawing text in legacy way that single line of text isn't perfect vertical centered.
     /// This flag gives control to client for opt-out new changes that an existing UI could build on top of older version.
-    open var isLegacyDrawAttributedString: Bool = false
+    open var usesLegacyVerticalAlignment: Bool = false
 
     // MARK: - Private vars
 

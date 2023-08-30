@@ -116,7 +116,7 @@ extension NantesLabel {
 
             var yOffset = lineOrigin.y
 
-            if isLegacyDrawAttributedString {
+            if usesLegacyVerticalAlignment {
                 var descent: CGFloat = 0.0
                 CTLineGetTypographicBounds(line, nil, &descent, nil)
                 yOffset = lineOrigin.y - descent - font.descender
