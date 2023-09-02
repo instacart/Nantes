@@ -25,6 +25,7 @@
 		AD90498522B1F75700069E38 /* Scaling.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD90498222B1F75700069E38 /* Scaling.swift */; };
 		AD90498622B1F75700069E38 /* Truncation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD90498322B1F75700069E38 /* Truncation.swift */; };
 		AD90498822B1F75D00069E38 /* Sizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD90498722B1F75D00069E38 /* Sizing.swift */; };
+		CD84185B234E8A3C002CDA3C /* NantesLabel.swift in Headers */ = {isa = PBXBuildFile; fileRef = 438D15C421FFC0560001E86B /* NantesLabel.swift */; settings = {ATTRIBUTES = (Public, ); }; };
 		D27D90FF224D5B9C00290225 /* AttributedStringExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D27D90FE224D5B9C00290225 /* AttributedStringExtensionTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -233,6 +234,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				438D15C521FFC0560001E86B /* Nantes.h in Headers */,
+				CD84185B234E8A3C002CDA3C /* NantesLabel.swift in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
