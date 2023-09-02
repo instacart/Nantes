@@ -103,6 +103,11 @@ import UIKit
     /// This flag gives control to client for opt-out new changes that an existing UI could build on top of older version.
     open var usesLegacyVerticalAlignment: Bool = false
 
+    /// The distance, in points, from the margin to the text container. This value is `UIEdgeInsets.zero` by default.
+    /// sizeThatFits: will have its returned size increased by these margins.
+    /// drawTextInRect: will inset all drawn text by these margins.
+    @IBInspectable open var textInsets: UIEdgeInsets = UIEdgeInsets.zero
+
     // MARK: - Private vars
 
     static private var dataDetectorsByType: [UInt64: NSDataDetector] = [:]
@@ -252,6 +257,10 @@ import UIKit
     private func commonInit() {
         isUserInteractionEnabled = true
         enabledTextCheckingTypes = [.link, .address, .phoneNumber]
+
+        let longPressGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(longPressGestureDidFire(sender:)))
+        longPressGestureRecognizer.delegate = self
+        self.addGestureRecognizer(longPressGestureRecognizer)
     }
 
     override open func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
@@ -259,12 +268,13 @@ import UIKit
     }
 
     override open func textRect(forBounds bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
+        let innerBounds = bounds.inset(by: self.textInsets)
         guard let attributedText = attributedText,
             let framesetter = framesetter else {
-                return super.textRect(forBounds: bounds, limitedToNumberOfLines: numberOfLines)
+                return super.textRect(forBounds: innerBounds, limitedToNumberOfLines: numberOfLines)
         }
 
-        var textRect = bounds
+        var textRect = innerBounds
         var maxLineHeight: CGFloat = -1.0
         attributedText.enumerateAttribute(.font, in: NSRange(location: 0, length: attributedText.length), options: [], using: { value, _, _ in
             guard let font = value as? UIFont else {
@@ -274,18 +284,18 @@ import UIKit
             maxLineHeight = max(maxLineHeight, font.lineHeight)
         })
         maxLineHeight = maxLineHeight == -1.0 ? font.lineHeight : maxLineHeight
-        textRect.size.height = max(maxLineHeight * CGFloat(max(2, numberOfLines)), bounds.height)
+        textRect.size.height = max(maxLineHeight * CGFloat(max(2, numberOfLines)), innerBounds.height)
 
         var textSize = CTFramesetterSuggestFrameSizeWithConstraints(framesetter, CFRange(location: 0, length: attributedText.length), nil, textRect.size, nil)
         textSize = CGSize(width: ceil(textSize.width), height: ceil(textSize.height))
 
-        if textSize.height < bounds.height {
+        if textSize.height < innerBounds.height {
             var yOffset: CGFloat = 0.0
             switch verticalAlignment {
             case .center:
-                yOffset = floor((bounds.height - textSize.height) / 2.0)
+                yOffset = floor((innerBounds.height - textSize.height) / 2.0)
             case .bottom:
-                yOffset = bounds.height - textSize.height
+                yOffset = innerBounds.height - textSize.height
             case .top:
                 break
             }
@@ -314,5 +324,22 @@ import UIKit
         }
 
         attributedText = mutableAttributedString
+    }
+
+    @objc private func longPressGestureDidFire(sender: UILongPressGestureRecognizer) {
+        guard sender.state == .began else {
+            return
+        }
+        let touchPoint = sender.location(in: self)
+        guard let link = link(at: touchPoint) else {
+            return
+        }
+        handleLinkLongPress(link)
+    }
+}
+
+extension NantesLabel: UIGestureRecognizerDelegate {
+    public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        return link(at: touch.location(in: self)) != nil
     }
 }

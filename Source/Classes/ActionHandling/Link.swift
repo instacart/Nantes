@@ -10,12 +10,14 @@ import UIKit
 
 extension NantesLabel {
     public typealias LinkTappedBlock = ((NantesLabel, NantesLabel.Link) -> Void)
+    public typealias LinkLongPressBlock = ((NantesLabel, NantesLabel.Link) -> Void)
 
     public struct Link: Equatable {
         public var attributes: [NSAttributedString.Key: Any]
         public var activeAttributes: [NSAttributedString.Key: Any]
         public var inactiveAttributes: [NSAttributedString.Key: Any]
         public var linkTappedBlock: NantesLabel.LinkTappedBlock?
+        public var linkLongPressBlock: NantesLabel.LinkLongPressBlock?
         public var result: NSTextCheckingResult?
         public var text: String?
 
