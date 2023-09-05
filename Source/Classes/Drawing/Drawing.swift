@@ -119,11 +119,15 @@ extension NantesLabel {
             context.textPosition = lineOrigin
             let line = lines[lineIndex]
 
-            var descent: CGFloat = 0.0
-            CTLineGetTypographicBounds(line, nil, &descent, nil)
+            var yOffset = lineOrigin.y
+
+            if usesLegacyVerticalAlignment {
+                var descent: CGFloat = 0.0
+                CTLineGetTypographicBounds(line, nil, &descent, nil)
+                yOffset = lineOrigin.y - descent - font.descender
+            }
 
             let penOffset = CGFloat(CTLineGetPenOffsetForFlush(line, flushFactor, Double(rect.size.width)))
-            let yOffset = lineOrigin.y - descent - font.descender
             context.textPosition = CGPoint(x: penOffset, y: yOffset)
             CTLineDraw(line, context)
         }
